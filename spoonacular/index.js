@@ -3,28 +3,33 @@ const axios = require('axios')
 const {SpoonacularAPIKey} = require('../secrets.js')
 //let recipe = {};
 // let ingredientArr = [];
-//const id = 9226 //papaya id in spoonacular
-// const ingredient = chicken
 
-const getFromSpoon = (caseType, id, ingredients) => {
+const getFromSpoon = (caseType, id, ingredients, name) => {
+  if (caseType === 'ingredientByName') {
+    axios
+      .get(
+        `https://api.spoonacular.com/food/ingredients/autocomplete?query=${name}&metaInformation=true&number=1&apiKey=${SpoonacularAPIKey}`
+      )
+      .then(ingredient => {
+        console.log('ingredient is ', ingredient)
+      })
+  }
+
   if (caseType === 'ingredientById') {
     axios
       .get(
         `https://api.spoonacular.com/food/ingredients/${id}/information?amount=1&apiKey=${SpoonacularAPIKey}`
       )
       .then(ingredient => {
-        //ingredientArr.push(ingredient.data.name, ingredient.data.id)
         console.log('ingredient is ', ingredient.data)
       })
   }
+
   if (caseType === 'findByIngredients') {
     let ingredientStr = ''
     for (let i = 0; i < ingredients.length; i++) {
-      if (i === ingredients.length - 1) {
-        ingredientStr += ingredients[i]
-      } else {
-        ingredientStr += ingredients[i] + ',+'
-      }
+      if (i === ingredients.length - 1) ingredientStr += ingredients[i]
+      else ingredientStr += ingredients[i] + ',+'
     }
     axios
       .get(
@@ -32,11 +37,11 @@ const getFromSpoon = (caseType, id, ingredients) => {
       )
       .then(recipe => {
         let resultObj = recipe.data.results[0].analyzedInstructions[0].steps[0]
-        //let name = recipe
 
         console.log('recipe is ', resultObj)
       })
   }
+
   if (caseType === 'recipeById') {
     axios
       .get(
@@ -47,11 +52,10 @@ const getFromSpoon = (caseType, id, ingredients) => {
       })
   }
 }
-
-getFromSpoon('ingredientById', 9266, [])
-//getFromSpoon('findByIngredients', 0, [ 'chicken', 'tortilla'])
-
-//  getFromSpoon('recipeById', 531683, [])
+//getFromSpoon('ingredientByName', 0, [], 'apple')
+//getFromSpoon('ingredientById', 9266, [], null)
+//getFromSpoon('findByIngredients', 0, [ 'chicken', 'tortilla'], null)
+getFromSpoon('recipeById', 531683, [], null)
 
 // {  "id": 0,
 // "title": "mac & cheese",
@@ -63,17 +67,3 @@ getFromSpoon('ingredientById', 9266, [])
 
 //            "vegan": false
 //           }
-
-// axios
-//   .get(
-
-//       `https://api.spoonacular.com/recipes/556470/analyzedInstructions?stepBreakdown=true&apiKey=${SpoonacularAPIKey}`
-
-//       // `https://api.spoonacular.com/recipes/findByIngredients?ingredients=apples,+flour,+sugar&number=2&apiKey=${SpoonacularAPIKey}`
-//   )
-//   .then(ingredient => {
-//     // recipe.push(ingredient.data.name)
-//     console.log('ingredient is ', ingredient
-//     )
-
-//   })
