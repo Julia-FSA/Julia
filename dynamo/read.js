@@ -1,17 +1,17 @@
 var AWS = require('aws-sdk')
-const awsConfig = require('../secrets')
+const awsConfig = require('../secret')
 
 AWS.config.update(process.env.AWS_CONFIG || awsConfig)
 let docClient = new AWS.DynamoDB.DocumentClient()
 
-let fetchOneByKey = function() {
+let fetchOneByKey = function () {
   var params = {
     TableName: 'test',
     Key: {
-      test_id: 'banana'
-    }
+      test_id: 'banana',
+    },
   }
-  docClient.get(params, function(err, data) {
+  docClient.get(params, function (err, data) {
     if (err) {
       console.log(
         'users::fetchOneByKey::error - ' + JSON.stringify(err, null, 2)

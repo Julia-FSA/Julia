@@ -1,23 +1,23 @@
 var AWS = require('aws-sdk')
-const awsConfig = require('../secrets')
+const awsConfig = require('../secret')
 
 AWS.config.update(process.env.AWS_CONFIG || awsConfig)
 let docClient = new AWS.DynamoDB.DocumentClient()
 
-let save = function() {
+let save = function () {
   var input = {
     email_id: 'example-1@gmail.com',
     created_by: 'clientUser',
     created_on: new Date().toString(),
     updated_by: 'clientUser',
     updated_on: new Date().toString(),
-    is_deleted: false
+    is_deleted: false,
   }
   var params = {
     TableName: 'users',
-    Item: input
+    Item: input,
   }
-  docClient.put(params, function(err, data) {
+  docClient.put(params, function (err, data) {
     if (err) {
       console.log('users::save::error - ' + JSON.stringify(err, null, 2))
     } else {
