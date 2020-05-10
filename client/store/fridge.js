@@ -28,7 +28,9 @@ export const getFridge = fridge => ({
 
 export const getFridgeThunk = () => async dispatch => {
   try {
-    dispatch(getFridge(fridgeDB))
+    const userId = 2
+    const fridge = await axios.get(`/api/fridge/`, {params: {userId}})
+    dispatch(getFridge(fridge.data))
   } catch (error) {
     console.log(error)
   }

@@ -17,7 +17,7 @@ export class UserFridge extends React.Component {
           {this.props.fridge && this.props.fridge.length > 0 ? (
             this.props.fridge.map(item => {
               return (
-                <div>
+                <div key={item.ingredientName}>
                   <h3>{item.ingredientName}</h3>
                   <h3>{item.ingredientQuantity}</h3>
                 </div>
