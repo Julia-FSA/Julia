@@ -1,7 +1,8 @@
-/*********
+/**********
  *
  * a user signs up => make an entry to the users table
- * a user saves/deletes a recipe => update the saved_recipe_ids column in the users table by inserting the recipe name or id
+ * a user uses a recipe (click "USE" button???)=> update the made_recipe_ids column in the users table by inserting the recipe name or id
+ * a user can delete recipe from the history (i.e. update the made_recipe_ids column for the user)
  *
  **********/
 
@@ -13,7 +14,7 @@ let docClient = new AWS.DynamoDB.DocumentClient()
 /**
  * ACTION TYPES
  */
-const GET_RECIPES = 'GET_RECIPES'
+const GET_RECIPE_HISTORY = 'GET_RECIPE_HISTORY'
 
 /**
  * INITIAL STATE = array of recipes
@@ -24,14 +25,14 @@ const initialState = []
  * ACTION CREATORS
  */
 const getRecipes = recipes => ({
-  type: GET_RECIPES,
+  type: GET_RECIPE_HISTORY,
   recipes
 })
 
 /**
  * THUNK CREATORS
  */
-export const fetchedRecipes = () => async dispatch => {
+export const fetchedRecipeHistory = () => async dispatch => {
   try {
     var params = {
       TableName: 'users'
@@ -56,34 +57,7 @@ export const fetchedRecipes = () => async dispatch => {
   }
 }
 
-// export const addedRecipe = (userId, recipe) => async (dispatch) => {
-//   try {
-//     var input = {
-//       email_id: 'example-1@gmail.com',
-//       created_by: 'clientUser',
-//       created_on: new Date().toString(),
-//       updated_by: 'clientUser',
-//       updated_on: new Date().toString(),
-//       is_deleted: false,
-//     }
-//     var params = {
-//       TableName: 'users',
-//       Item: input,
-//     }
-//     docClient.put(params, function (err, data) {
-//       if (err) {
-//         console.log('users::save::error - ' + JSON.stringify(err, null, 2))
-//       } else {
-//         console.log('users::save::success')
-//         dispatch(getRecipes(data))
-//       }
-//     })
-//   } catch (error) {
-//     console.error(error)
-//   }
-// }
-
-export const updatedRecipe = (userId, recipeIndex) => async dispatch => {
+export const updatedRecipeHistory = (userId, recipeIndex) => async dispatch => {
   try {
     var params = {
       TableName: 'users',
@@ -110,35 +84,12 @@ export const updatedRecipe = (userId, recipeIndex) => async dispatch => {
   }
 }
 
-// export const removedRecipe = (userId) => async (dispatch) => {
-//   try {
-//     var params = {
-//       TableName: 'users',
-//       Key: {
-//         id: userId,
-//       },
-//     }
-//     docClient.delete(params, function (err, data) {
-//       if (err) {
-//         console.log(
-//           'users::fetchOneByKey::error - ' + JSON.stringify(err, null, 2)
-//         )
-//       } else {
-//         console.log('users::delete::success')
-//         dispatch(getRecipes(data))
-//       }
-//     })
-//   } catch (error) {
-//     console.error(error)
-//   }
-// }
-
 /**
  * REDUCER
  */
 export default function(state = initialState, action) {
   switch (action.type) {
-    case GET_RECIPES:
+    case GET_RECIPE_HISTORY:
       return action.recipes
     default:
       return state
