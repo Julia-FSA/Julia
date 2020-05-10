@@ -1,21 +1,21 @@
 var AWS = require('aws-sdk')
-const awsConfig = require('../secrets')
+const awsConfig = require('../secret')
 
 AWS.config.update(process.env.AWS_CONFIG || awsConfig)
 let docClient = new AWS.DynamoDB.DocumentClient()
 
-let modify = function() {
+let modify = function () {
   var params = {
     TableName: 'users',
     Key: {email_id: 'example-1@gmail.com'},
     UpdateExpression: 'set updated_by = :byUser, is_deleted = :boolValue',
     ExpressionAttributeValues: {
       ':byUser': 'updateUser',
-      ':boolValue': true
+      ':boolValue': true,
     },
-    ReturnValues: 'UPDATED_NEW'
+    ReturnValues: 'UPDATED_NEW',
   }
-  docClient.update(params, function(err, data) {
+  docClient.update(params, function (err, data) {
     if (err) {
       console.log('users::update::error - ' + JSON.stringify(err, null, 2))
     } else {
