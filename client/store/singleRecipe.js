@@ -1,3 +1,11 @@
+/*********
+ *
+ * a user signs up => make an entry to the users table
+ * after adding food to the stock DB, user can look up what he/she can make
+ * click a recipe => show recipe details (img, ingredients, steps, etc.)
+ *
+ **********/
+
 import axios from 'axios'
 
 /**
@@ -18,11 +26,15 @@ const getSingleRecipe = recipe => ({type: GET_SINGLE_RECIPE, recipe})
 /**
  * THUNK CREATORS
  */
-export const fetchedSingleRecipe = (userId, recipeId) => async dispatch => {
+export const fetchedSingleRecipe = (
+  id,
+  SpoonacularAPIKey
+) => async dispatch => {
   try {
-    const res = await axios.get(`/api/${userId}/recipes/${recipeId}`)
-
-    dispatch(getSingleRecipe(res.data))
+    let {data} = await axios.get(
+      `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
+    )
+    dispatch(getSingleRecipe(data))
   } catch (err) {
     console.error(err)
   }
