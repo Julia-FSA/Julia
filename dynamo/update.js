@@ -1,27 +1,37 @@
 var AWS = require('aws-sdk')
-const awsConfig = require('../secrets')
+const {awsConfig} = require('../secrets')
 
 AWS.config.update(process.env.AWS_CONFIG || awsConfig)
 let docClient = new AWS.DynamoDB.DocumentClient()
 
-let modify = function() {
+let modify = async function() {
+  let result = await docClient
+    .get({
+      TableName: 'stocks',
+      Key: {id: 4}
+    })
+    .promise()
+  let prevIngredients = result.Item.ingredients
+  //   prevIngredients.push({"ingredientName": "chickenFingers",
+  //   "ingredientQuantity": 3,
+  //   "unit":"each"
+  // })
   var params = {
-    TableName: 'users',
-    Key: {email_id: 'example-1@gmail.com'},
-    UpdateExpression: 'set updated_by = :byUser, is_deleted = :boolValue',
+    TableName: 'stocks',
+    Key: {id: 4},
+    UpdateExpression: 'set ingredients = :ingred',
     ExpressionAttributeValues: {
-      ':byUser': 'updateUser',
-      ':boolValue': true
-    },
-    ReturnValues: 'UPDATED_NEW'
-  }
-  docClient.update(params, function(err, data) {
-    if (err) {
-      console.log('users::update::error - ' + JSON.stringify(err, null, 2))
-    } else {
-      console.log('users::update::success ' + JSON.stringify(data))
+      ':ingred': [
+        ...prevIngredients,
+        {
+          ingredientName: 'pooop',
+          ingredientQuantity: 2,
+          unit: 'each'
+        }
+      ]
     }
-  })
+  }
+  await docClient.update(params).promise()
 }
 
 modify()
