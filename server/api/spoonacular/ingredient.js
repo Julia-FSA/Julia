@@ -25,7 +25,7 @@ router.get('/byName/:name', (req, res, next) => {
         res.json(ingredientFormatter(ingredient.data[0]))
       })
   } catch (error) {
-    console.error('Cannot find ingredient under that name', error)
+    next(error)
   }
 })
 
@@ -40,6 +40,6 @@ router.get('/byId/:id', (req, res, next) => {
         res.json(ingredientFormatter(ingredient.data))
       })
   } catch (error) {
-    console.error('Cannot find an ingredient with that id')
+    next(error)
   }
 })

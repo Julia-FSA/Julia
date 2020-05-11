@@ -40,7 +40,7 @@ router.get('/byIngredient/:ingredients', (req, res, next) => {
         res.json(recipeFormatter(recipe.data.results[0]))
       })
   } catch (error) {
-    console.error('There is no recipe available with thoes ingredients')
+    next(error)
   }
 })
 
@@ -55,6 +55,6 @@ router.get('/byId/:id', (req, res, next) => {
         res.json(recipeFormatter(recipe.data))
       })
   } catch (error) {
-    console.error('Cannot find a recipe with that id')
+    next(error)
   }
 })
