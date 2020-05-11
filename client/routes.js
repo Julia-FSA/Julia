@@ -11,7 +11,7 @@ import {
   RecipeHistory,
 } from './components'
 import {me} from './store'
-
+import UserFridge from './components/UserFridge'
 /**
  * COMPONENT
  */
@@ -35,6 +35,7 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            <Route path="/fridge" component={UserFridge} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
