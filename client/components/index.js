@@ -5,4 +5,7 @@
  */
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
+export {default as AllRecipes} from './AllRecipes'
+export {default as SingleRecipe} from './SingleRecipe'
+export {default as RecipeHistory} from './RecipeHistory'
 export {Login, Signup} from './auth-form'

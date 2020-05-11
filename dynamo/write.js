@@ -1,5 +1,5 @@
 var AWS = require('aws-sdk')
-const awsConfig = require('../secrets')
+const awsConfig = require('../secret')
 
 AWS.config.update(process.env.AWS_CONFIG || awsConfig)
 let docClient = new AWS.DynamoDB.DocumentClient()
