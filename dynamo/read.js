@@ -5,6 +5,21 @@ const {awsConfig} = require('../secrets')
 AWS.config.update(process.env.AWS_CONFIG || awsConfig)
 let docClient = new AWS.DynamoDB.DocumentClient()
 
+const getRecipeById = async recipeId => {
+  try {
+    const params = {
+      TableName: 'recipes',
+      Key: {id: recipeId}
+    }
+    let data = await docClient.get(params).promise()
+    console.log(`recipe ${recipeId} is:`, data.Item)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+getRecipeById(123)
+
 const getFullRecipe = async recArr => {
   try {
     const keyArr = recArr.map(rec => ({id: rec}))
@@ -21,7 +36,8 @@ const getFullRecipe = async recArr => {
     console.error(error)
   }
 }
-const getRecipeUser = async userID => {
+
+const getSavedRecipeIds = async userID => {
   try {
     const params = {
       TableName: 'users',
@@ -34,29 +50,22 @@ const getRecipeUser = async userID => {
   }
 }
 
-getRecipeUser('2')
-// let fetchOneByKey = function(tableName, stockId) {
+// getSavedRecipeIds('2')
 
-//   var params = {
-//     TableName: tableName,
-//     Key: {
+const fetchOneByKey = async (tableName, stockId) => {
+  try {
+    const params = {
+      TableName: tableName,
+      Key: {
+        id: stockId
+      }
+    }
 
-//       id: stockId
-//     }
-
-//   }
-//   docClient.get(params, function (err, data) {
-//     if (err) {
-//       console.log(
-//         'users::fetchOneByKey::error - ' + JSON.stringify(err, null, 2)
-//       )
-//     } else {
-//       console.log(
-//         'users::fetchOneByKey::success - ' + JSON.stringify(data, null, 2)
-//       )
-//       console.log(data.Item.ingredients)
-//     }
-//   })
-// }
+    const data = await docClient.get(params).promise()
+    console.log(data.Item.ingredients)
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 // fetchOneByKey('stocks', 2)
