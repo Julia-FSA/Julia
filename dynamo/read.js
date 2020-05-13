@@ -25,5 +25,21 @@ let fetchOneByKey = function(tableName, stockId) {
     }
   })
 }
-
-fetchOneByKey('stocks', 2)
+let ingred = "dan's recipe"
+async function queryName(ingre) {
+  const results = await docClient
+    .scan({
+      TableName: 'test',
+      FilterExpression: '#title = :title',
+      ExpressionAttributeNames: {
+        '#title': 'title'
+      },
+      ExpressionAttributeValues: {
+        ':title': ingre
+      }
+    })
+    .promise()
+  console.log(results.Items)
+}
+// fetchOneByKey('stocks', 2)
+queryName(ingred)
