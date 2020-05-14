@@ -3,7 +3,7 @@ const {
   correctPassword,
   generateSalt,
   encryptPassword,
-  setSaltAndPassword,
+  setSaltAndPassword
 } = require('./encrypter')
 var AWS = require('aws-sdk')
 const {awsConfig} = require('../../secrets')
@@ -12,65 +12,34 @@ AWS.config.update(awsConfig)
 const docClient = new AWS.DynamoDB.DocumentClient()
 module.exports = router
 
-// const addIngredientToFridge = async (ingredient, unit) => {
-//   try {
-//       let result = await docClient.get({
-//       TableName: 'stocks',
-//       Key: {id: 0}
-//     }).promise()
-//   let prevIngredients = result.Item.ingredients;
-//   if(prevIngredients[ingredient]){
-//       prevIngredients[ingredient].quantity++;
-//   }
-//   else {
-//       prevIngredients[ingredient] =
-//       {
-//           "quantity": 1,
-//           "unit": unit
-//       }
-//   }
-//   const params = {
-//       TableName: 'stocks',
-//       Key:{id:0},
-//       UpdateExpression: 'set ingredients = :ingred',
-//       ExpressionAttributeValues: {
-//         ':ingred': prevIngredients
-//       }
-//   };
-//   await docClient.update(params).promise();
-//   } catch (error) {
-//       console.log(error);
-//   }
-// };
-
 router.post('/login', async (req, res, next) => {
+  console.log(req.body)
   try {
-    let result = await docClient
-      .get({
-        TableName: 'users',
-        // Key: {id: 0} <-------this needs to be altered
-      })
-      .promise()
-    let prevIngredients = result.Item.ingredients
-    if (prevIngredients[ingredient]) {
-      prevIngredients[ingredient].quantity++
-    } else {
-      prevIngredients[ingredient] = {
-        quantity: 1,
-        unit: unit,
+    const params = {
+      TableName: 'site_user',
+      Key: {
+        email: req.body.email
       }
     }
-    const params = {
-      TableName: 'stocks',
-      Key: {id: 0},
-      UpdateExpression: 'set ingredients = :ingred',
-      ExpressionAttributeValues: {
-        ':ingred': prevIngredients,
-      },
-    }
-    await docClient.update(params).promise()
-  } catch (error) {
-    console.log(error)
+    const user = await docClient
+      .get(params, function(err, data) {
+        if (err) {
+          console.log('users::save::error - ' + JSON.stringify(err, null, 2))
+        } else {
+          return data
+        }
+      })
+      .promise()
+    console.log(user)
+    // const user = await docClient.put(params)
+    // const user = await User.create(req.body)
+    //req.login(user, (err) => (err ? next(err) : res.status(200)))
+  } catch (err) {
+    // if (err.name === 'SequelizeUniqueConstraintError') {
+    //   res.status(401).send('User already exists')
+    // } else {
+    next(err)
+    // }
   }
 
   // try {
@@ -102,44 +71,45 @@ router.post('/login', async (req, res, next) => {
 //   }
 // })
 
-router.post('/signup', async (req, res, next) => {
-  try {
-    const params = {
-      TableName: 'web_user',
-      Item: {
-        id: uuidv4(),
-        created_on: new Date().toString(),
-        is_deleted: false,
-        ...req.body,
-      },
-    }
-    const user = docClient.put(params, function (err, data) {
-      if (err) {
-        console.log('users::save::error - ' + JSON.stringify(err, null, 2))
-      } else {
-        return data
-      }
-    })
-    // const user = await docClient.put(params)
-    // const user = await User.create(req.body)
-    req.login(user, (err) => (err ? next(err) : res.json(user)))
-  } catch (err) {
-    if (err.name === 'SequelizeUniqueConstraintError') {
-      res.status(401).send('User already exists')
-    } else {
-      next(err)
-    }
-  }
-})
+// router.post('/signup', async (req, res, next) => {
+//   try {
+//     const params = {
+//       TableName: 'web_user',
+//       Item: {
+//         id: uuidv4(),
+//         created_on: new Date().toString(),
+//         is_deleted: false,
+//         ...req.body,
+//       },
+//     }
+//     const user = docClient.put(params, function (err, data) {
+//       if (err) {
+//         console.log('users::save::error - ' + JSON.stringify(err, null, 2))
+//       } else {
+//         return data
+//       }
+//     })
+//     console.log(user.params.Item)
+//     // const user = await docClient.put(params)
+//     // const user = await User.create(req.body)
+//     req.login(user, (err) => (err ? next(err) : res.status(200)))
+//   } catch (err) {
+//     if (err.name === 'SequelizeUniqueConstraintError') {
+//       res.status(401).send('User already exists')
+//     } else {
+//       next(err)
+//     }
+//   }
+// })
 
-router.post('/logout', (req, res) => {
-  req.logout()
-  req.session.destroy()
-  res.redirect('/')
-})
+// router.post('/logout', (req, res) => {
+//   req.logout()
+//   req.session.destroy()
+//   res.redirect('/')
+// })
 
-router.get('/me', (req, res) => {
-  res.json(req.user)
-})
+// router.get('/me', (req, res) => {
+//   res.json(req.user)
+// })
 
-router.use('/google', require('./google'))
+// router.use('/google', require('./google'))
