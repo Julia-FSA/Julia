@@ -3,10 +3,11 @@ const {
   correctPassword,
   generateSalt,
   encryptPassword,
-  setSaltAndPassword
+  setSaltAndPassword,
 } = require('./encrypter')
 var AWS = require('aws-sdk')
 const {awsConfig} = require('../../secrets')
+const {v4: uuidv4} = require('uuid')
 AWS.config.update(awsConfig)
 const docClient = new AWS.DynamoDB.DocumentClient()
 module.exports = router
@@ -46,7 +47,7 @@ router.post('/login', async (req, res, next) => {
   try {
     let result = await docClient
       .get({
-        TableName: 'users'
+        TableName: 'users',
         // Key: {id: 0} <-------this needs to be altered
       })
       .promise()
@@ -56,7 +57,7 @@ router.post('/login', async (req, res, next) => {
     } else {
       prevIngredients[ingredient] = {
         quantity: 1,
-        unit: unit
+        unit: unit,
       }
     }
     const params = {
@@ -64,8 +65,8 @@ router.post('/login', async (req, res, next) => {
       Key: {id: 0},
       UpdateExpression: 'set ingredients = :ingred',
       ExpressionAttributeValues: {
-        ':ingred': prevIngredients
-      }
+        ':ingred': prevIngredients,
+      },
     }
     await docClient.update(params).promise()
   } catch (error) {
@@ -88,10 +89,40 @@ router.post('/login', async (req, res, next) => {
   // }
 })
 
+// router.post('/signup', async (req, res, next) => {
+//   try {
+//     const user = await User.create(req.body)
+//     req.login(user, (err) => (err ? next(err) : res.json(user)))
+//   } catch (err) {
+//     if (err.name === 'SequelizeUniqueConstraintError') {
+//       res.status(401).send('User already exists')
+//     } else {
+//       next(err)
+//     }
+//   }
+// })
+
 router.post('/signup', async (req, res, next) => {
   try {
-    const user = await User.create(req.body)
-    req.login(user, err => (err ? next(err) : res.json(user)))
+    const params = {
+      TableName: 'web_user',
+      Item: {
+        id: uuidv4(),
+        created_on: new Date().toString(),
+        is_deleted: false,
+        ...req.body,
+      },
+    }
+    const user = docClient.put(params, function (err, data) {
+      if (err) {
+        console.log('users::save::error - ' + JSON.stringify(err, null, 2))
+      } else {
+        return data
+      }
+    })
+    // const user = await docClient.put(params)
+    // const user = await User.create(req.body)
+    req.login(user, (err) => (err ? next(err) : res.json(user)))
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(401).send('User already exists')
