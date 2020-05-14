@@ -1,9 +1,9 @@
 const router = require('express').Router()
 const {
-  correctPassword,
-  generateSalt,
-  encryptPassword,
   setSaltAndPassword,
+  encryptPassword,
+  generateSalt,
+  correctPassword,
 } = require('./encrypter')
 var AWS = require('aws-sdk')
 const {awsConfig} = require('../../secrets')
@@ -29,6 +29,7 @@ async function queryName(ingre) {
 }
 
 router.post('/login', async (req, res, next) => {
+  console.log(req.session)
   try {
     const params = {
       TableName: 'web_user',
