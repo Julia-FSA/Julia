@@ -31,14 +31,12 @@ if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 // passport registration
 passport.serializeUser((user, done) => {
-  console.log('USER >>>>>>>>>>', user.params.Item.id.S)
-  done(null, user)
+  done(null, user.params.Item.id.S)
 })
 
-passport.deserializeUser(async (userId, done) => {
+passport.deserializeUser(async (user, done) => {
   try {
-    const person = await getUser(userId)
-    done(null, userId)
+    done(null, await getUser(user))
   } catch (err) {
     done(err)
   }
