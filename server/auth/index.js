@@ -12,95 +12,63 @@ AWS.config.update(awsConfig)
 const docClient = new AWS.DynamoDB.DocumentClient()
 module.exports = router
 
-// const addIngredientToFridge = async (ingredient, unit) => {
-//   try {
-//       let result = await docClient.get({
-//       TableName: 'stocks',
-//       Key: {id: 0}
-//     }).promise()
-//   let prevIngredients = result.Item.ingredients;
-//   if(prevIngredients[ingredient]){
-//       prevIngredients[ingredient].quantity++;
-//   }
-//   else {
-//       prevIngredients[ingredient] =
-//       {
-//           "quantity": 1,
-//           "unit": unit
-//       }
-//   }
-//   const params = {
-//       TableName: 'stocks',
-//       Key:{id:0},
-//       UpdateExpression: 'set ingredients = :ingred',
-//       ExpressionAttributeValues: {
-//         ':ingred': prevIngredients
-//       }
-//   };
-//   await docClient.update(params).promise();
-//   } catch (error) {
-//       console.log(error);
-//   }
-// };
+async function queryName(ingre) {
+  const results = await docClient
+    .scan({
+      TableName: 'test',
+      FilterExpression: '#title = :title',
+      ExpressionAttributeNames: {
+        '#title': 'title',
+      },
+      ExpressionAttributeValues: {
+        ':title': ingre,
+      },
+    })
+    .promise()
+  console.log(results.Items)
+}
 
 router.post('/login', async (req, res, next) => {
   try {
-    let result = await docClient
-      .get({
-        TableName: 'users',
-        // Key: {id: 0} <-------this needs to be altered
-      })
-      .promise()
-    let prevIngredients = result.Item.ingredients
-    if (prevIngredients[ingredient]) {
-      prevIngredients[ingredient].quantity++
-    } else {
-      prevIngredients[ingredient] = {
-        quantity: 1,
-        unit: unit,
-      }
-    }
     const params = {
-      TableName: 'stocks',
-      Key: {id: 0},
-      UpdateExpression: 'set ingredients = :ingred',
+      TableName: 'web_user',
+      FilterExpression: '#email = :email AND #password = :password',
+
+      ExpressionAttributeNames: {
+        '#email': 'email',
+        '#password': 'password',
+      },
       ExpressionAttributeValues: {
-        ':ingred': prevIngredients,
+        ':email': req.body.email,
+        ':password': req.body.password,
       },
     }
-    await docClient.update(params).promise()
-  } catch (error) {
-    console.log(error)
+    let user = await docClient
+      .scan(params, function (err, data) {
+        if (err) {
+          console.log('users::login::error - ' + JSON.stringify(err, null, 2))
+        } else {
+          console.log('Login succeeded! - ' + JSON.stringify(data, null, 2))
+        }
+      })
+      .promise()
+    if (!user) {
+      console.log('No such user found:', req.body.email)
+      res.status(401).send('Wrong username and/or password')
+    } else if (!correctPassword(req.body.password)) {
+      console.log('Incorrect password for user:', req.body.email)
+      res.status(401).send('Wrong username and/or password')
+    } else {
+      req.login(user, (err) => (err ? next(err) : res.json(user)))
+    }
+    // console.log(`User is >>>>>>>>>>>>>`, user)
+    // const user = await docClient.put(params)
+    // const user = await User.create(req.body)
+    // req.login(user, (err) => (err ? next(err) : res.status(200)))
+  } catch (err) {
+    next(err)
   }
-
-  // try {
-  //   const user = await User.findOne({where: {email: req.body.email}})
-  //   if (!user) {
-  //     console.log('No such user found:', req.body.email)
-  //     res.status(401).send('Wrong username and/or password')
-  //   } else if (!user.correctPassword(req.body.password)) {
-  //     console.log('Incorrect password for user:', req.body.email)
-  //     res.status(401).send('Wrong username and/or password')
-  //   } else {
-  //     req.login(user, err => (err ? next(err) : res.json(user)))
-  //   }
-  // } catch (err) {
-  //   next(err)
-  // }
 })
-
-// router.post('/signup', async (req, res, next) => {
-//   try {
-//     const user = await User.create(req.body)
-//     req.login(user, (err) => (err ? next(err) : res.json(user)))
-//   } catch (err) {
-//     if (err.name === 'SequelizeUniqueConstraintError') {
-//       res.status(401).send('User already exists')
-//     } else {
-//       next(err)
-//     }
-//   }
-// })
 
 router.post('/signup', async (req, res, next) => {
   try {
@@ -115,7 +83,7 @@ router.post('/signup', async (req, res, next) => {
     }
     const user = docClient.put(params, function (err, data) {
       if (err) {
-        console.log('users::save::error - ' + JSON.stringify(err, null, 2))
+        console.log('users::sign up::error - ' + JSON.stringify(err, null, 2))
       } else {
         return data
       }
