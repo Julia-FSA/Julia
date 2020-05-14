@@ -13,7 +13,6 @@ const docClient = new AWS.DynamoDB.DocumentClient()
 module.exports = router
 
 router.post('/login', async (req, res, next) => {
-  console.log(req.session)
   try {
     const params = {
       TableName: 'site_user',
