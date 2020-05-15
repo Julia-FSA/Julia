@@ -34,3 +34,13 @@ module.exports = {
   generateSalt,
   correctPassword,
 }
+
+// console.log('generate salt >>>>>>>>>>', generateSalt())
+// console.log(
+//   'encry pw>>>>>>>>>>>',
+//   encryptPassword('123', 'Klj/15E4nYxktAg3pKtM7Q==')
+// )
+// console.log(
+//   'result >>>>>>>>>',
+//   correctPassword('123', 'Klj/15E4nYxktAg3pKtM7Q==')
+// )
