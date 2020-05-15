@@ -33,24 +33,24 @@ const getRecipes = (recipes) => ({
  */
 export const fetchedRecipes = () => async (dispatch) => {
   try {
-    var params = {
-      TableName: 'users',
-      // Key: {
-      //   saved_recipe_ids: searchTerm,
-      // },
-    }
-    docClient.get(params, function (err, data) {
-      if (err) {
-        console.log(
-          'users::fetchOneByKey::error - ' + JSON.stringify(err, null, 2)
-        )
-      } else {
-        console.log(
-          'users::fetchOneByKey::success - ' + JSON.stringify(data, null, 2)
-        )
-        dispatch(getRecipes(data.saved_recipe_ids))
-      }
-    })
+    // var params = {
+    //   TableName: 'users',
+    //   // Key: {
+    //   //   saved_recipe_ids: searchTerm,
+    //   // },
+    // }
+    // docClient.get(params, function (err, data) {
+    //   if (err) {
+    //     console.log(
+    //       'users::fetchOneByKey::error - ' + JSON.stringify(err, null, 2)
+    //     )
+    //   } else {
+    //     console.log(
+    //       'users::fetchOneByKey::success - ' + JSON.stringify(data, null, 2)
+    //     )
+    //     dispatch(getRecipes(data.saved_recipe_ids))
+    //   }
+    // })
   } catch (err) {
     console.error(err)
   }
