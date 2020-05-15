@@ -13,6 +13,7 @@ const encryptPassword = function (plainText, salt) {
 }
 
 const correctPassword = function (candidatePwd, user) {
+  console.log('SALT >>>>>>>>>>>>', user)
   return encryptPassword(candidatePwd, user.salt) === user.password
 }
 

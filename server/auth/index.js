@@ -50,6 +50,8 @@ router.post('/signup', async (req, res, next) => {
       TableName: 'web_user',
       Item: {
         id: uuidv4(),
+        first_name: req.body.firstName,
+        last_name: req.body.lastName,
         created_on: new Date().toString(),
         is_deleted: false,
         salt: salt,
