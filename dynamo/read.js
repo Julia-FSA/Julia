@@ -38,13 +38,12 @@ const getRecipeUser = async (userID) => {
 const getUser = async (userId) => {
   try {
     const params = {
-      TableName: 'web_user',
+      TableName: 'users',
       Key: {
         id: userId,
       },
     }
     let data = await docClient.get(params).promise()
-    // console.log('>>>>>>>>', data.Item)
     return data.Item
   } catch (error) {
     console.error(error)

@@ -15,7 +15,7 @@ module.exports = router
 router.post('/login', async (req, res, next) => {
   try {
     const params = {
-      TableName: 'web_user',
+      TableName: 'users',
       FilterExpression: '#email = :email',
       ExpressionAttributeNames: {'#email': 'email'},
       ExpressionAttributeValues: {':email': req.body.email},
@@ -47,16 +47,18 @@ router.post('/signup', async (req, res, next) => {
     const salt = generateSalt()
     const goodPassword = encryptPassword(req.body.password, salt)
     const params = {
-      TableName: 'web_user',
+      TableName: 'users',
       Item: {
         id: uuidv4(),
         first_name: req.body.firstName,
         last_name: req.body.lastName,
-        created_on: new Date().toString(),
-        is_deleted: false,
-        salt: salt,
         password: goodPassword,
+        salt: salt,
         email: req.body.email,
+        // made_recipe_ids:[],
+        // saved_recipe_ids:[]
+        // created_on: new Date().toString(),
+        // is_deleted: false,
       },
     }
 
