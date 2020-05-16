@@ -41,14 +41,15 @@ export const auth = (email, password, method, firstName, lastName) => async (
       firstName,
       lastName,
     })
-  } catch (authError) {
-    return dispatch(getUser({error: authError}))
-  }
-
-  try {
+    console.log('RES DATA >>>>>>>>>>>>>>>>>>', res.data)
+    // } catch (authError) {
+    // return dispatch(getUser({error: authError}))
+    // }
+    // try {
     dispatch(getUser(res.data))
     history.push('/home')
   } catch (dispatchOrHistoryErr) {
+    // return dispatch(getUser({error: authError}))
     console.error(dispatchOrHistoryErr)
   }
 }

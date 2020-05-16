@@ -30,7 +30,7 @@ router.post('/login', async (req, res, next) => {
         }
       })
       .promise()
-
+    // console.log('login hits this route >>>>>>>>>>>>>>', user.Items[0])
     if (correctPassword(req.body.password, user.Items[0])) {
       req.login(user, (err) => (err ? next(err) : res.send(user.Items[0])))
     } else {
@@ -55,6 +55,7 @@ router.post('/signup', async (req, res, next) => {
         password: goodPassword,
         salt: salt,
         email: req.body.email,
+        // stock_id: uuidv4(),
         // made_recipe_ids:[],
         // saved_recipe_ids:[]
         // created_on: new Date().toString(),

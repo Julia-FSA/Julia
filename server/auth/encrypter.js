@@ -13,7 +13,6 @@ const encryptPassword = function (plainText, salt) {
 }
 
 const correctPassword = function (candidatePwd, user) {
-  console.log('SALT >>>>>>>>>>>>', user)
   return encryptPassword(candidatePwd, user.salt) === user.password
 }
 
@@ -24,11 +23,6 @@ const setSaltAndPassword = (user) => {
   }
 }
 
-// User.beforeCreate(setSaltAndPassword)
-// User.beforeUpdate(setSaltAndPassword)
-// User.beforeBulkCreate(users => {
-//   users.forEach(setSaltAndPassword)
-// })
 module.exports = {
   setSaltAndPassword,
   encryptPassword,
@@ -36,12 +30,8 @@ module.exports = {
   correctPassword,
 }
 
-// console.log('generate salt >>>>>>>>>>', generateSalt())
-// console.log(
-//   'encry pw>>>>>>>>>>>',
-//   encryptPassword('123', 'Klj/15E4nYxktAg3pKtM7Q==')
-// )
-// console.log(
-//   'result >>>>>>>>>',
-//   correctPassword('123', 'Klj/15E4nYxktAg3pKtM7Q==')
-// )
+// User.beforeCreate(setSaltAndPassword)
+// User.beforeUpdate(setSaltAndPassword)
+// User.beforeBulkCreate(users => {
+//   users.forEach(setSaltAndPassword)
+// })

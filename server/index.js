@@ -39,6 +39,7 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser(async (user, done) => {
+  // console.log('index >>>>>>>>>>>>', await getUser(user))
   try {
     done(null, await getUser(user))
   } catch (err) {

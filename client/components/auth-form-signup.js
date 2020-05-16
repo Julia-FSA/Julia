@@ -6,7 +6,7 @@ import {auth} from '../store'
 /**
  * COMPONENT
  */
-const AuthForm = (props) => {
+const AuthFormSignUp = (props) => {
   const {name, displayName, handleSubmit, error} = props
 
   return (
@@ -85,12 +85,12 @@ const mapDispatch = (dispatch) => {
 }
 
 // export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+export const Signup = connect(mapSignup, mapDispatch)(AuthFormSignUp)
 
 /**
  * PROP TYPES
  */
-AuthForm.propTypes = {
+AuthFormSignUp.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
