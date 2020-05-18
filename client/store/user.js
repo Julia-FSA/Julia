@@ -45,7 +45,6 @@ export const auth = (
       firstName,
       lastName
     })
-    console.log('RES DATA >>>>>>>>>>>>>>>>>>', res.data)
     // } catch (authError) {
     // return dispatch(getUser({error: authError}))
     // }

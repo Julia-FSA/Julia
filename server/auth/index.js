@@ -6,8 +6,17 @@ const {
   correctPassword
 } = require('./encrypter')
 var AWS = require('aws-sdk')
-const {awsConfig} = require('../../secrets')
 const {v4: uuidv4} = require('uuid')
+let {awsConfig} = require('../../secrets')
+console.log('************PROCESS ENV************', process.env)
+if (process.env.accessKeyId) {
+  awsConfig = {
+    region: process.env.region,
+    endpoint: process.env.endpoint,
+    accessKeyId: process.env.accessKeyId,
+    secretAccessKey: process.env.secretAccessKey
+  }
+}
 AWS.config.update(awsConfig)
 const docClient = new AWS.DynamoDB.DocumentClient()
 module.exports = router
