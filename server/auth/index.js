@@ -15,7 +15,7 @@ module.exports = router
 router.post('/login', async (req, res, next) => {
   try {
     const params = {
-      TableName: 'web_user',
+      TableName: 'users',
       FilterExpression: '#email = :email',
       ExpressionAttributeNames: {'#email': 'email'},
       ExpressionAttributeValues: {':email': req.body.email},
@@ -30,7 +30,6 @@ router.post('/login', async (req, res, next) => {
         }
       })
       .promise()
-
     if (correctPassword(req.body.password, user.Items[0])) {
       req.login(user, (err) => (err ? next(err) : res.send(user.Items[0])))
     } else {
@@ -47,15 +46,13 @@ router.post('/signup', async (req, res, next) => {
     const salt = generateSalt()
     const goodPassword = encryptPassword(req.body.password, salt)
     const params = {
-      TableName: 'web_user',
+      TableName: 'users',
       Item: {
         id: uuidv4(),
         first_name: req.body.firstName,
         last_name: req.body.lastName,
-        created_on: new Date().toString(),
-        is_deleted: false,
-        salt: salt,
         password: goodPassword,
+        salt: salt,
         email: req.body.email,
       },
     }
@@ -88,4 +85,4 @@ router.get('/me', (req, res) => {
   res.json(req.user)
 })
 
-router.use('/google', require('./google'))
+// router.use('/google', require('./google'))
