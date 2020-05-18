@@ -15,13 +15,14 @@ module.exports = router
 router.post('/login', async (req, res, next) => {
   try {
     const params = {
-      TableName: 'site_user',
-      Key: {
-        email: req.body.email
-      }
+      TableName: 'web_user',
+      FilterExpression: '#email = :email',
+      ExpressionAttributeNames: {'#email': 'email'},
+      ExpressionAttributeValues: {':email': req.body.email}
     }
-    const user = await docClient
-      .get(params, function(err, data) {
+
+    let user = await docClient
+      .scan(params, function(err, data) {
         if (err) {
           console.log('users::save::error - ' + JSON.stringify(err, null, 2))
         } else {
@@ -29,14 +30,12 @@ router.post('/login', async (req, res, next) => {
         }
       })
       .promise()
-    console.log(user.Item)
-    if (user.Item === undefined) {
-      console.error('That user doesnt exist')
-    } else if (correctPassword(req.body.password, user.Item)) {
-      console.log('Success! we can set login to true')
-      req.login(user.Item, err => (err ? next(err) : res.json(user.Item)))
+
+    if (correctPassword(req.body.password, user.Items[0])) {
+      req.login(user, err => (err ? next(err) : res.send(user.Items[0])))
     } else {
-      console.log('password is incorrect')
+      console.log('Wrong email or password')
+      res.status(401).send('Wrong username and/or password')
     }
   } catch (err) {
     next(err)
@@ -91,14 +90,22 @@ router.post('/signup', async (req, res, next) => {
   let hashedPass = encryptPassword(password, salt)
   console.log(hashedPass)
   try {
+    const salt = generateSalt()
+    const goodPassword = encryptPassword(req.body.password, salt)
     const params = {
       TableName: 'site_user',
       Item: {
-        email: req.body.email,
-        password: hashedPass,
-        salt: salt
+        id: uuidv4(),
+        first_name: req.body.firstName,
+        last_name: req.body.lastName,
+        created_on: new Date().toString(),
+        is_deleted: false,
+        salt: salt,
+        password: goodPassword,
+        email: req.body.email
       }
     }
+
     const user = docClient.put(params, function(err, data) {
       if (err) {
         //console.log('users::sign up::error - ' + JSON.stringify(err, null, 2))
@@ -106,7 +113,8 @@ router.post('/signup', async (req, res, next) => {
         return data
       }
     })
-    req.login(user, err => (err ? next(err) : res.send(user.Item)))
+
+    req.login(user, err => (err ? next(err) : res.send(user.params.Item)))
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(401).send('User already exists')

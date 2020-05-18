@@ -31,8 +31,11 @@ if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 // passport registration
 passport.serializeUser((user, done) => {
-  //console.log('USER >>>>>>>>>>', user.params.Item.email.S)
-  done(null, user)
+  if (user.Items) {
+    done(null, user.Items[0].id)
+  } else if (user.params.Item.id.S) {
+    done(null, user.params.Item.id.S)
+  }
 })
 
 passport.deserializeUser(async (email, done) => {
