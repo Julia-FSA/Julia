@@ -11,10 +11,10 @@ router.get('/', async (req, res, next) => {
     let params = {
       TableName: 'stocks',
       Key: {
-        id: stockId,
-      },
+        id: stockId
+      }
     }
-    await docClient.get(params, function (err, data) {
+    await docClient.get(params, function(err, data) {
       if (err) {
         res.json(err)
       } else {

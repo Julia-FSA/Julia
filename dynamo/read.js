@@ -6,7 +6,7 @@ if (process.env.accessKeyId) {
     region: process.env.region,
     endpoint: process.env.endpoint,
     accessKeyId: process.env.accessKeyId,
-    secretAccessKey: process.env.secretAccessKey,
+    secretAccessKey: process.env.secretAccessKey
   }
 }
 AWS.config.update(awsConfig)
@@ -42,13 +42,13 @@ let docClient = new AWS.DynamoDB.DocumentClient()
 //   }
 // }
 
-const getUser = async (userId) => {
+const getUser = async userId => {
   try {
     const params = {
       TableName: 'users',
       Key: {
-        id: userId,
-      },
+        id: userId
+      }
     }
     let data = await docClient.get(params).promise()
     return data.Item

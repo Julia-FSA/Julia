@@ -6,7 +6,7 @@ import {auth} from '../store'
 /**
  * COMPONENT
  */
-const AuthFormSignUp = (props) => {
+const AuthFormSignUp = props => {
   const {name, displayName, handleSubmit, error} = props
 
   return (
@@ -62,15 +62,15 @@ const AuthFormSignUp = (props) => {
 //   }
 // }
 
-const mapSignup = (state) => {
+const mapSignup = state => {
   return {
     name: 'signup',
     displayName: 'Sign Up',
-    error: state.user.error,
+    error: state.user.error
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
@@ -80,7 +80,7 @@ const mapDispatch = (dispatch) => {
       const email = evt.target.email.value
       const password = evt.target.password.value
       dispatch(auth(email, password, formName, firstName, lastName))
-    },
+    }
   }
 }
 
@@ -94,5 +94,5 @@ AuthFormSignUp.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object,
+  error: PropTypes.object
 }

@@ -3,7 +3,7 @@ const {
   setSaltAndPassword,
   encryptPassword,
   generateSalt,
-  correctPassword,
+  correctPassword
 } = require('./encrypter')
 var AWS = require('aws-sdk')
 const {v4: uuidv4} = require('uuid')
@@ -14,7 +14,7 @@ if (process.env.accessKeyId) {
     region: process.env.region,
     endpoint: process.env.endpoint,
     accessKeyId: process.env.accessKeyId,
-    secretAccessKey: process.env.secretAccessKey,
+    secretAccessKey: process.env.secretAccessKey
   }
 }
 AWS.config.update(awsConfig)
@@ -27,11 +27,11 @@ router.post('/login', async (req, res, next) => {
       TableName: 'users',
       FilterExpression: '#email = :email',
       ExpressionAttributeNames: {'#email': 'email'},
-      ExpressionAttributeValues: {':email': req.body.email},
+      ExpressionAttributeValues: {':email': req.body.email}
     }
 
     let user = await docClient
-      .scan(params, function (err, data) {
+      .scan(params, function(err, data) {
         if (err) {
           console.log('users::login::error - ' + JSON.stringify(err, null, 2))
         } else {
@@ -40,7 +40,7 @@ router.post('/login', async (req, res, next) => {
       })
       .promise()
     if (correctPassword(req.body.password, user.Items[0])) {
-      req.login(user, (err) => (err ? next(err) : res.send(user.Items[0])))
+      req.login(user, err => (err ? next(err) : res.send(user.Items[0])))
     } else {
       console.log('Wrong email or password')
       res.status(401).send('Wrong username and/or password')
@@ -62,11 +62,11 @@ router.post('/signup', async (req, res, next) => {
         last_name: req.body.lastName,
         password: goodPassword,
         salt: salt,
-        email: req.body.email,
-      },
+        email: req.body.email
+      }
     }
 
-    const user = docClient.put(params, function (err, data) {
+    const user = docClient.put(params, function(err, data) {
       if (err) {
         console.log('users::sign up::error - ' + JSON.stringify(err, null, 2))
       } else {
@@ -74,7 +74,7 @@ router.post('/signup', async (req, res, next) => {
       }
     })
 
-    req.login(user, (err) => (err ? next(err) : res.send(user.params.Item)))
+    req.login(user, err => (err ? next(err) : res.send(user.params.Item)))
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(401).send('User already exists')

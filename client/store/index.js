@@ -7,7 +7,7 @@ import fridge from './fridge'
 
 const reducer = combineReducers({
   user,
-  fridge,
+  fridge
 })
 
 const middleware = composeWithDevTools(
