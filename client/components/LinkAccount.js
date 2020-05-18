@@ -25,7 +25,7 @@ class LinkAccount extends React.Component {
 
   async handleSubmit() {
     const rand = Math.floor(100000 + Math.random() * 900000)
-    const timeLimit = 60000
+    const timeLimit = 180000
     const interval = 1000
 
     await setCode(this.props.user.id, rand)
