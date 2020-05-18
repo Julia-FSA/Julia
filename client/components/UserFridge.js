@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getFridgeThunk} from '../store/fridge'
-
+import {Button} from 'react-bootstrap'
 export class UserFridge extends React.Component {
   constructor() {
     super()
@@ -11,15 +11,17 @@ export class UserFridge extends React.Component {
   }
   render() {
     return (
-      <div>
-        <h1>Your Fridge</h1>
-        <div>
+      <div className="container">
+        <div className="fridge-cont">
+          <h1>Your Fridge</h1>
+        </div>
+        <div className="container fridge-flex-container">
           {this.props.fridge && this.props.fridge.length > 0 ? (
             this.props.fridge.map(item => {
               return (
-                <div key={item.ingredientName}>
-                  <h3>{item.ingredientName}</h3>
-                  <h3>{item.ingredientQuantity}</h3>
+                <div className="fridge-item-cont" key={item.ingredientName}>
+                  <h3>{item.ingredientName.toUpperCase()}</h3>
+                  <Button variant="danger">Remove Item</Button>
                 </div>
               )
             })

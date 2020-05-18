@@ -4,9 +4,9 @@ const {awsConfig} = require('../../secrets')
 AWS.config.update(awsConfig)
 let docClient = new AWS.DynamoDB.DocumentClient()
 // route to access user fridge. Takes in param from fridge store and retrives data from dynamoDB then sends a json to /api/fridge
-router.get('/', async (req, res, next) => {
+router.put('/', async (req, res, next) => {
   try {
-    let stockId = Number(req.query.userId)
+    let stockId = req.body.stockId
     console.log(stockId)
     let params = {
       TableName: 'stocks',
@@ -14,13 +14,9 @@ router.get('/', async (req, res, next) => {
         id: stockId
       }
     }
-    await docClient.get(params, function(err, data) {
-      if (err) {
-        res.json(err)
-      } else {
-        res.json(data.Item.ingredients)
-      }
-    })
+    const data = await docClient.get(params).promise()
+    console.log(data.Item.ingredients)
+    res.json(data.Item.ingredients)
   } catch (error) {
     next(error)
   }
