@@ -5,15 +5,15 @@ const {awsConfig} = require('../secrets')
 AWS.config.update(process.env.AWS_CONFIG || awsConfig)
 let docClient = new AWS.DynamoDB.DocumentClient()
 
-const getFullRecipe = async (recArr) => {
+const getFullRecipe = async recArr => {
   try {
-    const keyArr = recArr.map((rec) => ({id: rec}))
+    const keyArr = recArr.map(rec => ({id: rec}))
     let params = {
       RequestItems: {
         recipes: {
-          Keys: keyArr,
-        },
-      },
+          Keys: keyArr
+        }
+      }
     }
     const data = await docClient.batchGet(params).promise()
     return data.Responses.recipes
@@ -22,11 +22,11 @@ const getFullRecipe = async (recArr) => {
   }
 }
 
-const getRecipeUser = async (userID) => {
+const getRecipeUser = async userID => {
   try {
     const params = {
       TableName: 'users',
-      Key: {id: userID},
+      Key: {id: userID}
     }
     let data = await docClient.get(params).promise()
     getFullRecipe(data.Item.saved_recipe_ids)
@@ -35,16 +35,15 @@ const getRecipeUser = async (userID) => {
   }
 }
 
-const getUser = async (userId) => {
+const getUser = async userId => {
   try {
     const params = {
-      TableName: 'web_user',
+      TableName: 'users',
       Key: {
-        id: userId,
-      },
+        id: userId
+      }
     }
     let data = await docClient.get(params).promise()
-    // console.log('>>>>>>>>', data.Item)
     return data.Item
   } catch (error) {
     console.error(error)

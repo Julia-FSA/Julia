@@ -5,7 +5,11 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import fridge from './fridge'
 
-const reducer = combineReducers({user, fridge})
+const reducer = combineReducers({
+  user,
+  fridge
+})
+
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
