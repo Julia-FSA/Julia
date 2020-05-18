@@ -68,7 +68,7 @@ const setCode = async (userId, code) => {
     Key: {
       id: userId
     },
-    UpdateExpression: 'set code = :c',
+    UpdateExpression: 'set passcode = :c',
     ExpressionAttributeValues: {
       ':c': code
     },
