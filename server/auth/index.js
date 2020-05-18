@@ -3,7 +3,7 @@ const {
   setSaltAndPassword,
   encryptPassword,
   generateSalt,
-  correctPassword,
+  correctPassword
 } = require('./encrypter')
 var AWS = require('aws-sdk')
 const {awsConfig} = require('../../secrets')
@@ -15,14 +15,14 @@ module.exports = router
 router.post('/login', async (req, res, next) => {
   try {
     const params = {
-      TableName: 'web_user',
+      TableName: 'users',
       FilterExpression: '#email = :email',
       ExpressionAttributeNames: {'#email': 'email'},
-      ExpressionAttributeValues: {':email': req.body.email},
+      ExpressionAttributeValues: {':email': req.body.email}
     }
 
     let user = await docClient
-      .scan(params, function (err, data) {
+      .scan(params, function(err, data) {
         if (err) {
           console.log('users::login::error - ' + JSON.stringify(err, null, 2))
         } else {
@@ -32,7 +32,7 @@ router.post('/login', async (req, res, next) => {
       .promise()
 
     if (correctPassword(req.body.password, user.Items[0])) {
-      req.login(user, (err) => (err ? next(err) : res.send(user.Items[0])))
+      req.login(user, err => (err ? next(err) : res.send(user.Items[0])))
     } else {
       console.log('Wrong email or password')
       res.status(401).send('Wrong username and/or password')
@@ -56,11 +56,11 @@ router.post('/signup', async (req, res, next) => {
         is_deleted: false,
         salt: salt,
         password: goodPassword,
-        email: req.body.email,
-      },
+        email: req.body.email
+      }
     }
 
-    const user = docClient.put(params, function (err, data) {
+    const user = docClient.put(params, function(err, data) {
       if (err) {
         console.log('users::sign up::error - ' + JSON.stringify(err, null, 2))
       } else {
@@ -68,7 +68,7 @@ router.post('/signup', async (req, res, next) => {
       }
     })
 
-    req.login(user, (err) => (err ? next(err) : res.send(user.params.Item)))
+    req.login(user, err => (err ? next(err) : res.send(user.params.Item)))
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(401).send('User already exists')

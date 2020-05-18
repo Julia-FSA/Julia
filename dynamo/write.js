@@ -29,8 +29,8 @@ let docClient = new AWS.DynamoDB.DocumentClient()
 
 // save()
 
-let signUp = async (user) => {
-  await docClient.put(user, function (err, data) {
+let signUp = async user => {
+  await docClient.put(user, function(err, data) {
     if (err) {
       console.log('users::save::error - ' + JSON.stringify(err, null, 2))
     } else {
@@ -39,17 +39,47 @@ let signUp = async (user) => {
   })
 }
 
-const params = {
-  TableName: 'web_user',
-  Item: {
-    id: uuidv4(),
-    created_on: new Date().toString(),
-    is_deleted: false,
-    email: '234@email.com',
-    firstName: 'Alexa',
-    lastName: 'Amazon',
-    password: '123',
-  },
+// const params = {
+//   TableName: 'web_user',
+//   Item: {
+//     id: uuidv4(),
+//     created_on: new Date().toString(),
+//     is_deleted: false,
+//     email: '234@email.com',
+//     firstName: 'Alexa',
+//     lastName: 'Amazon',
+//     password: '123',
+//   },
+// }
+
+// signUp(params)
+
+//SET SECRET CODE IN DATABASE
+const setCode = async (userId, code) => {
+  const params = {
+    TableName: 'users',
+    Key: {
+      id: userId
+    },
+    UpdateExpression: 'set code = :c',
+    ExpressionAttributeValues: {
+      ':c': code
+    },
+    ReturnValues: 'ALL_NEW'
+  }
+
+  await docClient.update(params, function(err, data) {
+    if (err) {
+      console.error(
+        'Unable to add item. Error JSON:',
+        JSON.stringify(err, null, 2)
+      )
+    } else {
+      console.log('Success!', data)
+    }
+  })
 }
 
-signUp(params)
+module.exports = {
+  setCode
+}
