@@ -41,7 +41,6 @@ export const auth = (email, password, method, firstName, lastName) => async (
       firstName,
       lastName,
     })
-    console.log('RES DATA >>>>>>>>>>>>>>>>>>', res.data)
     // } catch (authError) {
     // return dispatch(getUser({error: authError}))
     // }
