@@ -4,13 +4,13 @@ const morgan = require('morgan')
 const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
-// const SequelizeStore = require('connect-session-sequelize')(session.Store)
-const db = require('./db')
-// const sessionStore = new SequelizeStore({db})
 const {getUser} = require('../dynamo/read')
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
+// const SequelizeStore = require('connect-session-sequelize')(session.Store)
+// const db = require('./db')
+// const sessionStore = new SequelizeStore({db})
 module.exports = app
 
 // This is a global Mocha hook, used for resource cleanup.
@@ -40,7 +40,6 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser(async (user, done) => {
-  // console.log('index >>>>>>>>>>>>', await getUser(user))
   try {
     done(null, await getUser(user))
   } catch (err) {
