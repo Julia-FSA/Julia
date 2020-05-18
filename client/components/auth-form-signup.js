@@ -29,7 +29,7 @@ const AuthFormSignUp = (props) => {
           <label htmlFor="email">
             <small>Email</small>
           </label>
-          <input name="email" type="email" required />
+          <input name="email" type="text" required />
         </div>
         <div>
           <label htmlFor="password">
