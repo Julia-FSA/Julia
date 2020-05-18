@@ -37,7 +37,7 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             <Route path="/fridge" component={UserFridge} />
-            <Route path="/linkAlexa" component={LinkAccount} />
+            <Route path="/linkAccount" component={LinkAccount} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

@@ -1,8 +1,6 @@
 import React from 'react'
 import {setCode} from '../../dynamo/write'
-import {getUser} from '../store/user'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 
 /**
  * COMPONENT
@@ -12,20 +10,51 @@ class LinkAccount extends React.Component {
     super()
     this.state = {
       passcode: null,
+      timeRemaining: null,
       expired: false
     }
 
-    this.bind.handleSubmit = this.bind.handleSubmit(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.retireCode = this.retireCode.bind(this)
+  }
+
+  async retireCode() {
+    await setCode(this.props.user.id, false)
+    this.setState({expired: true})
   }
 
   async handleSubmit() {
-    let rand = Math.floor(100000 + Math.random() * 900000)
-    console.log('setCode() with', this.props.user.id, rand)
+    const rand = Math.floor(100000 + Math.random() * 900000)
+    const timeLimit = 60000
+    const interval = 1000
+
     await setCode(this.props.user.id, rand)
+
+    for (let i = 0; i < timeLimit / interval; i++) {
+      setTimeout(
+        function() {
+          const time = this.state.timeRemaining
+          this.setState({timeRemaining: time - 1})
+        }.bind(this),
+        i * interval
+      )
+    }
+
+    setTimeout(
+      function() {
+        this.retireCode()
+      }.bind(this),
+      timeLimit
+    )
+
+    this.setState({
+      passcode: rand,
+      timeRemaining: timeLimit / interval,
+      expired: false
+    })
   }
 
   render() {
-    console.log('rendering at least...', this.props)
     return (
       <div>
         <p>Click to generate a new code:</p>
@@ -34,6 +63,11 @@ class LinkAccount extends React.Component {
         </button>
         <div>
           {this.state.passcode ? <h2>{this.state.passcode}</h2> : <h2 />}
+          {this.state.timeRemaining ? (
+            <h3>Code expires in: {this.state.timeRemaining}s</h3>
+          ) : (
+            <p />
+          )}
           {this.state.expired ? (
             <p style={{color: 'red'}}>Your code has expired.</p>
           ) : (
@@ -45,17 +79,13 @@ class LinkAccount extends React.Component {
   }
 }
 
-// /**
-//  * CONTAINER
-//  */
-// const mapState = state => {
-//     return {
-//       user: state.user
-//     }
-//   }
+/**
+ * CONTAINER
+ */
+const mapState = state => {
+  return {
+    user: state.user
+  }
+}
 
-//   const mapDispatch = dispatch => ({
-//     getUser: () => dispatch(getUser())
-//   })
-
-export default LinkAccount
+export default connect(mapState)(LinkAccount)
