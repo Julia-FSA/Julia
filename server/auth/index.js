@@ -12,77 +12,77 @@ AWS.config.update(awsConfig)
 const docClient = new AWS.DynamoDB.DocumentClient()
 module.exports = router
 
-router.post('/login', async (req, res, next) => {
-  try {
-    const params = {
-      TableName: 'web_user',
-      FilterExpression: '#email = :email',
-      ExpressionAttributeNames: {'#email': 'email'},
-      ExpressionAttributeValues: {':email': req.body.email}
-    }
-
-    let user = await docClient
-      .scan(params, function(err, data) {
-        if (err) {
-          console.log('users::save::error - ' + JSON.stringify(err, null, 2))
-        } else {
-          return data
-        }
-      })
-      .promise()
-
-    if (correctPassword(req.body.password, user.Items[0])) {
-      req.login(user, err => (err ? next(err) : res.send(user.Items[0])))
-    } else {
-      console.log('Wrong email or password')
-      res.status(401).send('Wrong username and/or password')
-    }
-  } catch (err) {
-    next(err)
-  }
-})
-
 // router.post('/login', async (req, res, next) => {
 //   try {
 //     const params = {
 //       TableName: 'web_user',
-//       FilterExpression: '#email = :email AND #password = :password',
-
-//       ExpressionAttributeNames: {
-//         '#email': 'email',
-//         '#password': 'password',
-//       },
-//       ExpressionAttributeValues: {
-//         ':email': req.body.email,
-//         ':password': req.body.password,
-//       },
+//       FilterExpression: '#email = :email',
+//       ExpressionAttributeNames: {'#email': 'email'},
+//       ExpressionAttributeValues: {':email': req.body.email}
 //     }
+
 //     let user = await docClient
-//       .scan(params, function (err, data) {
+//       .scan(params, function(err, data) {
 //         if (err) {
-//           console.log('users::login::error - ' + JSON.stringify(err, null, 2))
+//           console.log('users::save::error - ' + JSON.stringify(err, null, 2))
 //         } else {
-//           console.log('Login succeeded! - ' + JSON.stringify(data, null, 2))
+//           return data
 //         }
 //       })
 //       .promise()
-//     if (!user) {
-//       console.log('No such user found:', req.body.email)
-//       res.status(401).send('Wrong username and/or password')
-//     } else if (!correctPassword(req.body.password)) {
-//       console.log('Incorrect password for user:', req.body.email)
-//       res.status(401).send('Wrong username and/or password')
+
+//     if (correctPassword(req.body.password, user.Items[0])) {
+//       req.login(user, err => (err ? next(err) : res.send(user.Items[0])))
 //     } else {
-//       req.login(user, (err) => (err ? next(err) : res.json(user)))
+//       console.log('Wrong email or password')
+//       res.status(401).send('Wrong username and/or password')
 //     }
-//     // console.log(`User is >>>>>>>>>>>>>`, user)
-//     // const user = await docClient.put(params)
-//     // const user = await User.create(req.body)
-//     // req.login(user, (err) => (err ? next(err) : res.status(200)))
 //   } catch (err) {
 //     next(err)
 //   }
 // })
+
+router.post('/login', async (req, res, next) => {
+  try {
+    const params = {
+      TableName: 'web_user',
+      FilterExpression: '#email = :email AND #password = :password',
+
+      ExpressionAttributeNames: {
+        '#email': 'email',
+        '#password': 'password'
+      },
+      ExpressionAttributeValues: {
+        ':email': req.body.email,
+        ':password': req.body.password
+      }
+    }
+    let user = await docClient
+      .scan(params, function(err, data) {
+        if (err) {
+          console.log('users::login::error - ' + JSON.stringify(err, null, 2))
+        } else {
+          console.log('Login succeeded! - ' + JSON.stringify(data, null, 2))
+        }
+      })
+      .promise()
+    if (!user) {
+      console.log('No such user found:', req.body.email)
+      res.status(401).send('Wrong username and/or password')
+    } else if (!correctPassword(req.body.password, user)) {
+      console.log('Incorrect password for user:', req.body.email)
+      res.status(401).send('Wrong username and/or password')
+    } else {
+      req.login(user, err => (err ? next(err) : res.json(user)))
+    }
+    // console.log(`User is >>>>>>>>>>>>>`, user)
+    // const user = await docClient.put(params)
+    // const user = await User.create(req.body)
+    // req.login(user, (err) => (err ? next(err) : res.status(200)))
+  } catch (err) {
+    next(err)
+  }
+})
 
 router.post('/signup', async (req, res, next) => {
   let password = req.body.password
@@ -93,7 +93,7 @@ router.post('/signup', async (req, res, next) => {
     const salt = generateSalt()
     const goodPassword = encryptPassword(req.body.password, salt)
     const params = {
-      TableName: 'site_user',
+      TableName: 'web_user',
       Item: {
         id: uuidv4(),
         first_name: req.body.firstName,
