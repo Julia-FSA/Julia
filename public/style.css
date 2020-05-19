@@ -19,3 +19,19 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.fridge-cont {
+  text-align: center;
+}
+
+.fridge-flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.fridge-item-cont {
+  margin: 1em;
+  width: 180px;
+  height: 300px;
+}
