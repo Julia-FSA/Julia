@@ -5,6 +5,7 @@
  */
 export {default as NavbarComp} from './navbar'
 export {default as Home} from './Home'
+export {default as Alexa} from './Alexa'
 export {default as LinkAccount} from './LinkAccount'
 export {default as UserFridge} from './UserFridge'
 export {default as FindRecipe} from './FindRecipe'

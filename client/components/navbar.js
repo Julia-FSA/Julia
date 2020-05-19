@@ -7,7 +7,9 @@ const NavbarComp = ({handleClick, isLoggedIn}) => (
   <div>
     {isLoggedIn ? (
       <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-        <img id="nav-logo" className="navbar-brand" src="favicon.ico" />
+        <Link to="/home">
+          <img id="nav-logo" className="navbar-brand" src="favicon.ico" />
+        </Link>
 
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
@@ -21,18 +23,18 @@ const NavbarComp = ({handleClick, isLoggedIn}) => (
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/searchrecipes">
-              Search Recipes
+            <Link className="nav-link" to="/findrecipe">
+              What can I make?
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/singlerecipe">
-              Get Recipe
+            <Link className="nav-link" to="/myrecipes">
+              My Recipes
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/usedrecipes">
-              Used Recipe
+            <Link className="nav-link" to="/alexa">
+              Using Alexa
             </Link>
           </li>
         </ul>

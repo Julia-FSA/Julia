@@ -10,7 +10,7 @@ export const MyRecipes = props => {
 
   return (
     <div>
-      <h3>Welcome, {email}</h3>
+      <h3>Here are your recipes.</h3>
     </div>
   )
 }
