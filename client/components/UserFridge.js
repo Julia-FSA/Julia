@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getFridgeThunk} from '../store/fridge'
+import {getFridgeThunk, addToFridgeThunk} from '../store/fridge'
 import {Button} from 'react-bootstrap'
 export class UserFridge extends React.Component {
   constructor() {
@@ -17,6 +17,10 @@ export class UserFridge extends React.Component {
   handleSubmit = event => {
     event.preventDefault()
     console.log('you clicked on add')
+    this.props.addToFridge(this.props.stockId, this.state.searchIngredient)
+    this.setState({
+      searchIngredient: ''
+    })
   }
   handleChange(event) {
     this.setState({
@@ -73,6 +77,9 @@ const mapDispatch = dispatch => {
   return {
     getFridge: function(stockId) {
       dispatch(getFridgeThunk(stockId))
+    },
+    addToFridge: function(stockId, ingredient) {
+      dispatch(addToFridgeThunk(stockId, ingredient))
     }
   }
 }

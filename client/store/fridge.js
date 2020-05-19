@@ -36,8 +36,10 @@ export const getFridgeThunk = stockId => async dispatch => {
 
 export const addToFridgeThunk = (stockId, ingredient) => async dispatch => {
   try {
-    await axios.put(`/api/fridge/add`, {stockId, ingredient})
-    dispatch(addToFridge(ingredient))
+    console.log('i am getting triggered')
+    const res = await axios.put(`/api/fridge/add`, {stockId, ingredient})
+    dispatch(addToFridge({ingredientName: ingredient, ingredientQuantity: 1}))
+    console.log('after dispatch')
   } catch (error) {
     console.log(error)
   }
@@ -48,6 +50,8 @@ export default function(state = defaultFridge, action) {
     case GET_FRIDGE:
       return action.fridge
     case ADD_TO_FRIDGE:
+      console.log('ADD_TO_FRIDGE')
+      return [...state, action.ingredient]
     default:
       return state
   }

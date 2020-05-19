@@ -25,9 +25,34 @@ router.put('/', async (req, res, next) => {
 router.put('/add', async (req, res, next) => {
   try {
     let stockId = req.body.stockId
-    let params = {
-      TableName: 'stocks'
+    let ingredient = req.body.ingredient
+    console.log(stockId)
+    console.log(ingredient)
+    let result = await docClient
+      .get({
+        TableName: 'stocks',
+        Key: {id: stockId}
+      })
+      .promise()
+    let prevIngredients = result.Item.ingredients
+    if (prevIngredients[ingredient]) {
+      prevIngredients[ingredient].quantity++
+    } else {
+      prevIngredients[ingredient] = {
+        quantity: 1,
+        unit: 'each'
+      }
     }
+    const params = {
+      TableName: 'stocks',
+      Key: {id: stockId},
+      UpdateExpression: 'set ingredients = :ingred',
+      ExpressionAttributeValues: {
+        ':ingred': prevIngredients
+      }
+    }
+    await docClient.update(params).promise()
+    res.sendStatus(200)
   } catch (error) {
     next(error)
   }
