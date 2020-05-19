@@ -1,6 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getFridgeThunk, addToFridgeThunk} from '../store/fridge'
+import {
+  getFridgeThunk,
+  addToFridgeThunk,
+  removeFromFridgeThunk
+} from '../store/fridge'
 import {Button} from 'react-bootstrap'
 export class UserFridge extends React.Component {
   constructor() {
@@ -10,13 +14,13 @@ export class UserFridge extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleRemove = this.handleRemove.bind(this)
   }
   componentDidMount() {
     this.props.getFridge(this.props.stockId)
   }
   handleSubmit = event => {
     event.preventDefault()
-    console.log('you clicked on add')
     this.props.addToFridge(this.props.stockId, this.state.searchIngredient)
     this.setState({
       searchIngredient: ''
@@ -26,6 +30,9 @@ export class UserFridge extends React.Component {
     this.setState({
       [event.target.name]: event.target.value
     })
+  }
+  handleRemove(ingredientName) {
+    this.props.removeFromFridge(this.props.stockId, ingredientName)
   }
   render() {
     return (
@@ -53,7 +60,12 @@ export class UserFridge extends React.Component {
               return (
                 <div className="fridge-item-cont" key={item.ingredientName}>
                   <h3>{item.ingredientName.toUpperCase()}</h3>
-                  <Button variant="danger">Remove Item</Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => this.handleRemove(item.ingredientName)}
+                  >
+                    Remove Item
+                  </Button>
                 </div>
               )
             })
@@ -80,6 +92,9 @@ const mapDispatch = dispatch => {
     },
     addToFridge: function(stockId, ingredient) {
       dispatch(addToFridgeThunk(stockId, ingredient))
+    },
+    removeFromFridge: function(stockId, ingredientName) {
+      dispatch(removeFromFridgeThunk(stockId, ingredientName))
     }
   }
 }

@@ -58,4 +58,34 @@ router.put('/add', async (req, res, next) => {
   }
 })
 
+router.put('/remove', async (req, res, next) => {
+  try {
+    let stockId = req.body.stockId
+    let ingredientName = req.body.ingredientName
+    let result = await docClient
+      .get({
+        TableName: 'stocks',
+        Key: {id: stockId}
+      })
+      .promise()
+    let prevIngredients = result.Item.ingredients
+    if (prevIngredients[ingredientName]) {
+      delete prevIngredients[ingredientName]
+    }
+    const params = {
+      TableName: 'stocks',
+      Key: {id: stockId},
+      UpdateExpression: 'set ingredients = :ingred',
+      ExpressionAttributeValues: {
+        ':ingred': prevIngredients
+      }
+    }
+
+    await docClient.update(params).promise()
+    res.sendStatus(200)
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router
