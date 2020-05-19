@@ -1,26 +1,10 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable guard-for-in */
 import axios from 'axios'
-//fake database
-const fridgeDB = [
-  {
-    ingredientName: 'apple',
-    ingredientQuantity: 5,
-    unit: 'each'
-  },
-  {
-    ingredientName: 'orange',
-    ingredientQuantity: 1,
-    unit: 'each'
-  },
-  {
-    ingredientName: 'tomato',
-    ingredientQuantity: 3,
-    unit: 'each'
-  }
-]
+
 // action types
 const GET_FRIDGE = 'GET_FRIDGE'
+const ADD_TO_FRIDGE = 'ADD_TO_FRIDGE'
 
 // action creator
 export const getFridge = fridge => ({
@@ -28,6 +12,10 @@ export const getFridge = fridge => ({
   fridge
 })
 
+export const addToFridge = ingredient => ({
+  type: ADD_TO_FRIDGE,
+  ingredient
+})
 export const getFridgeThunk = stockId => async dispatch => {
   try {
     const fridge = await axios.put(`/api/fridge/`, {stockId: stockId})
@@ -45,11 +33,21 @@ export const getFridgeThunk = stockId => async dispatch => {
     console.log(error)
   }
 }
+
+export const addToFridgeThunk = (stockId, ingredient) => async dispatch => {
+  try {
+    await axios.put(`/api/fridge/add`, {stockId, ingredient})
+    dispatch(addToFridge(ingredient))
+  } catch (error) {
+    console.log(error)
+  }
+}
 let defaultFridge = []
 export default function(state = defaultFridge, action) {
   switch (action.type) {
     case GET_FRIDGE:
       return action.fridge
+    case ADD_TO_FRIDGE:
     default:
       return state
   }
