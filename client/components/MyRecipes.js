@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 /**
  * COMPONENT
  */
-export const RecipeHistory = props => {
+export const MyRecipes = props => {
   const {email} = props
 
   return (
@@ -24,7 +24,7 @@ const mapState = state => {
   }
 }
 
-export default connect(mapState)(RecipeHistory)
+export default connect(mapState)(MyRecipes)
 
 /**
  * PROP TYPES

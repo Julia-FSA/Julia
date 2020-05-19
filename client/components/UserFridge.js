@@ -5,9 +5,23 @@ import {Button} from 'react-bootstrap'
 export class UserFridge extends React.Component {
   constructor() {
     super()
+    this.state = {
+      searchIngredient: ''
+    }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
   componentDidMount() {
-    this.props.getFridge()
+    this.props.getFridge(this.props.stockId)
+  }
+  handleSubmit = event => {
+    event.preventDefault()
+    console.log('you clicked on add')
+  }
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
   }
   render() {
     console.log('fridge props', this.props)
@@ -15,6 +29,20 @@ export class UserFridge extends React.Component {
       <div className="container">
         <div className="fridge-cont">
           <h1>Your Fridge</h1>
+          <div className="add-to-fridge-cont">
+            <label htmlFor="searchIngredient">
+              Add an Ingredient to Your Fridge
+            </label>
+            <input
+              name="searchIngredient"
+              type="text"
+              value={this.state.searchIngredient}
+              onChange={this.handleChange}
+            />
+            <Button variant="success" type="submit" onClick={this.handleSubmit}>
+              Add Ingredient
+            </Button>
+          </div>
         </div>
         <div className="container fridge-flex-container">
           {this.props.fridge && this.props.fridge.length > 0 ? (
@@ -38,14 +66,14 @@ export class UserFridge extends React.Component {
 const mapState = state => {
   return {
     fridge: state.fridge,
-    user: state.user
+    stockId: state.user.id
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    getFridge: function() {
-      dispatch(getFridgeThunk())
+    getFridge: function(stockId) {
+      dispatch(getFridgeThunk(stockId))
     }
   }
 }
