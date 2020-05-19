@@ -12,7 +12,7 @@ class SingleRecipe extends React.Component {
   }
 
   render() {
-    console.log('SingleRecipe props', this.props)
+    console.log('FindRecipe props', this.props)
     const selectedRecipe = this.props.selectedRecipe
     const top5Recipes = this.props.top5Recipes
 

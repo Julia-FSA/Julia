@@ -35,6 +35,7 @@ export class UserFridge extends React.Component {
     this.props.removeFromFridge(this.props.stockId, ingredientName)
   }
   render() {
+    console.log('fridge props', this.props)
     return (
       <div className="container">
         <div className="fridge-cont">

@@ -1,5 +1,5 @@
 var AWS = require('aws-sdk')
-let {awsConfig} = require('../secrets')
+let {awsConfig} = require('../../secrets')
 console.log('accessKeyId >>>>>>>>>>>>>', process.env.accessKeyId)
 if (process.env.accessKeyId) {
   awsConfig = {

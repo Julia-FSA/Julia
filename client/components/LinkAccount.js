@@ -1,5 +1,5 @@
 import React from 'react'
-import {setCode} from '../../dynamo/write'
+import {setCode} from '../../server/db/write'
 import {connect} from 'react-redux'
 
 /**
