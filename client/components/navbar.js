@@ -62,8 +62,8 @@ const NavbarComp = ({handleClick, isLoggedIn}) => (
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/logout">
-                Logout
+              <Link className="nav-link" to="/signup">
+                Sign Up
               </Link>
             </li>
           </ul>

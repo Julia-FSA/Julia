@@ -5,6 +5,7 @@ import axios from 'axios'
 // action types
 const GET_FRIDGE = 'GET_FRIDGE'
 const ADD_TO_FRIDGE = 'ADD_TO_FRIDGE'
+const REMOVE_FROM_FRIDGE = 'REMOVE_FROM_FRIDGE'
 
 // action creator
 export const getFridge = fridge => ({
@@ -16,6 +17,12 @@ export const addToFridge = ingredient => ({
   type: ADD_TO_FRIDGE,
   ingredient
 })
+
+export const removeFromFridge = ingredient => ({
+  type: REMOVE_FROM_FRIDGE,
+  ingredient
+})
+
 export const getFridgeThunk = stockId => async dispatch => {
   try {
     const fridge = await axios.put(`/api/fridge/`, {stockId: stockId})
@@ -36,8 +43,22 @@ export const getFridgeThunk = stockId => async dispatch => {
 
 export const addToFridgeThunk = (stockId, ingredient) => async dispatch => {
   try {
-    await axios.put(`/api/fridge/add`, {stockId, ingredient})
-    dispatch(addToFridge(ingredient))
+    console.log('i am getting triggered')
+    const res = await axios.put(`/api/fridge/add`, {stockId, ingredient})
+    dispatch(addToFridge({ingredientName: ingredient, ingredientQuantity: 1}))
+    console.log('after dispatch')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const removeFromFridgeThunk = (
+  stockId,
+  ingredientName
+) => async dispatch => {
+  try {
+    const res = await axios.put('/api/fridge/remove', {stockId, ingredientName})
+    dispatch(removeFromFridge(ingredientName))
   } catch (error) {
     console.log(error)
   }
@@ -48,6 +69,12 @@ export default function(state = defaultFridge, action) {
     case GET_FRIDGE:
       return action.fridge
     case ADD_TO_FRIDGE:
+      console.log('ADD_TO_FRIDGE')
+      return [...state, action.ingredient]
+    case REMOVE_FROM_FRIDGE:
+      return state.filter(ingredient => {
+        return ingredient.ingredientName !== action.ingredient
+      })
     default:
       return state
   }
