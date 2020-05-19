@@ -35,3 +35,8 @@ form div {
   width: 180px;
   height: 300px;
 }
+
+img#nav-logo {
+  width: 70px;
+  height: 75px;
+}

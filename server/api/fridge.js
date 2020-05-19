@@ -22,4 +22,15 @@ router.put('/', async (req, res, next) => {
   }
 })
 
+router.put('/add', async (req, res, next) => {
+  try {
+    let stockId = req.body.stockId
+    let params = {
+      TableName: 'stocks'
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router
