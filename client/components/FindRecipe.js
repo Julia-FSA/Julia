@@ -5,12 +5,12 @@ import {connect} from 'react-redux'
 /**
  * COMPONENT
  */
-export const RecipeHistory = (props) => {
+export const FindRecipe = props => {
   const {email} = props
 
   return (
     <div>
-      <h3>Welcome, {email}</h3>
+      <h3>Find a Recipe</h3>
     </div>
   )
 }
@@ -18,17 +18,17 @@ export const RecipeHistory = (props) => {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
+const mapState = state => {
   return {
-    email: state.user.email,
+    email: state.user.email
   }
 }
 
-export default connect(mapState)(RecipeHistory)
+export default connect(mapState)(FindRecipe)
 
 /**
  * PROP TYPES
  */
-// RecipeHistory.propTypes = {
+// SingleRecipe.propTypes = {
 //   email: PropTypes.string
 // }

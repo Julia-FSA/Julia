@@ -10,6 +10,7 @@ export class UserFridge extends React.Component {
     this.props.getFridge()
   }
   render() {
+    console.log('fridge props', this.props)
     return (
       <div className="container">
         <div className="fridge-cont">
@@ -36,7 +37,8 @@ export class UserFridge extends React.Component {
 
 const mapState = state => {
   return {
-    fridge: state.fridge
+    fridge: state.fridge,
+    user: state.user
   }
 }
 

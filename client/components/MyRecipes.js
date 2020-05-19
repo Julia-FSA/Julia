@@ -5,12 +5,12 @@ import {connect} from 'react-redux'
 /**
  * COMPONENT
  */
-export const SingleRecipe = props => {
+export const RecipeHistory = props => {
   const {email} = props
 
   return (
     <div>
-      <h3>A Single Recipe</h3>
+      <h3>Welcome, {email}</h3>
     </div>
   )
 }
@@ -24,11 +24,11 @@ const mapState = state => {
   }
 }
 
-export default connect(mapState)(SingleRecipe)
+export default connect(mapState)(RecipeHistory)
 
 /**
  * PROP TYPES
  */
-// SingleRecipe.propTypes = {
+// RecipeHistory.propTypes = {
 //   email: PropTypes.string
 // }

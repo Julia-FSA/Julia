@@ -7,12 +7,13 @@ import {
   Login,
   Signup,
   UserHome,
+  FindRecipe,
   AllRecipes,
   SingleRecipe,
-  RecipeHistory
+  RecipeHistory,
+  UserFridge
 } from './components'
 import {me} from './store'
-import UserFridge from './components/UserFridge'
 /**
  * COMPONENT
  */
@@ -37,7 +38,8 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             <Route path="/fridge" component={UserFridge} />
-            <Route path="/linkAccount" component={LinkAccount} />
+            <Route path="/findrecipe" component={FindRecipe} />
+            <Route path="/linkaccount" component={LinkAccount} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

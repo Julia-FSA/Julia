@@ -10,27 +10,25 @@ const NavbarComp = ({handleClick, isLoggedIn}) => (
       <Navbar bg="dark" variant="dark">
         <Navbar.Brand href="/home">Julia-Cooks</Navbar.Brand>
         <Nav className="mr-auto">
-          <Nav.Link href="/home">Home</Nav.Link>
-          <Nav.Link href="/fridge">My Fridge</Nav.Link>
-          <Nav.Link href="/searchrecipes">Search Recipes</Nav.Link>
-          <Nav.Link href="/singlerecip">Get Recipe</Nav.Link>
-          <Nav.Link href="/usedrecipes">Used Recipes</Nav.Link>
+          <Link to="/fridge">My Fridge</Link>
+          <Link to="/findrecipe">What can I make?</Link>
+          <Link to="/recipes">My Recipes</Link>
         </Nav>
         <Nav>
-          <Nav.Link href="#" onClick={handleClick}>
+          <Link href="#" onClick={handleClick}>
             Logout
-          </Nav.Link>
+          </Link>
         </Nav>
       </Navbar>
     ) : (
       <Navbar bg="dark" variant="dark">
         <Navbar.Brand href="/home">Julia-Cooks</Navbar.Brand>
         <Nav className="mr-auto justify-contt-enden">
-          <Nav.Link href="/searchrecipes">Search Recipes</Nav.Link>
+          <Link to="/searchrecipes">Search Recipes</Link>
         </Nav>
         <Nav>
-          <Nav.Link href="/login">Login</Nav.Link>
-          <Nav.Link href="/signup">Sign Up</Nav.Link>
+          <Link to="/login">Login</Link>
+          <Link to="/signup">Sign Up</Link>
         </Nav>
       </Navbar>
     )}
