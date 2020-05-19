@@ -7,7 +7,7 @@ export class UserFridge extends React.Component {
     super()
   }
   componentDidMount() {
-    this.props.getFridge()
+    this.props.getFridge(this.props.stockId)
   }
   render() {
     return (
@@ -36,14 +36,15 @@ export class UserFridge extends React.Component {
 
 const mapState = state => {
   return {
-    fridge: state.fridge
+    fridge: state.fridge,
+    stockId: state.user.id
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    getFridge: function() {
-      dispatch(getFridgeThunk())
+    getFridge: function(stockId) {
+      dispatch(getFridgeThunk(stockId))
     }
   }
 }

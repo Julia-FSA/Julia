@@ -8,7 +8,7 @@ const NavbarComp = ({handleClick, isLoggedIn}) => (
   <div>
     {isLoggedIn ? (
       <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="/home">Julia-Cooks</Navbar.Brand>
+        <img id="nav-logo" className="navbar-brand" src="favicon.ico" />
         <Nav className="mr-auto">
           <Nav.Link href="/home">Home</Nav.Link>
           <Nav.Link href="/fridge">My Fridge</Nav.Link>
@@ -24,7 +24,7 @@ const NavbarComp = ({handleClick, isLoggedIn}) => (
       </Navbar>
     ) : (
       <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="/home">Julia-Cooks</Navbar.Brand>
+        <img id="nav-logo" className="navbar-brand" src="favicon.ico" />
         <Nav className="mr-auto justify-contt-enden">
           <Nav.Link href="/searchrecipes">Search Recipes</Nav.Link>
         </Nav>
