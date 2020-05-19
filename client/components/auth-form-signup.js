@@ -6,7 +6,7 @@ import {auth} from '../store'
 /**
  * COMPONENT
  */
-const AuthForm = (props) => {
+const AuthFormSignUp = props => {
   const {name, displayName, handleSubmit, error} = props
 
   return (
@@ -29,7 +29,7 @@ const AuthForm = (props) => {
           <label htmlFor="email">
             <small>Email</small>
           </label>
-          <input name="email" type="email" required />
+          <input name="email" type="text" required />
         </div>
         <div>
           <label htmlFor="password">
@@ -62,15 +62,15 @@ const AuthForm = (props) => {
 //   }
 // }
 
-const mapSignup = (state) => {
+const mapSignup = state => {
   return {
     name: 'signup',
     displayName: 'Sign Up',
-    error: state.user.error,
+    error: state.user.error
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
@@ -80,19 +80,19 @@ const mapDispatch = (dispatch) => {
       const email = evt.target.email.value
       const password = evt.target.password.value
       dispatch(auth(email, password, formName, firstName, lastName))
-    },
+    }
   }
 }
 
 // export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+export const Signup = connect(mapSignup, mapDispatch)(AuthFormSignUp)
 
 /**
  * PROP TYPES
  */
-AuthForm.propTypes = {
+AuthFormSignUp.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object,
+  error: PropTypes.object
 }

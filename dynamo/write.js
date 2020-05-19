@@ -1,8 +1,15 @@
 var AWS = require('aws-sdk')
 const {v4: uuidv4} = require('uuid')
-const {awsConfig} = require('../secrets')
-
-AWS.config.update(process.env.AWS_CONFIG || awsConfig)
+let {awsConfig} = require('../secrets')
+if (process.env.accessKeyId || process.env.endpoint) {
+  awsConfig = {
+    region: process.env.region,
+    endpoint: process.env.endpoint,
+    accessKeyId: process.env.accessKeyId,
+    secretAccessKey: process.env.secretAccessKey
+  }
+}
+AWS.config.update(awsConfig)
 let docClient = new AWS.DynamoDB.DocumentClient()
 
 // let save = function () {
@@ -27,10 +34,8 @@ let docClient = new AWS.DynamoDB.DocumentClient()
 //   })
 // }
 
-// save()
-
-let signUp = async (user) => {
-  await docClient.put(user, function (err, data) {
+let signUp = async user => {
+  await docClient.put(user, function(err, data) {
     if (err) {
       console.log('users::save::error - ' + JSON.stringify(err, null, 2))
     } else {
@@ -39,17 +44,49 @@ let signUp = async (user) => {
   })
 }
 
-const params = {
-  TableName: 'web_user',
-  Item: {
-    id: uuidv4(),
-    created_on: new Date().toString(),
-    is_deleted: false,
-    email: '234@email.com',
-    firstName: 'Alexa',
-    lastName: 'Amazon',
-    password: '123',
-  },
+// save()
+
+// const params = {
+//   TableName: 'web_user',
+//   Item: {
+//     id: uuidv4(),
+//     created_on: new Date().toString(),
+//     is_deleted: false,
+//     email: '234@email.com',
+//     firstName: 'Alexa',
+//     lastName: 'Amazon',
+//     password: '123',
+//   },
+// }
+
+// signUp(params)
+
+//SET SECRET CODE IN DATABASE
+const setCode = async (userId, code) => {
+  const params = {
+    TableName: 'users',
+    Key: {
+      id: userId
+    },
+    UpdateExpression: 'set passcode = :c',
+    ExpressionAttributeValues: {
+      ':c': code
+    },
+    ReturnValues: 'ALL_NEW'
+  }
+
+  await docClient.update(params, function(err, data) {
+    if (err) {
+      console.error(
+        'Unable to add item. Error JSON:',
+        JSON.stringify(err, null, 2)
+      )
+    } else {
+      console.log('Success!', data)
+    }
+  })
 }
 
-signUp(params)
+module.exports = {
+  setCode
+}
