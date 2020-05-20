@@ -2,7 +2,7 @@ import React from 'react'
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {fetchFirstRecipe, fetchNextRecipe} from '../store/recipes'
-
+import {Button} from 'react-bootstrap'
 /**
  * COMPONENT
  */
@@ -39,12 +39,16 @@ class SingleRecipe extends React.Component {
                 <h3>{selectedRecipe.title}</h3>
                 <p>Cook time: {selectedRecipe.readyInMinutes} Minutes</p>
                 <p>{selectedRecipe.aggregateLikes} Likes</p>
-                <button type="submit" onClick={this.handleSubmit}>
+                <Button
+                  variant="danger"
+                  type="submit"
+                  onClick={this.handleSubmit}
+                >
                   Show Me Another Recipe
-                </button>
+                </Button>
               </div>
             </div>
-            <div className="ingredient-cont">
+            <div className="container ingredient-cont">
               <h3>Ingredients:</h3>
               <hr />
               <div>
@@ -60,7 +64,7 @@ class SingleRecipe extends React.Component {
                 </ul>
               </div>
             </div>
-            <div className="instruction-cont">
+            <div className="container instruction-cont">
               <h3>Instructions:</h3>
               <hr />
               <div>
