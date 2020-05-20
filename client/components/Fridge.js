@@ -7,6 +7,7 @@ import {
 } from '../store/fridge'
 import {Button} from 'react-bootstrap'
 
+
 export class Fridge extends React.Component {
   constructor() {
     super()
@@ -38,43 +39,50 @@ export class Fridge extends React.Component {
   render() {
     console.log('fridge props', this.props)
     return (
-      <div className="container">
-        <div className="fridge-cont">
-          <h1>Your Fridge</h1>
-          <div className="add-to-fridge-cont">
-            <label htmlFor="searchIngredient">
-              Add an Ingredient to Your Fridge
-            </label>
-            <input
-              name="searchIngredient"
-              type="text"
-              value={this.state.searchIngredient}
-              onChange={this.handleChange}
-            />
-            <Button variant="success" type="submit" onClick={this.handleSubmit}>
-              Add Ingredient
-            </Button>
+      <div className="outer-cont-fridge">
+        <div className="container inner-cont">
+          <div className="fridge-cont">
+            <h1>Your Fridge</h1>
+            <div className="add-to-fridge-cont">
+              <label htmlFor="searchIngredient">
+                Add an Ingredient to Your Fridge
+              </label>
+              <input
+                name="searchIngredient"
+                type="text"
+                value={this.state.searchIngredient}
+                onChange={this.handleChange}
+              />
+              <Button
+                variant="success"
+                type="submit"
+                onClick={this.handleSubmit}
+              >
+                Add Ingredient
+              </Button>
+            </div>
+          </div>
+          <div className="container fridge-flex-container">
+            {this.props.fridge && this.props.fridge.length > 0 ? (
+              this.props.fridge.map(item => {
+                return (
+                  <div className="fridge-item-cont" key={item.ingredientName}>
+                    <h3>{item.ingredientName.toUpperCase()}</h3>
+                    <Button
+                      variant="danger"
+                      onClick={() => this.handleRemove(item.ingredientName)}
+                    >
+                      Remove Item
+                    </Button>
+                  </div>
+                )
+              })
+            ) : (
+              <h1>Your Fridge is Empty!</h1>
+            )}
           </div>
         </div>
-        <div className="container fridge-flex-container">
-          {this.props.fridge && this.props.fridge.length > 0 ? (
-            this.props.fridge.map(item => {
-              return (
-                <div className="fridge-item-cont" key={item.ingredientName}>
-                  <h3>{item.ingredientName.toUpperCase()}</h3>
-                  <Button
-                    variant="danger"
-                    onClick={() => this.handleRemove(item.ingredientName)}
-                  >
-                    Remove Item
-                  </Button>
-                </div>
-              )
-            })
-          ) : (
-            <h1>Your Fridge is Empty!</h1>
-          )}
-        </div>
+
       </div>
     )
   }
@@ -101,4 +109,6 @@ const mapDispatch = dispatch => {
   }
 }
 
+
 export default connect(mapState, mapDispatch)(Fridge)
+
