@@ -45,15 +45,18 @@ router.get('/byIngredient/:ingredients', (req, res, next) => {
   }
 })
 
-router.get('/byId/:id', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   let id = req.params.id
+  console.log('getting recipe by id')
   try {
     axios
       .get(
         `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
       )
       .then(recipe => {
-        res.json(recipeFormatter(recipe.data))
+        console.log('found recipe by id')
+        console.log('recipe.data', recipe.data)
+        res.json(recipe.data)
       })
   } catch (error) {
     next(error)
@@ -79,7 +82,7 @@ router.get('/findrecipe/:id', async (req, res, next) => {
     }
 
     let result = await axios.get(
-      `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredientStr}&number=5&ranking=2&ignorePantry=true&apiKey=${SpoonacularAPIKey}`
+      `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredientStr}&number=10&ranking=2&ignorePantry=true&apiKey=${SpoonacularAPIKey}`
     )
 
     const sortedRecipes = result.data.sort(function(a, b) {
@@ -92,6 +95,7 @@ router.get('/findrecipe/:id', async (req, res, next) => {
     })
 
     let goodRecipe
+    let index
     for (let i = 0; i < filteredRecipes.length; i++) {
       let id = filteredRecipes[i].id
 
@@ -100,12 +104,14 @@ router.get('/findrecipe/:id', async (req, res, next) => {
       )
       if (response.data.analyzedInstructions.length) {
         goodRecipe = response.data
+        index = i
         break
       }
     }
 
     const obj = {
       goodRecipe,
+      index,
       sortedRecipes
     }
 
