@@ -5,10 +5,10 @@ import {Link} from 'react-router-dom'
 /**
  * COMPONENT
  */
-export const Home = props => {
+export const Home = (props) => {
   const user = props.user
   return (
-    <div id="background">
+    <div className="home" id="background">
       <div id="welcome">
         {user.firstName ? (
           <div id="inner-welcome">
@@ -19,7 +19,7 @@ export const Home = props => {
             </Link>
           </div>
         ) : (
-          <div id="inner-welcome">
+          <div id="header">
             <h1>Welcome to Julia Cooks!</h1>
             <br />
             <h2 style={{fontStyle: 'italic'}}>
@@ -35,9 +35,9 @@ export const Home = props => {
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
-    user: state.user
+    user: state.user,
   }
 }
 

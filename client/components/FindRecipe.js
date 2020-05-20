@@ -53,7 +53,9 @@ class SingleRecipe extends React.Component {
               <hr />
               <div>
                 <ul>
-                  {selectedRecipe.extendedIngredients.map(function(ingredient) {
+                  {selectedRecipe.extendedIngredients.map(function (
+                    ingredient
+                  ) {
                     return (
                       <li key={ingredient.id}>
                         {ingredient.amount} {ingredient.unit} -{' '}
@@ -69,7 +71,7 @@ class SingleRecipe extends React.Component {
               <hr />
               <div>
                 {' '}
-                {selectedRecipe.analyzedInstructions[0].steps.map(function(
+                {selectedRecipe.analyzedInstructions[0].steps.map(function (
                   step
                 ) {
                   return (
@@ -92,20 +94,20 @@ class SingleRecipe extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
     email: state.user.email,
     userId: state.user.id,
     selectedRecipe: state.recipes.selectedRecipe,
     index: state.recipes.index,
-    top10Recipes: state.recipes.top10Recipes
+    top10Recipes: state.recipes.top10Recipes,
   }
 }
 
-const mapDispatch = dispatch => ({
-  fetchFirstRecipe: userId => dispatch(fetchFirstRecipe(userId)),
+const mapDispatch = (dispatch) => ({
+  fetchFirstRecipe: (userId) => dispatch(fetchFirstRecipe(userId)),
   fetchNextRecipe: (top10Recipes, index) =>
-    dispatch(fetchNextRecipe(top10Recipes, index))
+    dispatch(fetchNextRecipe(top10Recipes, index)),
 })
 
 export default connect(mapState, mapDispatch)(SingleRecipe)
