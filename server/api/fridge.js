@@ -1,8 +1,6 @@
 const router = require('express').Router()
-var AWS = require('aws-sdk')
-const {awsConfig} = require('../../secrets')
-AWS.config.update(awsConfig)
-let docClient = new AWS.DynamoDB.DocumentClient()
+const db = require('../db')
+
 // route to access user fridge. Takes in param from fridge store and retrives data from dynamoDB then sends a json to /api/fridge
 router.put('/', async (req, res, next) => {
   try {
@@ -14,7 +12,7 @@ router.put('/', async (req, res, next) => {
         id: stockId
       }
     }
-    const data = await docClient.get(params).promise()
+    const data = await db.get(params).promise()
     console.log(data.Item.ingredients)
     res.json(data.Item.ingredients)
   } catch (error) {
@@ -28,7 +26,7 @@ router.put('/add', async (req, res, next) => {
     let ingredient = req.body.ingredient
     console.log(stockId)
     console.log(ingredient)
-    let result = await docClient
+    let result = await db
       .get({
         TableName: 'stocks',
         Key: {id: stockId}
@@ -51,7 +49,7 @@ router.put('/add', async (req, res, next) => {
         ':ingred': prevIngredients
       }
     }
-    await docClient.update(params).promise()
+    await db.update(params).promise()
     res.sendStatus(200)
   } catch (error) {
     next(error)
@@ -62,7 +60,7 @@ router.put('/remove', async (req, res, next) => {
   try {
     let stockId = req.body.stockId
     let ingredientName = req.body.ingredientName
-    let result = await docClient
+    let result = await db
       .get({
         TableName: 'stocks',
         Key: {id: stockId}
@@ -81,7 +79,7 @@ router.put('/remove', async (req, res, next) => {
       }
     }
 
-    await docClient.update(params).promise()
+    await db.update(params).promise()
     res.sendStatus(200)
   } catch (error) {
     next(error)

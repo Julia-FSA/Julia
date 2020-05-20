@@ -6,7 +6,8 @@ import {
   removeFromFridgeThunk
 } from '../store/fridge'
 import {Button} from 'react-bootstrap'
-export class UserFridge extends React.Component {
+
+export class Fridge extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -100,4 +101,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(UserFridge)
+export default connect(mapState, mapDispatch)(Fridge)
