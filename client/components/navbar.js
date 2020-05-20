@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
-const NavbarComp = ({handleClick, isLoggedIn}) => (
+
+const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
     {isLoggedIn ? (
       <nav className="navbar navbar-expand-md navbar-dark bg-dark">
@@ -24,17 +25,12 @@ const NavbarComp = ({handleClick, isLoggedIn}) => (
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/findrecipe">
-              What can I make?
+              What Can I Make?
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/myrecipes">
               My Recipes
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/alexa">
-              Using Alexa
             </Link>
           </li>
         </ul>
@@ -52,6 +48,11 @@ const NavbarComp = ({handleClick, isLoggedIn}) => (
           <li className="nav-item">
             <Link className="nav-link" to="/searchrecipes">
               Search Recipes
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/alexa">
+              Using Alexa
             </Link>
           </li>
         </ul>
@@ -90,12 +91,12 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(NavbarComp)
+export default connect(mapState, mapDispatch)(Navbar)
 
 /**
  * PROP TYPES
  */
-NavbarComp.propTypes = {
+Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired
 }
