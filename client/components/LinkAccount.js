@@ -11,7 +11,7 @@ class LinkAccount extends React.Component {
     this.state = {
       passcode: null,
       timeRemaining: null,
-      expired: false
+      expired: false,
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -32,7 +32,7 @@ class LinkAccount extends React.Component {
 
     for (let i = 0; i < timeLimit / interval; i++) {
       setTimeout(
-        function() {
+        function () {
           const time = this.state.timeRemaining
           this.setState({timeRemaining: time - 1})
         }.bind(this),
@@ -41,7 +41,7 @@ class LinkAccount extends React.Component {
     }
 
     setTimeout(
-      function() {
+      function () {
         this.retireCode()
       }.bind(this),
       timeLimit
@@ -50,14 +50,14 @@ class LinkAccount extends React.Component {
     this.setState({
       passcode: rand,
       timeRemaining: timeLimit / interval,
-      expired: false
+      expired: false,
     })
   }
 
   render() {
     return (
-      <div>
-        <p>Click to generate a new code:</p>
+      <div className="linkaccount" id="link-background">
+        <h4>Click to generate a new code:</h4>
         <button type="submit" onClick={this.handleSubmit}>
           New Code
         </button>
@@ -82,9 +82,9 @@ class LinkAccount extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
-    user: state.user
+    user: state.user,
   }
 }
 

@@ -84,7 +84,7 @@ class AuthFormSignUp extends React.Component {
   render() {
     const {name, displayName, handleSubmit, error} = this.props
     return (
-      <div>
+      <div className="signup" id="signup-background">
         <form onSubmit={this.handleSubmit} name={name}>
           <div>
             <label htmlFor="firstName">

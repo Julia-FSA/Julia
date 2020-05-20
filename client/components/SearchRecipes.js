@@ -130,7 +130,9 @@ class SearchRecipes extends React.Component {
                     ))}
                   </div>
                 </div>
-              ) : null
+              ) : (
+                <div>Found Nothing... Try a different search</div>
+              )
             ) : !searchedRecipes.ingredients ? (
               <div>
                 <h2>{searchedRecipes.title}</h2>
@@ -163,7 +165,9 @@ class SearchRecipes extends React.Component {
                   </div>
                 </div>
               </div>
-            ) : null
+            ) : (
+              <div>Found Nothing... Try a different search</div>
+            )
           ) : null}
         </form>
       </div>

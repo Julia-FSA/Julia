@@ -3,14 +3,14 @@ import {connect} from 'react-redux'
 import {
   getFridgeThunk,
   addToFridgeThunk,
-  removeFromFridgeThunk
+  removeFromFridgeThunk,
 } from '../store/fridge'
 import {Button} from 'react-bootstrap'
 export class UserFridge extends React.Component {
   constructor() {
     super()
     this.state = {
-      searchIngredient: ''
+      searchIngredient: '',
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -19,16 +19,16 @@ export class UserFridge extends React.Component {
   componentDidMount() {
     this.props.getFridge(this.props.stockId)
   }
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault()
     this.props.addToFridge(this.props.stockId, this.state.searchIngredient)
     this.setState({
-      searchIngredient: ''
+      searchIngredient: '',
     })
   }
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
   handleRemove(ingredientName) {
@@ -44,6 +44,7 @@ export class UserFridge extends React.Component {
             <label htmlFor="searchIngredient">
               Add an Ingredient to Your Fridge
             </label>
+            <div>*** Require linking account to Alexa ***</div>
             <input
               name="searchIngredient"
               type="text"
@@ -57,7 +58,7 @@ export class UserFridge extends React.Component {
         </div>
         <div className="container fridge-flex-container">
           {this.props.fridge && this.props.fridge.length > 0 ? (
-            this.props.fridge.map(item => {
+            this.props.fridge.map((item) => {
               return (
                 <div className="fridge-item-cont" key={item.ingredientName}>
                   <h3>{item.ingredientName.toUpperCase()}</h3>
@@ -79,24 +80,24 @@ export class UserFridge extends React.Component {
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     fridge: state.fridge,
-    stockId: state.user.id
+    stockId: state.user.id,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    getFridge: function(stockId) {
+    getFridge: function (stockId) {
       dispatch(getFridgeThunk(stockId))
     },
-    addToFridge: function(stockId, ingredient) {
+    addToFridge: function (stockId, ingredient) {
       dispatch(addToFridgeThunk(stockId, ingredient))
     },
-    removeFromFridge: function(stockId, ingredientName) {
+    removeFromFridge: function (stockId, ingredientName) {
       dispatch(removeFromFridgeThunk(stockId, ingredientName))
-    }
+    },
   }
 }
 

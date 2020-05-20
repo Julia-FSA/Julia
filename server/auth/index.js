@@ -58,8 +58,8 @@ router.post('/signup', async (req, res, next) => {
       TableName: 'users',
       Item: {
         id: uuidv4(),
-        first_name: req.body.firstName,
-        last_name: req.body.lastName,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         password: goodPassword,
         salt: salt,
         email: req.body.email,

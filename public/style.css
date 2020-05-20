@@ -1,5 +1,6 @@
 body {
   font-family: sans-serif;
+  background-color: rgba(37, 37, 37, 0.8);
 }
 
 a {
@@ -10,9 +11,28 @@ label {
   display: block;
 }
 
-nav a {
-  display: inline-block;
-  margin: 1em;
+button {
+  font-size: 0.2em;
+}
+
+nav {
+  display: flex;
+  background-color: rgba(37, 37, 37, 0.8);
+  position: fixed;
+  color: #fff;
+  border-radius: 0 0 1em 1em;
+  /* text-align: center; */
+  /* margin: 0 4em; */
+  /* padding: 10px; */
+  /* width: 100; */
+  /* calc(100vw - 8em); */
+  /* z-index: 2; */
+}
+
+.nav-link {
+  color: orange;
+  /* align-items: center; */
+  /* justify-content: center; */
 }
 
 form div {
@@ -39,4 +59,119 @@ form div {
 img#nav-logo {
   width: 70px;
   height: 75px;
+}
+
+.home {
+  text-align: center;
+  color: orange;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  letter-spacing: 1px;
+}
+
+#background {
+  background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSD4gKRLAt5Xff7zvquqpLkGI72dgz1QjPufEMLLuw8PneTuYP71A&s);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center top;
+  font-size: 120px;
+  line-height: 0.75;
+  padding: 10px 0;
+}
+
+.linkaccount {
+  text-align: center;
+  color: orange;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  letter-spacing: 1px;
+}
+
+#link-background {
+  background-image: url(https://cdn.pixabay.com/photo/2016/12/26/17/28/food-1932466__340.jpg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center top;
+  font-size: 120px;
+  line-height: 0.75;
+  padding: 10px 0;
+}
+
+#header {
+  margin-top: 0.5em;
+}
+
+.alexa-instructions {
+  text-align: left;
+  color: orange;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 100vh;
+  letter-spacing: 3px;
+}
+
+#alexa-background {
+  background-image: url(https://hdwallpaperz.net/wp-content/uploads/2017/01/cooking-Wallpapers.jpg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center top;
+  font-size: 25px;
+  line-height: 2;
+  padding: 10px 0;
+}
+
+.step {
+  text-indent: 1em;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+
+.login {
+  text-align: left;
+  color: orange;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  letter-spacing: 3px;
+}
+
+#login-background {
+  background-image: url(https://media.giphy.com/media/1tZ4Coe9v2H8A/giphy.gif);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center top;
+  font-size: 25px;
+  line-height: 2;
+  padding: 10px 0;
+}
+
+.signup {
+  text-align: left;
+  color: orange;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  letter-spacing: 3px;
+}
+
+#signup-background {
+  background-image: url(https://media.giphy.com/media/1tZ4Coe9v2H8A/giphy.gif);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center top;
+  font-size: 25px;
+  line-height: 2;
+  padding: 10px 0;
 }

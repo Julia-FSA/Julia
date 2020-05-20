@@ -6,7 +6,8 @@ import {logout} from '../store'
 const NavbarComp = ({handleClick, isLoggedIn}) => (
   <div>
     {isLoggedIn ? (
-      <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-md">
+        {/* navbar-dark bg-dark */}
         <Link to="/home">
           <img id="nav-logo" className="navbar-brand" src="favicon.ico" />
         </Link>
@@ -24,7 +25,7 @@ const NavbarComp = ({handleClick, isLoggedIn}) => (
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/findrecipe">
-              What can I make?
+              What can I make
             </Link>
           </li>
           <li className="nav-item">
@@ -50,7 +51,8 @@ const NavbarComp = ({handleClick, isLoggedIn}) => (
         </div>
       </nav>
     ) : (
-      <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-md">
+        {/* navbar-dark bg-dark */}
         <img id="nav-logo" className="navbar-brand" src="favicon.ico" />
 
         <ul className="navbar-nav mr-auto">
