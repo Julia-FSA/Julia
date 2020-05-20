@@ -1,12 +1,12 @@
 var AWS = require('aws-sdk')
 let {awsConfig} = require('../secrets')
-console.log('accessKeyId >>>>>>>>>>>>>', process.env.accessKeyId)
+// console.log('accessKeyId >>>>>>>>>>>>>', process.env.accessKeyId)
 if (process.env.accessKeyId) {
   awsConfig = {
     region: process.env.region,
     endpoint: process.env.endpoint,
     accessKeyId: process.env.accessKeyId,
-    secretAccessKey: process.env.secretAccessKey
+    secretAccessKey: process.env.secretAccessKey,
   }
 }
 AWS.config.update(awsConfig)
@@ -42,13 +42,32 @@ let docClient = new AWS.DynamoDB.DocumentClient()
 //   }
 // }
 
-const getUser = async userId => {
+const registeredEmail = async (email) => {
+  const params = {
+    TableName: 'users',
+    FilterExpression: '#email = :email',
+    ExpressionAttributeNames: {'#email': 'email'},
+    ExpressionAttributeValues: {':email': email},
+  }
+
+  let user = await docClient
+    .scan(params, function (err, data) {
+      if (err) {
+        console.log('users::error - ' + JSON.stringify(err, null, 2))
+      } else {
+        console.log('users::success - ' + JSON.stringify(data, null, 2))
+      }
+    })
+    .promise()
+}
+
+const getUser = async (userId) => {
   try {
     const params = {
       TableName: 'users',
       Key: {
-        id: userId
-      }
+        id: userId,
+      },
     }
     let data = await docClient.get(params).promise()
     return data.Item
@@ -59,7 +78,7 @@ const getUser = async userId => {
 // console.log('>>>>>>>>',
 // getUser('1')
 
-module.exports = {getUser}
+module.exports = {getUser, registeredEmail}
 // let fetchOneByKey = function(tableName, stockId) {
 
 //   var params = {
