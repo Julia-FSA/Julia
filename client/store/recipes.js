@@ -3,22 +3,14 @@ import axios from 'axios'
 const initialState = {
   selectedRecipe: {},
   index: 0,
-  top5Recipes: []
+  top10Recipes: []
 }
 
 // Action Types
-// const SET_ALL_SPECIES = 'SET_ALL_SPECIES'
 const SET_RECIPE_RESULTS = 'SET_RECIPE_RESULTS'
 const SET_NEXT_RECIPE = 'SET_NEXT_RECIPE'
 
 // Actions Creators
-// export const setAllSpecies = species => {
-//   return {
-//     type: SET_ALL_SPECIES,
-//     species
-//   }
-// }
-
 export const setRecipeResults = (selectedRecipe, index, top10Recipes) => {
   return {
     type: SET_RECIPE_RESULTS,
@@ -37,17 +29,6 @@ export const setNextRecipe = (selectedRecipe, index) => {
 }
 
 // Thunk Creators
-// export const fetchAllSpecies = () => {
-//   return async dispatch => {
-//     try {
-//       const res = await axios.get('/api/species')
-//       dispatch(setAllSpecies(res.data))
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }
-// }
-
 export const fetchNextRecipe = (top10Recipes, index) => {
   console.log('fetching next...')
   return async dispatch => {
@@ -91,7 +72,7 @@ export const fetchFirstRecipe = userId => {
   }
 }
 
-// SPECIES Reducer
+// Recipes Reducer
 const recipesReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_RECIPE_RESULTS: {
