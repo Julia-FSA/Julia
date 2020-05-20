@@ -1,12 +1,12 @@
 const axios = require('axios')
-const {SpoonacularAPIKey} = process.env.SpoonacularAPIKey
+const SpoonacularAPIKey = process.env.SpoonacularAPIKey
   ? process.env.SpoonacularAPIKey
   : require('../../secrets')
 const db = require('../db')
 const router = require('express').Router()
 module.exports = router
 
-const recipeFormatter = (recipe) => {
+const recipeFormatter = recipe => {
   let rec = {
     id: recipe.id,
     ingredients: [],
@@ -15,11 +15,11 @@ const recipeFormatter = (recipe) => {
     steps: [],
     title: recipe.title,
     vegan: recipe.vegan,
-    vegetarian: recipe.vegetarian,
+    vegetarian: recipe.vegetarian
   }
-  recipe.analyzedInstructions[0].steps.forEach((step) => {
+  recipe.analyzedInstructions[0].steps.forEach(step => {
     rec.steps.push(`Step ${step.number}: ${step.step}`)
-    step.ingredients.forEach((ingredient) => {
+    step.ingredients.forEach(ingredient => {
       if (!rec.ingredients.includes(ingredient.id)) {
         rec.ingredients.push(ingredient.id, `${ingredient.name}`)
       }
@@ -39,7 +39,7 @@ router.get('/byIngredient/:ingredients', (req, res, next) => {
       .get(
         `https://api.spoonacular.com/recipes/complexSearch?includeIngredients=${ingredientStr}&addRecipeInformation=true&instructionsRequired=true&number=1&apiKey=${SpoonacularAPIKey}`
       )
-      .then((recipe) => {
+      .then(recipe => {
         // console.log('RECIPE >>>>>>>>>>>>>', recipe.data.results)
         res.json(recipeFormatter(recipe.data.results[0]))
       })
@@ -49,12 +49,13 @@ router.get('/byIngredient/:ingredients', (req, res, next) => {
 })
 
 router.get('/findrecipe/:id', async (req, res, next) => {
+  console.log('line 33, SpoonacularAPIKey', SpoonacularAPIKey)
   try {
     let params = {
       TableName: 'stocks',
       Key: {
-        id: req.params.id,
-      },
+        id: req.params.id
+      }
     }
 
     const data = await db.get(params).promise()
@@ -70,10 +71,10 @@ router.get('/findrecipe/:id', async (req, res, next) => {
       `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredientStr}&number=10&ranking=2&ignorePantry=true&apiKey=${SpoonacularAPIKey}`
     )
 
-    const sortedRecipes = result.data.sort(function (a, b) {
+    const sortedRecipes = result.data.sort(function(a, b) {
       return b.likes - a.likes
     })
-    const filteredRecipes = sortedRecipes.filter((recipe) => {
+    const filteredRecipes = sortedRecipes.filter(recipe => {
       return (
         recipe.missedIngredientCount === result.data[0].missedIngredientCount
       )
@@ -97,7 +98,7 @@ router.get('/findrecipe/:id', async (req, res, next) => {
     const obj = {
       goodRecipe,
       index,
-      sortedRecipes,
+      sortedRecipes
     }
     res.json(obj)
   } catch (error) {
@@ -125,7 +126,7 @@ router.get('/:id', (req, res, next) => {
       .get(
         `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
       )
-      .then((recipe) => {
+      .then(recipe => {
         console.log('found recipe by id')
         console.log('recipe.data', recipe.data)
         res.json(recipe.data)
