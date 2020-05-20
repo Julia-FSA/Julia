@@ -6,13 +6,13 @@ import {Link} from 'react-router-dom'
  * COMPONENT
  */
 export const Home = (props) => {
-  const firstName = props.user.firstName
+  const user = props.user
   return (
     <div className="home" id="background">
       <div id="welcome">
-        {firstName ? (
-          <div id="header">
-            <h1>Welcome, {firstName}!</h1>
+        {user.firstName ? (
+          <div id="inner-welcome">
+            <h1>Welcome, {user.firstName}!</h1>
             <br />
             <Link to="/linkAccount">
               <button type="button">Link to Alexa</button>

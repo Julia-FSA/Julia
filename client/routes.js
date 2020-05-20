@@ -5,17 +5,13 @@ import PropTypes from 'prop-types'
 import {
   Alexa,
   FindRecipe,
+  Fridge,
   Home,
   LinkAccount,
   Login,
   MyRecipes,
   Signup,
-  // UserHome,
-  // AllRecipes,
-  // SingleRecipe,
-  RecipeHistory,
   SearchRecipes,
-  UserFridge,
 } from './components'
 import {me} from './store'
 /**
@@ -44,8 +40,8 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/fridge" component={UserFridge} />
-            <Route path="/findrecipe" component={FindRecipe} />
+            <Route path="/fridge" component={Fridge} />
+            <Route path="/findRecipe" component={FindRecipe} />
             <Route path="/myrecipes" component={MyRecipes} />
             <Route path="/searchrecipes" component={SearchRecipes} />
             <Route path="/linkaccount" component={LinkAccount} />

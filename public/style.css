@@ -1,6 +1,6 @@
 body {
   font-family: sans-serif;
-  background-color: rgba(37, 37, 37, 0.8);
+  background-color: white;
 }
 
 a {
@@ -61,117 +61,52 @@ img#nav-logo {
   height: 75px;
 }
 
-.home {
-  text-align: center;
-  color: orange;
+.title-image-cont {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 5%;
+  padding-bottom: 5%;
+}
+
+.image-cont {
+  width: 50%;
+}
+.image-cont img {
+  width: 100%;
+  border-radius: 50%;
+}
+.title-cont {
+  width: 40%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100vh;
-  letter-spacing: 1px;
+  justify-content: space-around;
+}
+.ingredient-cont {
+  padding-bottom: 5%;
+}
+.instruction-cont {
+  padding-bottom: 5%;
 }
 
-#background {
-  background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSD4gKRLAt5Xff7zvquqpLkGI72dgz1QjPufEMLLuw8PneTuYP71A&s);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center top;
-  font-size: 120px;
-  line-height: 0.75;
-  padding: 10px 0;
+.outer-cont {
+  background-image: url('https://i1.wp.com/www.westside.social/wp-content/uploads/2017/12/food-background-food-concept-with-various-tasty-fresh-ingredients-for-cooking-italian-food-ingredients-view-from-above-with-copy-space_1220-1491-2-e1513108150131.jpg?ssl=1');
+  min-height: 700px;
 }
 
-.linkaccount {
-  text-align: center;
-  color: orange;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100vh;
-  letter-spacing: 1px;
+.inner-cont {
+  background-color: white;
+  border-radius: 40px;
+  min-height: 700px;
 }
 
-#link-background {
-  background-image: url(https://cdn.pixabay.com/photo/2016/12/26/17/28/food-1932466__340.jpg);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center top;
-  font-size: 120px;
-  line-height: 0.75;
-  padding: 10px 0;
+.outer-cont-fridge {
+  background-image: url('https://ak.picdn.net/shutterstock/videos/4087894/thumb/6.jpg');
+  min-height: 700px;
+}
+.fridge-cont {
+  padding: 3%;
 }
 
-#header {
-  margin-top: 0.5em;
-}
-
-.alexa-instructions {
-  text-align: left;
-  color: orange;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  height: 100vh;
-  letter-spacing: 3px;
-}
-
-#alexa-background {
-  background-image: url(https://hdwallpaperz.net/wp-content/uploads/2017/01/cooking-Wallpapers.jpg);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center top;
-  font-size: 25px;
-  line-height: 2;
-  padding: 10px 0;
-}
-
-.step {
-  text-indent: 1em;
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-}
-
-.login {
-  text-align: left;
-  color: orange;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100vh;
-  letter-spacing: 3px;
-}
-
-#login-background {
-  background-image: url(https://media.giphy.com/media/1tZ4Coe9v2H8A/giphy.gif);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center top;
-  font-size: 25px;
-  line-height: 2;
-  padding: 10px 0;
-}
-
-.signup {
-  text-align: left;
-  color: orange;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100vh;
-  letter-spacing: 3px;
-}
-
-#signup-background {
-  background-image: url(https://media.giphy.com/media/1tZ4Coe9v2H8A/giphy.gif);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center top;
-  font-size: 25px;
-  line-height: 2;
-  padding: 10px 0;
+.add-to-fridge-cont {
+  padding: 3%;
 }

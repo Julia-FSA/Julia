@@ -2,7 +2,7 @@ import React from 'react'
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {fetchFirstRecipe, fetchNextRecipe} from '../store/recipes'
-
+import {Button} from 'react-bootstrap'
 /**
  * COMPONENT
  */
@@ -28,41 +28,59 @@ class SingleRecipe extends React.Component {
     const selectedRecipe = this.props.selectedRecipe
     console.log('rendeding selectedRecipe', selectedRecipe)
     return (
-      <div>
+      <div className="outer-cont">
         {selectedRecipe.analyzedInstructions ? (
-          <div>
-            <h3>{selectedRecipe.title}</h3>
-            <img src={selectedRecipe.image} alt={selectedRecipe.title} />
-            <p>Cook time: {selectedRecipe.readyInMinutes} Minutes</p>
-            <p>{selectedRecipe.aggregateLikes} Likes</p>
-            <button type="submit" onClick={this.handleSubmit}>
-              Show Me Another Recipe
-            </button>
-            <br />
-            <br />
-            <h3>Ingredients:</h3>
-            <div>
-              {' '}
-              {selectedRecipe.extendedIngredients.map(function(ingredient) {
-                return (
-                  <p key={ingredient.id}>
-                    {ingredient.amount} {ingredient.unit} - {ingredient.name}
-                  </p>
-                )
-              })}
+          <div className="container inner-cont">
+            <div className="title-image-cont">
+              <div className="image-cont">
+                <img src={selectedRecipe.image} alt={selectedRecipe.title} />
+              </div>
+              <div className="title-cont">
+                <h3>{selectedRecipe.title}</h3>
+                <p>Cook time: {selectedRecipe.readyInMinutes} Minutes</p>
+                <p>{selectedRecipe.aggregateLikes} Likes</p>
+                <Button
+                  variant="danger"
+                  type="submit"
+                  onClick={this.handleSubmit}
+                >
+                  Show Me Another Recipe
+                </Button>
+              </div>
             </div>
-            <br />
-            <br />
-            <h3>Instructions:</h3>
-            <div>
-              {' '}
-              {selectedRecipe.analyzedInstructions[0].steps.map(function(step) {
-                return (
-                  <p key={step.number}>
-                    {step.number}. {step.step}
-                  </p>
-                )
-              })}
+            <div className="container ingredient-cont">
+              <h3>Ingredients:</h3>
+              <hr />
+              <div>
+                <ul>
+                  {selectedRecipe.extendedIngredients.map(function (
+                    ingredient
+                  ) {
+                    return (
+                      <li key={ingredient.id}>
+                        {ingredient.amount} {ingredient.unit} -{' '}
+                        {ingredient.name}
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
+            </div>
+            <div className="container instruction-cont">
+              <h3>Instructions:</h3>
+              <hr />
+              <div>
+                {' '}
+                {selectedRecipe.analyzedInstructions[0].steps.map(function (
+                  step
+                ) {
+                  return (
+                    <p key={step.number}>
+                      {step.number}. {step.step}
+                    </p>
+                  )
+                })}
+              </div>
             </div>
           </div>
         ) : (
@@ -76,20 +94,20 @@ class SingleRecipe extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
     email: state.user.email,
     userId: state.user.id,
     selectedRecipe: state.recipes.selectedRecipe,
     index: state.recipes.index,
-    top10Recipes: state.recipes.top10Recipes
+    top10Recipes: state.recipes.top10Recipes,
   }
 }
 
-const mapDispatch = dispatch => ({
-  fetchFirstRecipe: userId => dispatch(fetchFirstRecipe(userId)),
+const mapDispatch = (dispatch) => ({
+  fetchFirstRecipe: (userId) => dispatch(fetchFirstRecipe(userId)),
   fetchNextRecipe: (top10Recipes, index) =>
-    dispatch(fetchNextRecipe(top10Recipes, index))
+    dispatch(fetchNextRecipe(top10Recipes, index)),
 })
 
 export default connect(mapState, mapDispatch)(SingleRecipe)

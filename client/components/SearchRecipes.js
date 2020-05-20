@@ -5,6 +5,7 @@ import {
   searchedByIngredients,
   searchedByRecipeName,
 } from '../store/searchRecipes'
+import {Button} from 'react-bootstrap'
 
 /**
  * COMPONENT
@@ -54,121 +55,151 @@ class SearchRecipes extends React.Component {
   render() {
     const {searchedRecipes} = this.props.searchRecipes
     return (
-      <div>
+      <div className="outer-cont">
         <form onSubmit={this.handleSubmit}>
-          {this.state.on ? (
-            <div>
-              <button type="button" onClick={this.toggle}>
-                Search by ingredients
-              </button>
-            </div>
-          ) : (
-            <div>
-              <button type="button" onClick={this.toggle}>
-                Search by recipe name
-              </button>
-            </div>
-          )}
-          <br />
-          {this.state.on ? (
-            <div>
+          <div className="container inner-cont">
+            {this.state.on ? (
               <div>
-                <label htmlFor="recipeName">Search by recipe name:</label>
+                {/* <button type="button" onClick={this.toggle}>
+                  Search by ingredients
+                </button> */}
+                <Button variant="danger" type="submit" onClick={this.toggle}>
+                  Search by ingredients
+                </Button>
               </div>
+            ) : (
               <div>
-                <input
-                  name="recipeName"
-                  type="text"
-                  value={this.state.recipeName}
-                  onChange={this.handleChange}
-                />
+                <Button variant="danger" type="submit" onClick={this.toggle}>
+                  Search by recipe name
+                </Button>
               </div>
-            </div>
-          ) : (
-            <div>
+            )}
+            <br />
+            {this.state.on ? (
               <div>
-                <label htmlFor="ingredients"> Search by ingredients:</label>
-              </div>
-              <div>
-                <input
-                  name="ingredients"
-                  type="text"
-                  value={this.state.ingredients}
-                  onChange={this.handleChange}
-                />
-              </div>
-            </div>
-          )}
-          <div>
-            <button type="submit">Submit</button>
-          </div>
-          <br />
-          {searchedRecipes ? (
-            !this.state.on ? (
-              !searchedRecipes.extendedIngredients ? (
                 <div>
-                  <h2>{searchedRecipes.title}</h2>
-                  <h4> servings: {searchedRecipes.servings}</h4>
-                  <br />
-                  <h4> ready in minutes: {searchedRecipes.readyInMinutes}</h4>
-                  <br />
-                  <h4>Ingredients: </h4>
+                  <label htmlFor="recipeName">Search by recipe name:</label>
+                </div>
+                <div>
+                  <input
+                    name="recipeName"
+                    type="text"
+                    value={this.state.recipeName}
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div>
+                <div>
+                  <label htmlFor="ingredients"> Search by ingredients:</label>
+                </div>
+                <div>
+                  <input
+                    name="ingredients"
+                    type="text"
+                    value={this.state.ingredients}
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+            )}
+            <div>
+              {/* <button type="submit">Submit</button> */}
+              <Button
+                variant="danger"
+                type="submit"
+                onClick={this.handleSubmit}
+              >
+                Submit
+              </Button>
+            </div>
+            <br />
+            {searchedRecipes ? (
+              !this.state.on ? (
+                !searchedRecipes.extendedIngredients ? (
                   <div>
-                    {searchedRecipes.ingredients
-                      .filter((ingredient) => typeof ingredient === 'string')
-                      .map((ingredient, index) => (
-                        <div key={index}>
-                          <div>{index + 1}.</div>
-                          <div>{ingredient}</div>
-                        </div>
+                    <div className="title-cont">
+                      <h3>{searchedRecipes.title}</h3>
+                    </div>
+                    <h4> servings: {searchedRecipes.servings}</h4>
+                    <br />
+                    <h4> ready in minutes: {searchedRecipes.readyInMinutes}</h4>
+                    <br />
+                    <div className="container ingredient-cont">
+                      <h3>Ingredients: </h3>
+                      <hr />
+                      <ul>
+                        {searchedRecipes.ingredients
+                          .filter(
+                            (ingredient) => typeof ingredient === 'string'
+                          )
+                          .map((ingredient, index) => (
+                            <li key={index}>
+                              {index + 1}. {ingredient}
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                    <br />
+                    <div className="container instruction-cont">
+                      <h3>Instructions:</h3>
+                      <hr />
+                      {searchedRecipes.steps.map((step, index) => (
+                        <div key={index}>{step}</div>
                       ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div>Found Nothing... Try a different search</div>
+                )
+              ) : !searchedRecipes.ingredients ? (
+                <div>
+                  <div className="title-image-cont">
+                    <div className="title-cont">
+                      <h3>{searchedRecipes.title}</h3>
+                    </div>
+                    <div className="image-cont">
+                      <img src={searchedRecipes.image} alt="recipe image" />
+                    </div>
+                    <h4> servings: {searchedRecipes.servings}</h4>
+                    <br />
+                    <h4> ready in minutes: {searchedRecipes.readyInMinutes}</h4>
+                    <br />
+                  </div>
+                  <div className="container ingredient-cont">
+                    <h3> Ingredients: </h3>
+                    <hr />
+                    <ul>
+                      {searchedRecipes.extendedIngredients.map(
+                        (ingredient, index) => (
+                          <li key={index}>
+                            {index + 1}. {ingredient.name}
+                          </li>
+                        )
+                      )}
+                    </ul>
                   </div>
                   <br />
                   <div>
-                    {searchedRecipes.steps.map((step, index) => (
-                      <div key={index}>{step}</div>
-                    ))}
+                    <div className="container instruction-cont">
+                      <h3>Instructions:</h3>
+                      <hr />
+                      {searchedRecipes.analyzedInstructions[0].steps.map(
+                        (step, index) => (
+                          <p key={index}>
+                            {index + 1}. {step.step}
+                          </p>
+                        )
+                      )}
+                    </div>
                   </div>
                 </div>
               ) : (
                 <div>Found Nothing... Try a different search</div>
               )
-            ) : !searchedRecipes.ingredients ? (
-              <div>
-                <h2>{searchedRecipes.title}</h2>
-                <img src={searchedRecipes.image} alt="recipe image" />
-                <h4> servings: {searchedRecipes.servings}</h4>
-                <br />
-                <h4> ready in minutes: {searchedRecipes.readyInMinutes}</h4>
-                <br />
-                <h4>Ingredients: </h4>
-                <div>
-                  {searchedRecipes.extendedIngredients.map(
-                    (ingredient, index) => (
-                      <div key={index}>
-                        <div>{index + 1}.</div>
-                        <div>{ingredient.name}</div>
-                      </div>
-                    )
-                  )}
-                </div>
-                <br />
-                <div>
-                  <div>
-                    {searchedRecipes.analyzedInstructions[0].steps.map(
-                      (step, index) => (
-                        <div key={index}>
-                          Step{index + 1}. {step.step}
-                        </div>
-                      )
-                    )}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div>Found Nothing... Try a different search</div>
-            )
-          ) : null}
+            ) : null}
+          </div>
         </form>
       </div>
     )

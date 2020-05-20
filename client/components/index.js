@@ -3,11 +3,11 @@
  * This way, we can import all of our components from the same place, rather than
  * having to figure out which file they belong to!
  */
-export {default as NavbarComp} from './navbar'
+export {default as Navbar} from './Navbar'
 export {default as Home} from './Home'
 export {default as Alexa} from './Alexa'
 export {default as LinkAccount} from './LinkAccount'
-export {default as UserFridge} from './UserFridge'
+export {default as Fridge} from './Fridge'
 export {default as FindRecipe} from './FindRecipe'
 export {default as MyRecipes} from './MyRecipes'
 // export {default as AllRecipes} from './AllRecipes'

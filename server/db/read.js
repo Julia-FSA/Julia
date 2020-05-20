@@ -1,16 +1,4 @@
-var AWS = require('aws-sdk')
-let {awsConfig} = require('../../secrets')
-// console.log('accessKeyId >>>>>>>>>>>>>', process.env.accessKeyId)
-if (process.env.accessKeyId) {
-  awsConfig = {
-    region: process.env.region,
-    endpoint: process.env.endpoint,
-    accessKeyId: process.env.accessKeyId,
-    secretAccessKey: process.env.secretAccessKey,
-  }
-}
-AWS.config.update(awsConfig)
-let docClient = new AWS.DynamoDB.DocumentClient()
+const db = require('./db')
 
 // const getFullRecipe = async (recArr) => {
 //   try {
@@ -22,7 +10,7 @@ let docClient = new AWS.DynamoDB.DocumentClient()
 //         },
 //       },
 //     }
-//     const data = await docClient.batchGet(params).promise()
+//     const data = await db.batchGet(params).promise()
 //     return data.Responses.recipes
 //   } catch (error) {
 //     console.error(error)
@@ -35,7 +23,7 @@ let docClient = new AWS.DynamoDB.DocumentClient()
 //       TableName: 'users',
 //       Key: {id: userID},
 //     }
-//     let data = await docClient.get(params).promise()
+//     let data = await db.get(params).promise()
 //     getFullRecipe(data.Item.saved_recipe_ids)
 //   } catch (error) {
 //     console.error(error)
@@ -69,7 +57,7 @@ const getUser = async (userId) => {
         id: userId,
       },
     }
-    let data = await docClient.get(params).promise()
+    let data = await db.get(params).promise()
     return data.Item
   } catch (error) {
     console.error(error)
@@ -89,7 +77,7 @@ module.exports = {getUser, registeredEmail}
 //     }
 
 //   }
-//   docClient.get(params, function (err, data) {
+//   db.get(params, function (err, data) {
 //     if (err) {
 //       console.log(
 //         'users::fetchOneByKey::error - ' + JSON.stringify(err, null, 2)
