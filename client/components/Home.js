@@ -6,13 +6,13 @@ import {Link} from 'react-router-dom'
  * COMPONENT
  */
 export const Home = props => {
-  const firstName = props.firstName
+  const user = props.user
   return (
     <div id="background">
       <div id="welcome">
-        {firstName ? (
+        {user.firstName ? (
           <div id="inner-welcome">
-            <h1>Welcome, {firstName}!</h1>
+            <h1>Welcome, {user.firstName}!</h1>
             <br />
             <Link to="/linkAccount">
               <button type="button">Link to Alexa</button>
@@ -37,7 +37,7 @@ export const Home = props => {
  */
 const mapState = state => {
   return {
-    user: state.user.firstName
+    user: state.user
   }
 }
 

@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk')
-let {awsConfig} = require('../../secrets')
+let {awsConfig} = process.env.accessKeyId ? {} : require('../../secrets')
 
 if (process.env.accessKeyId) {
   awsConfig = {
