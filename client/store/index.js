@@ -4,10 +4,14 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import fridge from './fridge'
+import recipes from './recipes'
+import searchRecipes from './searchRecipes'
 
 const reducer = combineReducers({
   user,
-  fridge
+  fridge,
+  recipes,
+  searchRecipes,
 })
 
 const middleware = composeWithDevTools(

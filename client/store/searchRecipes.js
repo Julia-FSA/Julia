@@ -22,20 +22,32 @@ const initialState = {}
 /**
  * ACTION CREATORS
  */
-const searchRecipe = (recipe) => ({
+const searchRecipeByIngredients = (recipe) => ({
   type: SEARCH_RECIPE_BY_INGREDIENTS,
   recipe,
 })
-
+const searchRecipeByName = (recipe) => ({
+  type: SEARCH_RECIPE_BY_NAME,
+  recipe,
+})
 /**
  * THUNK CREATORS
  */
-export const searchedRecipe = (id, SpoonacularAPIKey) => async (dispatch) => {
+export const searchedByIngredients = (ingredients) => async (dispatch) => {
   try {
-    let {data} = await axios.get(
-      `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
-    )
-    dispatch(searchRecipe(data))
+    let {data} = await axios.get(`api/recipe/byIngredient/${ingredients}`)
+
+    dispatch(searchRecipeByIngredients(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const searchedByRecipeName = (recipeName) => async (dispatch) => {
+  try {
+    let recipe = await axios.get(`api/recipe/byRecipeName/${recipeName}`)
+    let {data} = await axios.get(`api/recipe/${recipe.data.results[0].id}`)
+    dispatch(searchRecipeByName(data))
   } catch (err) {
     console.error(err)
   }
@@ -44,15 +56,13 @@ export const searchedRecipe = (id, SpoonacularAPIKey) => async (dispatch) => {
 /**
  * REDUCER
  */
-const searchRecipeReducer = (state = initialState, action) => {
+export default function (state = initialState, action) {
   switch (action.type) {
     case SEARCH_RECIPE_BY_INGREDIENTS:
-      return {...action.recipe}
+      return {...state, searchedRecipes: action.recipe}
     case SEARCH_RECIPE_BY_NAME:
-      return {...action.recipe}
+      return {...state, searchedRecipes: action.recipe}
     default:
       return state
   }
 }
-
-export default searchRecipeReducer

@@ -1,6 +1,6 @@
 var AWS = require('aws-sdk')
 const {v4: uuidv4} = require('uuid')
-let {awsConfig} = require('../secrets')
+let {awsConfig} = require('../../secrets')
 if (process.env.accessKeyId || process.env.endpoint) {
   awsConfig = {
     region: process.env.region,

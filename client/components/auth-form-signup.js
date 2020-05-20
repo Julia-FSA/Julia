@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-import {registeredEmail} from '../../dynamo/read'
+import {registeredEmail} from '../../server/db/read'
 
 /**
  * COMPONENT
@@ -145,7 +145,7 @@ class AuthFormSignUp extends React.Component {
           </div>
           {error && error.response && <div> {error.response.data} </div>}
         </form>
-        <a href="/auth/google">{displayName} with Google</a>
+        {/* <a href="/auth/google">{displayName} with Google</a> */}
       </div>
     )
   }
