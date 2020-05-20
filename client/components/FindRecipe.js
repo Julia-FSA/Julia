@@ -82,7 +82,9 @@ class SingleRecipe extends React.Component {
             </div>
           </div>
         ) : (
-          'Finding recipe. Please wait...'
+          <div className="container inner-cont">
+            <h1>Finding recipe. Please wait...</h1>
+          </div>
         )}
       </div>
     )

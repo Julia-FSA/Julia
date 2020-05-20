@@ -80,7 +80,8 @@ img#nav-logo {
 }
 
 .outer-cont-fridge {
-  background-image: url('https://ak.picdn.net/shutterstock/videos/4087894/thumb/6.jpg');
+  background-image: url('https://www.tynker.com/projects/images/5c8aa89370b0026b6d2d0a46/background-scene---freezer-my-dude.png');
+  background-size: cover;
   min-height: 700px;
 }
 .fridge-cont {
@@ -89,4 +90,8 @@ img#nav-logo {
 
 .add-to-fridge-cont {
   padding: 3%;
+}
+
+a#logo {
+  margin: 0px;
 }
