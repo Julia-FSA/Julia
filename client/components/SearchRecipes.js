@@ -13,7 +13,9 @@ import {
 class SearchRecipes extends React.Component {
   constructor() {
     super()
-    this.state = {on: true}
+    this.state = {
+      on: true,
+    }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.toggle = this.toggle.bind(this)
@@ -21,10 +23,13 @@ class SearchRecipes extends React.Component {
 
   toggle() {
     this.setState({
-      ...this.state,
-      searchRecipes: {},
       on: !this.state.on,
     })
+    if (this.state.on) {
+      this.props.searchByRecipeName('')
+    } else {
+      this.props.searchByIngredients('')
+    }
   }
 
   handleChange(evt) {
@@ -35,20 +40,18 @@ class SearchRecipes extends React.Component {
 
   handleSubmit(evt) {
     evt.preventDefault()
-    const searchByName = this.state.on //true = search by recipe name
+    const searchByName = this.state.on // true = search by recipe name
+
     if (searchByName) {
       const recipeName = evt.target.recipeName.value
       this.props.searchByRecipeName(recipeName)
-      console.log('SEARCH RECIPES >>>>>>>>>>>>>>', this.props.searchRecipes)
     } else {
       const ingredients = evt.target.ingredients.value
       this.props.searchByIngredients(ingredients)
-      console.log('SEARCH RECIPES >>>>>>>>>>>>>>', this.props.searchRecipes)
     }
   }
 
   render() {
-    console.log('SEARCH RECIPES >>>>>>>>>>>>>>', this.props.searchRecipes)
     const {searchedRecipes} = this.props.searchRecipes
     return (
       <div>
@@ -102,34 +105,36 @@ class SearchRecipes extends React.Component {
           <br />
           {searchedRecipes ? (
             !this.state.on ? (
-              <div>
-                <h2>{searchedRecipes.title}</h2>
-                <h4> servings: {searchedRecipes.servings}</h4>
-                <br />
-                <h4> ready in minutes: {searchedRecipes.readyInMinutes}</h4>
-                <br />
-                <h4>Ingredients: </h4>
+              !searchedRecipes.extendedIngredients ? (
                 <div>
-                  {searchedRecipes.ingredients
-                    .filter((ingredient) => typeof ingredient === 'string')
-                    .map((ingredient, index) => (
-                      <div key={index}>
-                        <div>{index + 1}.</div>
-                        <div>{ingredient}</div>
-                      </div>
+                  <h2>{searchedRecipes.title}</h2>
+                  <h4> servings: {searchedRecipes.servings}</h4>
+                  <br />
+                  <h4> ready in minutes: {searchedRecipes.readyInMinutes}</h4>
+                  <br />
+                  <h4>Ingredients: </h4>
+                  <div>
+                    {searchedRecipes.ingredients
+                      .filter((ingredient) => typeof ingredient === 'string')
+                      .map((ingredient, index) => (
+                        <div key={index}>
+                          <div>{index + 1}.</div>
+                          <div>{ingredient}</div>
+                        </div>
+                      ))}
+                  </div>
+                  <br />
+                  <div>
+                    {searchedRecipes.steps.map((step, index) => (
+                      <div key={index}>{step}</div>
                     ))}
+                  </div>
                 </div>
-                <br />
-                <div>
-                  {searchedRecipes.steps.map((step, index) => (
-                    <div key={index}>{step}</div>
-                  ))}
-                </div>
-              </div>
-            ) : (
+              ) : null
+            ) : !searchedRecipes.ingredients ? (
               <div>
                 <h2>{searchedRecipes.title}</h2>
-                <a href={searchedRecipes.image}></a>
+                <img src={searchedRecipes.image} alt="recipe image" />
                 <h4> servings: {searchedRecipes.servings}</h4>
                 <br />
                 <h4> ready in minutes: {searchedRecipes.readyInMinutes}</h4>
@@ -158,7 +163,7 @@ class SearchRecipes extends React.Component {
                   </div>
                 </div>
               </div>
-            )
+            ) : null
           ) : null}
         </form>
       </div>

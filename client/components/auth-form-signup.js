@@ -47,13 +47,17 @@ class AuthFormSignUp extends React.Component {
     if (this.state.password.length < 6) {
       passwordError = 'password needs to be greater than 5 characters'
     }
-    if (registeredEmail(this.state.email)) {
-      emailError = 'already registered email'
-    }
+
+    // NEED TO WORK ON CHECKING IF AN EMAIL HAS ALREADY BEEN REGISTERED
+    // if (registeredEmail(this.state.email)) {
+    //   emailError = 'already registered email'
+    // }
+
     if (emailError || firstNameError || lastNameError || passwordError) {
       this.setState({emailError, firstNameError, lastNameError, passwordError})
       return false
     }
+    return true
   }
 
   handleChange(evt) {
@@ -180,7 +184,6 @@ const mapDispatch = (dispatch) => ({
   },
 })
 
-// export const Login = connect(mapLogin, mapDispatch)(AuthForm)
 export const Signup = connect(mapSignup, mapDispatch)(AuthFormSignUp)
 
 /**

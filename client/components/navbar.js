@@ -33,6 +33,11 @@ const NavbarComp = ({handleClick, isLoggedIn}) => (
             </Link>
           </li>
           <li className="nav-item">
+            <Link className="nav-link" to="/searchrecipes">
+              Search Recipes
+            </Link>
+          </li>
+          <li className="nav-item">
             <Link className="nav-link" to="/alexa">
               Using Alexa
             </Link>

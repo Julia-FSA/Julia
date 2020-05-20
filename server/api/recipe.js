@@ -97,7 +97,6 @@ router.get('/findrecipe/:id', async (req, res, next) => {
       index,
       sortedRecipes,
     }
-    console.log('RECIPE >>>>>>>>>>>>>', obj)
     res.json(obj)
   } catch (error) {
     next(error)
@@ -110,10 +109,6 @@ router.get('/byRecipeName/:recipeName', async (req, res, next) => {
     let recipe = await axios.get(
       `https://api.spoonacular.com/recipes/search?query=${recipeName}&apiKey=${SpoonacularAPIKey}`
     )
-    console.log('RECIPE >>>>>>>>>>>>>', recipe.data.results[0].id)
-    // if (recipe.data.result[0].id) {
-    //   recipe = await axios.get(`api/recipe/${recipe.data.results[0].id}`)
-    // }
     res.json(recipe.data)
   } catch (error) {
     next(error)
