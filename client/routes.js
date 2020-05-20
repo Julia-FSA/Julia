@@ -3,16 +3,16 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
+  Alexa,
+  FindRecipe,
+  Home,
   LinkAccount,
   Login,
+  MyRecipes,
   Signup,
-  UserHome,
-  AllRecipes,
-  SingleRecipe,
-  RecipeHistory
+  UserFridge
 } from './components'
 import {me} from './store'
-import UserFridge from './components/UserFridge'
 /**
  * COMPONENT
  */
@@ -27,17 +27,18 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route exact path="/" component={Home} />
+        <Route path="/home" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/allrecipes" component={AllRecipes} />
-        <Route path="/singlerecipe" component={SingleRecipe} />
-        <Route path="/recipehistory" component={RecipeHistory} />
+        <Route path="/alexa" component={Alexa} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
             <Route path="/fridge" component={UserFridge} />
-            <Route path="/linkAccount" component={LinkAccount} />
+            <Route path="/findrecipe" component={FindRecipe} />
+            <Route path="/myrecipes" component={MyRecipes} />
+            <Route path="/linkaccount" component={LinkAccount} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
