@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom'
 export const Home = props => {
   const user = props.user
   return (
-    <div id="background">
+    <div className="home" id="background">
       <div id="welcome">
         {user.firstName ? (
           <div id="inner-welcome">
@@ -19,7 +19,7 @@ export const Home = props => {
             </Link>
           </div>
         ) : (
-          <div id="inner-welcome">
+          <div id="header">
             <h1>Welcome to Julia Cooks!</h1>
             <br />
             <h2 style={{fontStyle: 'italic'}}>

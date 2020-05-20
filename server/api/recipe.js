@@ -1,5 +1,5 @@
 const axios = require('axios')
-const {SpoonacularAPIKey} = process.env.SpoonacularAPIKey
+const SpoonacularAPIKey = process.env.SpoonacularAPIKey
   ? process.env.SpoonacularAPIKey
   : require('../../secrets')
 const db = require('../db')
@@ -40,6 +40,7 @@ router.get('/byIngredient/:ingredients', (req, res, next) => {
         `https://api.spoonacular.com/recipes/complexSearch?includeIngredients=${ingredientStr}&addRecipeInformation=true&instructionsRequired=true&number=1&apiKey=${SpoonacularAPIKey}`
       )
       .then(recipe => {
+        // console.log('RECIPE >>>>>>>>>>>>>', recipe.data.results)
         res.json(recipeFormatter(recipe.data.results[0]))
       })
   } catch (error) {
@@ -47,25 +48,8 @@ router.get('/byIngredient/:ingredients', (req, res, next) => {
   }
 })
 
-router.get('/:id', (req, res, next) => {
-  let id = req.params.id
-  console.log('getting recipe by id')
-  try {
-    axios
-      .get(
-        `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
-      )
-      .then(recipe => {
-        console.log('found recipe by id')
-        console.log('recipe.data', recipe.data)
-        res.json(recipe.data)
-      })
-  } catch (error) {
-    next(error)
-  }
-})
-
 router.get('/findrecipe/:id', async (req, res, next) => {
+  console.log('line 33, SpoonacularAPIKey', SpoonacularAPIKey)
   try {
     let params = {
       TableName: 'stocks',
@@ -116,8 +100,37 @@ router.get('/findrecipe/:id', async (req, res, next) => {
       index,
       sortedRecipes
     }
-
     res.json(obj)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/byRecipeName/:recipeName', async (req, res, next) => {
+  let recipeName = req.params.recipeName
+  try {
+    let recipe = await axios.get(
+      `https://api.spoonacular.com/recipes/search?query=${recipeName}&apiKey=${SpoonacularAPIKey}`
+    )
+    res.json(recipe.data)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/:id', (req, res, next) => {
+  let id = req.params.id
+  console.log('getting recipe by id')
+  try {
+    axios
+      .get(
+        `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
+      )
+      .then(recipe => {
+        console.log('found recipe by id')
+        console.log('recipe.data', recipe.data)
+        res.json(recipe.data)
+      })
   } catch (error) {
     next(error)
   }

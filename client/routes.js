@@ -10,7 +10,8 @@ import {
   LinkAccount,
   Login,
   MyRecipes,
-  Signup
+  Signup,
+  SearchRecipes
 } from './components'
 import {me} from './store'
 /**
@@ -31,6 +32,10 @@ class Routes extends Component {
         <Route path="/home" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        {/* <Route path="/allrecipes" component={AllRecipes} /> */}
+        {/* <Route path="/singlerecipe" component={SingleRecipe} /> */}
+        {/* <Route path="/recipehistory" component={RecipeHistory} /> */}
+        <Route path="/searchrecipes" component={SearchRecipes} />
         <Route path="/alexa" component={Alexa} />
         {isLoggedIn && (
           <Switch>
@@ -38,7 +43,8 @@ class Routes extends Component {
             <Route path="/fridge" component={Fridge} />
             <Route path="/findRecipe" component={FindRecipe} />
             <Route path="/myrecipes" component={MyRecipes} />
-            <Route path="/linkAccount" component={LinkAccount} />
+            <Route path="/searchrecipes" component={SearchRecipes} />
+            <Route path="/linkaccount" component={LinkAccount} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

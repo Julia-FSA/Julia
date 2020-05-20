@@ -30,6 +30,25 @@ const db = require('./db')
 //   }
 // }
 
+const registeredEmail = async email => {
+  const params = {
+    TableName: 'users',
+    FilterExpression: '#email = :email',
+    ExpressionAttributeNames: {'#email': 'email'},
+    ExpressionAttributeValues: {':email': email}
+  }
+
+  let user = await docClient
+    .scan(params, function(err, data) {
+      if (err) {
+        console.log('users::error - ' + JSON.stringify(err, null, 2))
+      } else {
+        console.log('users::success - ' + JSON.stringify(data, null, 2))
+      }
+    })
+    .promise()
+}
+
 const getUser = async userId => {
   try {
     const params = {
@@ -47,7 +66,7 @@ const getUser = async userId => {
 // console.log('>>>>>>>>',
 // getUser('1')
 
-module.exports = {getUser}
+module.exports = {getUser, registeredEmail}
 // let fetchOneByKey = function(tableName, stockId) {
 
 //   var params = {

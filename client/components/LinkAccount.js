@@ -56,8 +56,8 @@ class LinkAccount extends React.Component {
 
   render() {
     return (
-      <div>
-        <p>Click to generate a new code:</p>
+      <div className="linkaccount" id="link-background">
+        <h4>Click to generate a new code:</h4>
         <button type="submit" onClick={this.handleSubmit}>
           New Code
         </button>
