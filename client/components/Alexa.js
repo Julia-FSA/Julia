@@ -12,7 +12,7 @@ class LinkAccount extends React.Component {
     this.state = {
       passcode: null,
       timeRemaining: null,
-      expired: false,
+      expired: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -33,7 +33,7 @@ class LinkAccount extends React.Component {
 
     for (let i = 0; i < timeLimit / interval; i++) {
       setTimeout(
-        function () {
+        function() {
           const time = this.state.timeRemaining
           this.setState({timeRemaining: time - 1})
         }.bind(this),
@@ -42,7 +42,7 @@ class LinkAccount extends React.Component {
     }
 
     setTimeout(
-      function () {
+      function() {
         this.retireCode()
       }.bind(this),
       timeLimit
@@ -51,7 +51,7 @@ class LinkAccount extends React.Component {
     this.setState({
       passcode: rand,
       timeRemaining: timeLimit / interval,
-      expired: false,
+      expired: false
     })
   }
 
@@ -73,12 +73,12 @@ class LinkAccount extends React.Component {
           {this.state.timeRemaining ? (
             <h3>Code expires in: {this.state.timeRemaining}s</h3>
           ) : (
-            <div></div>
+            <div />
           )}
           {this.state.expired ? (
             <p style={{color: 'red'}}>Your code has expired.</p>
           ) : (
-            <div></div>
+            <div />
           )}
         </div>
         <div className="alexa-instructions">
@@ -128,9 +128,9 @@ class LinkAccount extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
+const mapState = state => {
   return {
-    user: state.user,
+    user: state.user
   }
 }
 

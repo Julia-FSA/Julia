@@ -71,7 +71,12 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         <div className="auth-cont">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/login">
+              <Link
+                className="nav-link"
+                to="/login"
+                data-toggle="modal"
+                data-target="#modalLoginForm"
+              >
                 Login
               </Link>
             </li>

@@ -3,7 +3,7 @@ const {
   setSaltAndPassword,
   encryptPassword,
   generateSalt,
-  correctPassword,
+  correctPassword
 } = require('./encrypter')
 const {v4: uuidv4} = require('uuid')
 const db = require('../db')
@@ -16,11 +16,11 @@ router.post('/login', async (req, res, next) => {
       TableName: 'users',
       FilterExpression: '#email = :email',
       ExpressionAttributeNames: {'#email': 'email'},
-      ExpressionAttributeValues: {':email': req.body.email},
+      ExpressionAttributeValues: {':email': req.body.email}
     }
 
     let user = await db
-      .scan(params, function (err, data) {
+      .scan(params, function(err, data) {
         if (err) {
           console.log('users::login::error - ' + JSON.stringify(err, null, 2))
         } else {
@@ -29,8 +29,7 @@ router.post('/login', async (req, res, next) => {
       })
       .promise()
     if (correctPassword(req.body.password, user.Items[0])) {
-      console.log('LOGIN DB >>>>>>>>>>>>>>>>', user.Items[0])
-      req.login(user, (err) => (err ? next(err) : res.send(user.Items[0])))
+      req.login(user, err => (err ? next(err) : res.send(user.Items[0])))
     } else {
       console.log('Wrong email or password')
       res.status(401).send('Wrong username and/or password')
@@ -52,11 +51,11 @@ router.post('/signup', async (req, res, next) => {
         lastName: req.body.lastName,
         password: goodPassword,
         salt: salt,
-        email: req.body.email,
-      },
+        email: req.body.email
+      }
     }
 
-    const user = db.put(params, function (err, data) {
+    const user = db.put(params, function(err, data) {
       if (err) {
         console.log('users::sign up::error - ' + JSON.stringify(err, null, 2))
       } else {
@@ -64,7 +63,7 @@ router.post('/signup', async (req, res, next) => {
       }
     })
 
-    req.login(user, (err) => (err ? next(err) : res.send(user.params.Item)))
+    req.login(user, err => (err ? next(err) : res.send(user.params.Item)))
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(401).send('User already exists')

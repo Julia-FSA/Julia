@@ -90,6 +90,7 @@ img#nav-logo {
 .outer-cont {
   background-image: url('https://i1.wp.com/www.westside.social/wp-content/uploads/2017/12/food-background-food-concept-with-various-tasty-fresh-ingredients-for-cooking-italian-food-ingredients-view-from-above-with-copy-space_1220-1491-2-e1513108150131.jpg?ssl=1');
   min-height: 700px;
+  background-size: cover;
 }
 
 .inner-cont {
@@ -99,7 +100,8 @@ img#nav-logo {
 }
 
 .outer-cont-fridge {
-  background-image: url('https://ak.picdn.net/shutterstock/videos/4087894/thumb/6.jpg');
+  background-image: url('https://www.tynker.com/projects/images/5c8aa89370b0026b6d2d0a46/background-scene---freezer-my-dude.png');
+  background-size: cover;
   min-height: 700px;
 }
 .fridge-cont {
@@ -108,6 +110,14 @@ img#nav-logo {
 
 .add-to-fridge-cont {
   padding: 3%;
+}
+
+a#logo {
+  margin: 0px;
+}
+
+.form-inner-cont {
+  width: 40%;
 }
 
 .home-image-cont {

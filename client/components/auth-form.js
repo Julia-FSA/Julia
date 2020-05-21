@@ -1,35 +1,52 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
+import {Button} from 'react-bootstrap'
 import {login} from '../store'
 
 /**
  * COMPONENT
  */
-const AuthForm = (props) => {
+const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
 
   return (
-    <div className="login" id="login-background">
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" required />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" required />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      {/* <a href="/auth/google">{displayName} with Google</a> */}
+    <div className="outer-cont" id="login-background">
+      <div className="inner-cont form-inner-cont">
+        <form
+          className="text-center border border-light p-5"
+          action="#!"
+          onSubmit={handleSubmit}
+          name={name}
+        >
+          <p className="h4 mb-4">Login</p>
+
+          <input
+            type="email"
+            id="defaultLoginFormEmail"
+            className="form-control mb-4"
+            placeholder="E-mail"
+            name="email"
+            required
+          />
+
+          <input
+            type="password"
+            id="defaultLoginFormPassword"
+            className="form-control mb-4"
+            placeholder="Password"
+            name="password"
+            required
+          />
+
+          <button className="btn btn-info btn-block my-4" type="submit">
+            Login
+          </button>
+
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+        {/* <a href="/auth/google">{displayName} with Google</a> */}
+      </div>
     </div>
   )
 }
@@ -41,11 +58,11 @@ const AuthForm = (props) => {
  *   function, and share the same Component. This is a good example of how we
  *   can stay DRY with interfaces that are very similar to each other!
  */
-const mapLogin = (state) => {
+const mapLogin = state => {
   return {
     name: 'login',
     displayName: 'Login',
-    error: state.user.error,
+    error: state.user.error
   }
 }
 
@@ -57,7 +74,7 @@ const mapLogin = (state) => {
 //   }
 // }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
@@ -65,7 +82,7 @@ const mapDispatch = (dispatch) => {
       const email = evt.target.email.value
       const password = evt.target.password.value
       dispatch(login(email, password, formName))
-    },
+    }
   }
 }
 
@@ -79,5 +96,5 @@ AuthForm.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object,
+  error: PropTypes.object
 }
