@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
+import {signup} from '../store'
 import {registeredEmail} from '../../server/db/read'
 
 /**
@@ -74,15 +74,14 @@ class AuthFormSignUp extends React.Component {
     const email = evt.target.email.value
     const password = evt.target.password.value
     const isValid = this.validate()
-
     if (isValid) {
-      this.props.auth(email, password, formName, firstName, lastName)
+      this.props.signup(email, password, formName, firstName, lastName)
       this.setState(initialState)
     }
   }
 
   render() {
-    const {name, displayName, handleSubmit, error} = this.props
+    const {name, displayName, error} = this.props
     return (
       <div className="signup" id="signup-background">
         <form onSubmit={this.handleSubmit} name={name}>
@@ -162,13 +161,6 @@ class AuthFormSignUp extends React.Component {
  *   function, and share the same Component. This is a good example of how we
  *   can stay DRY with interfaces that are very similar to each other!
  */
-// const mapLogin = (state) => {
-//   return {
-//     name: 'login',
-//     displayName: 'Login',
-//     error: state.user.error,
-//   }
-// }
 
 const mapSignup = (state) => {
   return {
@@ -179,8 +171,8 @@ const mapSignup = (state) => {
 }
 
 const mapDispatch = (dispatch) => ({
-  auth: (email, password, formName, firstName, lastName) => {
-    dispatch(auth(email, password, formName, firstName, lastName))
+  signup: (email, password, formName, firstName, lastName) => {
+    dispatch(signup(email, password, formName, firstName, lastName))
   },
 })
 
