@@ -29,6 +29,7 @@ router.post('/login', async (req, res, next) => {
       })
       .promise()
     if (correctPassword(req.body.password, user.Items[0])) {
+      console.log('LOGIN DB >>>>>>>>>>>>>>>>', user.Items[0])
       req.login(user, (err) => (err ? next(err) : res.send(user.Items[0])))
     } else {
       console.log('Wrong email or password')

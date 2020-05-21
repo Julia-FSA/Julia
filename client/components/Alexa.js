@@ -88,20 +88,29 @@ class LinkAccount extends React.Component {
               Step 1. Click the Link to Alexa button on the homepage to generate
               a passcode
             </div>
+            <br />
             <div className="step">
               Step 2. Open Julia Cooks with Alexa by saying "Alexa, open Julia
               Cooks"
             </div>
+            <br />
+
             <div className="step">
               Step 3. Julia Cooks is open, say "Link my account"
             </div>
+            <br />
+
             <div className="step">
               Step 4. Follow Alexa's prompt and say the passcode one digit at a
               time.
             </div>
+            <br />
+
             <div className="step">
               Step 5. Repeat step 4 until Alexa has your correct passcode.
             </div>
+            <br />
+
             <div className="step">
               Step 6. Say "Confirm Code" to link the web account to Alexa.
             </div>

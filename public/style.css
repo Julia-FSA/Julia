@@ -10,6 +10,7 @@ a {
 label {
   display: block;
   margin: 0;
+  font-size: 25px;
 }
 
 button {
@@ -144,26 +145,28 @@ img#nav-logo {
 
 .linkalexa {
   padding: 3%;
-  color: orange;
+  color: black;
   text-align: center;
 }
 
 .alexa-instructions {
   padding: 3%;
-  color: orange;
+  color: black;
   text-align: left;
   text-indent: 50px;
 }
 
 .step-cont {
-  background-color: white;
+  border: 2px solid orangered;
+  background-color: rgba(255, 255, 255, 0.9);
   background-position: center;
   border-radius: 40px;
-  margin-right: 100px;
-  margin-left: 100px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  /* min-width: 800px; */
+  font-size: 25px;
+  margin-right: 7%;
+  margin-left: 7%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  /* min-width: 200px; */
 }
 
 .passcode-cont {
@@ -173,14 +176,15 @@ img#nav-logo {
 }
 
 .passcode {
-  background-color: white;
+  border: 2px solid orangered;
+  background-color: rgba(255, 255, 255, 0.8);
   background-position: center;
   border-radius: 20px;
-  margin-right: 135px;
-  margin-left: 135px;
+  margin-right: 20%;
+  margin-left: 20%;
   padding-top: 5px;
   padding-bottom: 5px;
-  /* min-width: 200px; */
+  color: orangered;
 }
 
 .search-image-cont {
@@ -192,14 +196,19 @@ img#nav-logo {
 }
 
 .search-cont {
-  padding: 0;
+  text-align: center;
+  margin-right: 25%;
+  margin-left: 25%;
 }
 
 .searchlabel {
-  color: orange;
+  border: 2px solid orangered;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: black;
   border-radius: 20px;
-  background-color: white;
-  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
 }
 
 .toggle {
@@ -210,4 +219,17 @@ img#nav-logo {
   color: orangered;
   text-align: center;
   font-size: 25px;
+}
+
+.text-cont {
+  border: 2px solid orangered;
+  background-color: rgba(37, 37, 37, 0.7);
+  background-position: center;
+  color: orange;
+  min-width: 220px;
+  border-radius: 20px;
+  margin-right: 22%;
+  margin-left: 22%;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }

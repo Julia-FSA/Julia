@@ -11,13 +11,18 @@ export const Home = (props) => {
     <div className="home-image-cont">
       {user.firstName ? (
         <div>
-          <div className="home-title">
+          <br />
+          <br />
+          <div className="text-cont">
             <h1>Welcome, {user.firstName}!</h1>
           </div>
         </div>
       ) : (
         <div>
-          <div className="home-title">
+          <div></div>
+          <br />
+          <br />
+          <div className="text-cont">
             <h1>Welcome to Julia Cooks!</h1>
             <br />
             <h2>Login or Signup to get started.</h2>

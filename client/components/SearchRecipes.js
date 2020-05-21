@@ -54,7 +54,7 @@ class SearchRecipes extends React.Component {
 
   render() {
     const {searchedRecipes} = this.props.searchRecipes
-    console.log('rendering searchedRecipes', searchedRecipes)
+    console.log('rendering searchedRecipes >>>>>>>>>>>>>>>>>>', searchedRecipes)
 
     return (
       <div className="outer-cont">
@@ -65,13 +65,13 @@ class SearchRecipes extends React.Component {
                 {/* <button type="button" onClick={this.toggle}>
                   Search by ingredients
                 </button> */}
-                <Button variant="danger" onClick={this.toggle}>
+                <Button variant="warning" onClick={this.toggle}>
                   Search by ingredients
                 </Button>
               </div>
             ) : (
               <div>
-                <Button variant="danger" onClick={this.toggle}>
+                <Button variant="warning" onClick={this.toggle}>
                   Search by recipe name
                 </Button>
               </div>
@@ -82,7 +82,6 @@ class SearchRecipes extends React.Component {
                 <div className="toggle">
                   <label htmlFor="recipeName">Search by recipe name:</label>
                 </div>
-
                 <input
                   name="recipeName"
                   type="text"
@@ -147,12 +146,11 @@ class SearchRecipes extends React.Component {
                     ))}
                   </div>
                 </div>
-              ) : (
-                <div className="loader">
-                  We found nothing - Please try a different search.
-                </div>
-              )
-            ) : !searchedRecipes.ingredients ? (
+              ) : null
+            ) : // <div className="loader">
+            //   We found nothing - Please try a different search.
+            // </div>
+            !searchedRecipes.ingredients ? (
               <div className="container inner-cont">
                 <div className="title-image-cont">
                   <div className="image-cont">
@@ -187,12 +185,13 @@ class SearchRecipes extends React.Component {
                   )}
                 </div>
               </div>
-            ) : (
-              <div className="loader">
-                We found nothing - Please try a different search.
-              </div>
-            )
-          ) : null}
+            ) : null
+          ) : (
+            // <div className="loader">
+            //   We found nothing - Please try a different search.
+            // </div>
+            <div className="loader">No Result - Please try a new search.</div>
+          )}
         </div>
       </div>
       // </form>

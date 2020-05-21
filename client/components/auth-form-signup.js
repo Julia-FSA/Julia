@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
+import {signup} from '../store'
 import {registeredEmail} from '../../server/db/read'
 
 /**
@@ -75,7 +75,7 @@ class AuthFormSignUp extends React.Component {
     const password = evt.target.password.value
     const isValid = this.validate()
     if (isValid) {
-      this.props.auth(email, password, formName, firstName, lastName)
+      this.props.signup(email, password, formName, firstName, lastName)
       this.setState(initialState)
     }
   }
@@ -162,14 +162,6 @@ class AuthFormSignUp extends React.Component {
  *   can stay DRY with interfaces that are very similar to each other!
  */
 
-// const mapLogin = (state) => {
-//   return {
-//     name: 'login',
-//     displayName: 'Login',
-//     error: state.user.error,
-//   }
-// }
-
 const mapSignup = (state) => {
   return {
     name: 'signup',
@@ -179,8 +171,8 @@ const mapSignup = (state) => {
 }
 
 const mapDispatch = (dispatch) => ({
-  auth: (email, password, formName, firstName, lastName) => {
-    dispatch(auth(email, password, formName, firstName, lastName))
+  signup: (email, password, formName, firstName, lastName) => {
+    dispatch(signup(email, password, formName, firstName, lastName))
   },
 })
 
