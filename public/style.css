@@ -9,6 +9,8 @@ a {
 
 label {
   display: block;
+  margin: 0;
+  font-size: 25px;
 }
 
 button {
@@ -18,21 +20,14 @@ button {
 nav {
   display: flex;
   background-color: rgba(37, 37, 37, 0.8);
-  position: fixed;
+  text-align: center;
   color: #fff;
-  border-radius: 0 0 1em 1em;
-  /* text-align: center; */
-  /* margin: 0 4em; */
-  /* padding: 10px; */
-  /* width: 100; */
-  /* calc(100vw - 8em); */
-  /* z-index: 2; */
+  /* position: fixed; */
+  /* border-radius: 0 0 1em 1em; */
 }
 
 .nav-link {
   color: orange;
-  /* align-items: center; */
-  /* justify-content: center; */
 }
 
 form div {
@@ -75,17 +70,21 @@ img#nav-logo {
   width: 100%;
   border-radius: 50%;
 }
+
 .title-cont {
   width: 40%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
+
 .ingredient-cont {
   padding-bottom: 5%;
+  margin: 0;
 }
 .instruction-cont {
   padding-bottom: 5%;
+  margin: 0;
 }
 
 .outer-cont {
@@ -119,4 +118,128 @@ a#logo {
 
 .form-inner-cont {
   width: 40%;
+}
+
+.home-image-cont {
+  background-image: url('https://farm6.static.flickr.com/5029/5658551241_8852d44b38_o.gif');
+  /* background-image: url('https://media1.giphy.com/media/7WDpgeYllwXWCTn0I8/source.gif'); */
+  /* background-image: url('https://www.seriouseats.com/2020/02/WOK-HEI.gif'); */
+  /* background-image: url('https://media2.giphy.com/media/l49JF16IHPdB5zuBW/giphy.gif?cid=ecf05e47fb354418bde90cdf7167d8d749c81373b48ddeff&rid=giphy.gif'); */
+  /* background-image: url('https://media2.giphy.com/media/nqtA5obHo3CSelfeKS/source.gif'); */
+  /* background-image: url('https://img5.goodfon.com/wallpaper/nbig/2/7e/krupy-zerno-spetsii-semechki-perets-miata-bazilik-koritsa-ka.jpg'); */
+  /* background-image: url('https://i0.wp.com/finleyquality.net/wp-content/uploads/2017/08/julia-child.jpg?ssl=1'); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+  min-height: 1000px;
+  text-align: center;
+  height: auto;
+  width: auto;
+}
+
+.home-title {
+  padding-top: 10%;
+  color: orange;
+  text-align: center;
+}
+
+.linkaccount {
+  background-image: url('https://icdn7.digitaltrends.com/image/digitaltrends/amazon-echo-2nd-gen-and-echo-dot-3rd-gen-1500x1000.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 1000px;
+  text-align: center;
+  height: auto;
+  /* border-radius: 40px; */
+}
+
+.linkalexa {
+  padding: 3%;
+  color: black;
+  text-align: center;
+}
+
+.alexa-instructions {
+  padding: 3%;
+  color: black;
+  text-align: left;
+  text-indent: 50px;
+}
+
+.step-cont {
+  border: 2px solid orangered;
+  background-color: rgba(255, 255, 255, 0.9);
+  background-position: center;
+  border-radius: 40px;
+  font-size: 25px;
+  margin-right: 7%;
+  margin-left: 7%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  /* min-width: 200px; */
+}
+
+.passcode-cont {
+  padding: 3%;
+  color: orange;
+  text-align: center;
+}
+
+.passcode {
+  border: 2px solid orangered;
+  background-color: rgba(255, 255, 255, 0.8);
+  background-position: center;
+  border-radius: 20px;
+  margin-right: 20%;
+  margin-left: 20%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: orangered;
+}
+
+.search-image-cont {
+  width: 100%;
+}
+.search-image-cont img {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.search-cont {
+  text-align: center;
+  margin-right: 25%;
+  margin-left: 25%;
+}
+
+.searchlabel {
+  border: 2px solid orangered;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: black;
+  border-radius: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+.toggle {
+  text-align: center;
+}
+
+.loader {
+  color: orangered;
+  text-align: center;
+  font-size: 25px;
+}
+
+.text-cont {
+  border: 2px solid orangered;
+  background-color: rgba(37, 37, 37, 0.7);
+  background-position: center;
+  color: orange;
+  min-width: 220px;
+  border-radius: 20px;
+  margin-right: 22%;
+  margin-left: 22%;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }

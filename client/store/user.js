@@ -4,7 +4,8 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
-const GET_USER = 'GET_USER'
+const SIGN_UP_USER = 'SIGN_UP_USER'
+const LOGIN_USER = 'LOGIN_USER'
 const REMOVE_USER = 'REMOVE_USER'
 
 /**
@@ -15,7 +16,8 @@ const defaultUser = {}
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
+const signUpUser = user => ({type: SIGN_UP_USER, user})
+const loginUser = user => ({type: LOGIN_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 
 /**
@@ -24,18 +26,32 @@ const removeUser = () => ({type: REMOVE_USER})
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
-    dispatch(getUser(res.data || defaultUser))
+    dispatch(signUpUser(res.data || defaultUser))
   } catch (err) {
     console.error(err)
   }
 }
 
-export const auth = (
+export const login = (email, password, method) => async dispatch => {
+  let res
+  try {
+    res = await axios.post(`/auth/${method}`, {
+      email,
+      password
+    })
+    dispatch(loginUser(res.data))
+    history.push('/home')
+  } catch (dispatchOrHistoryErr) {
+    console.error(dispatchOrHistoryErr)
+  }
+}
+
+export const signup = (
   email,
   password,
   method,
-  firstName,
-  lastName
+  firstName = null,
+  lastName = null
 ) => async dispatch => {
   let res
   try {
@@ -45,14 +61,10 @@ export const auth = (
       firstName,
       lastName
     })
-    // } catch (authError) {
-    // return dispatch(getUser({error: authError}))
-    // }
-    // try {
-    dispatch(getUser(res.data))
+
+    dispatch(signUpUser(res.data))
     history.push('/home')
   } catch (dispatchOrHistoryErr) {
-    // return dispatch(getUser({error: authError}))
     console.error(dispatchOrHistoryErr)
   }
 }
@@ -72,8 +84,24 @@ export const logout = () => async dispatch => {
  */
 export default function(state = defaultUser, action) {
   switch (action.type) {
-    case GET_USER:
-      return action.user
+    case SIGN_UP_USER:
+      return {
+        email: action.user.email.S,
+        firstName: action.user.firstName.S,
+        id: action.user.id.S,
+        lastName: action.user.lastName.S,
+        password: action.user.password.S,
+        salt: action.user.salt.S
+      }
+    case LOGIN_USER:
+      return {
+        email: action.user.email,
+        firstName: action.user.firstName,
+        id: action.user.id,
+        lastName: action.user.lastName,
+        password: action.user.password,
+        salt: action.user.salt
+      }
     case REMOVE_USER:
       return defaultUser
     default:
