@@ -1,16 +1,5 @@
-var AWS = require('aws-sdk')
 const {v4: uuidv4} = require('uuid')
-let {awsConfig} = require('../../secrets')
-if (process.env.accessKeyId || process.env.endpoint) {
-  awsConfig = {
-    region: process.env.region,
-    endpoint: process.env.endpoint,
-    accessKeyId: process.env.accessKeyId,
-    secretAccessKey: process.env.secretAccessKey
-  }
-}
-AWS.config.update(awsConfig)
-let docClient = new AWS.DynamoDB.DocumentClient()
+const db = require('./db')
 
 // let save = function () {
 //   var input = {
@@ -25,7 +14,7 @@ let docClient = new AWS.DynamoDB.DocumentClient()
 //     TableName: 'users',
 //     Item: input,
 //   }
-//   docClient.put(params, function (err, data) {
+//   db.put(params, function (err, data) {
 //     if (err) {
 //       console.log('users::save::error - ' + JSON.stringify(err, null, 2))
 //     } else {
@@ -35,7 +24,7 @@ let docClient = new AWS.DynamoDB.DocumentClient()
 // }
 
 let signUp = async user => {
-  await docClient.put(user, function(err, data) {
+  await db.put(user, function(err, data) {
     if (err) {
       console.log('users::save::error - ' + JSON.stringify(err, null, 2))
     } else {
@@ -75,7 +64,7 @@ const setCode = async (userId, code) => {
     ReturnValues: 'ALL_NEW'
   }
 
-  await docClient.update(params, function(err, data) {
+  await db.update(params, function(err, data) {
     if (err) {
       console.error(
         'Unable to add item. Error JSON:',
