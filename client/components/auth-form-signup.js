@@ -84,8 +84,8 @@ class AuthFormSignUp extends React.Component {
   render() {
     const {name, displayName, error} = this.props
     return (
-      <div className="outer-cont" id="signup-background">
-        <div className="form-inner-cont inner-cont">
+      <div className="outer-cont" id="form-background">
+        <div className="form-inner-cont">
           <form
             className="text-center border border-light p-5"
             action="#!"
@@ -93,36 +93,31 @@ class AuthFormSignUp extends React.Component {
             name={name}
           >
             <p className="h4 mb-4">Sign up</p>
-            <div className="form-row mb-4">
-              <div className="col">
-                <input
-                  id="defaultRegisterFormFirstName"
-                  className="form-control"
-                  placeholder="First name"
-                  name="firstName"
-                  type="text"
-                  value={this.state.firstName}
-                  onChange={this.handleChange}
-                />
-                <div style={{fontSize: 16, color: 'red'}}>
-                  {this.state.firstNameError}
-                </div>
-              </div>
-              <div className="col">
-                <input
-                  id="defaultRegisterFormLastName"
-                  className="form-control"
-                  placeholder="Last name"
-                  name="lastName"
-                  type="text"
-                  value={this.state.lastName}
-                  onChange={this.handleChange}
-                />
-                <div style={{fontSize: 16, color: 'red'}}>
-                  {this.state.lastNameError}
-                </div>
-              </div>
-            </div>
+
+            <input
+              id="defaultRegisterFormFirstName"
+              className="form-control"
+              placeholder="First name"
+              name="firstName"
+              type="text"
+              value={this.state.firstName}
+              onChange={this.handleChange}
+            />
+            <small className="form-text text-muted mb-4">
+              {this.state.firstNameError}
+            </small>
+            <input
+              id="defaultRegisterFormLastName"
+              className="form-control"
+              placeholder="Last name"
+              name="lastName"
+              type="text"
+              value={this.state.lastName}
+              onChange={this.handleChange}
+            />
+            <small className="form-text text-muted mb-4">
+              {this.state.lastNameError}
+            </small>
             <input
               id="defaultRegisterFormEmail"
               className="form-control mb-4"
@@ -132,9 +127,9 @@ class AuthFormSignUp extends React.Component {
               value={this.state.email}
               onChange={this.handleChange}
             />
-            <div style={{fontSize: 16, color: 'red'}}>
+            <small className="form-text text-muted mb-4">
               {this.state.emailError}
-            </div>
+            </small>
 
             <input
               id="defaultRegisterFormPassword"
@@ -145,9 +140,9 @@ class AuthFormSignUp extends React.Component {
               value={this.state.password}
               onChange={this.handleChange}
             />
-            <div style={{fontSize: 16, color: 'red'}}>
+            <small className="form-text text-muted mb-4">
               {this.state.passwordError}
-            </div>
+            </small>
 
             <button className="btn btn-info my-4 btn-block" type="submit">
               Sign up
