@@ -37,16 +37,16 @@ class AuthFormSignUp extends React.Component {
     const nameRegex = /^[a-zA-Z]+$/
 
     if (!emailRegex.test(this.state.email)) {
-      emailError = 'invalid email'
+      emailError = 'Invalid email'
     }
     if (!nameRegex.test(this.state.firstName)) {
-      firstNameError = 'first name is not valid'
+      firstNameError = 'First Name is required'
     }
     if (!nameRegex.test(this.state.lastName)) {
-      lastNameError = 'last name is not valid'
+      lastNameError = 'Last Name is required'
     }
     if (this.state.password.length < 6) {
-      passwordError = 'password needs to be greater than 5 characters'
+      passwordError = 'Password needs to be at least 5 characters long'
     }
 
     // NEED TO WORK ON CHECKING IF AN EMAIL HAS ALREADY BEEN REGISTERED
