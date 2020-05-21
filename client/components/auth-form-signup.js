@@ -40,10 +40,10 @@ class AuthFormSignUp extends React.Component {
       emailError = 'Invalid email'
     }
     if (!nameRegex.test(this.state.firstName)) {
-      firstNameError = 'First Name is required'
+      firstNameError = 'First name is required'
     }
     if (!nameRegex.test(this.state.lastName)) {
-      lastNameError = 'Last Name is required'
+      lastNameError = 'Last name is required'
     }
     if (this.state.password.length < 6) {
       passwordError = 'Password needs to be at least 5 characters long'
