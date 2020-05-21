@@ -3,7 +3,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {
   searchedByIngredients,
-  searchedByRecipeName
+  searchedByRecipeName,
 } from '../store/searchRecipes'
 import {Button} from 'react-bootstrap'
 
@@ -15,7 +15,7 @@ class SearchRecipes extends React.Component {
   constructor() {
     super()
     this.state = {
-      on: true
+      on: true,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -24,7 +24,7 @@ class SearchRecipes extends React.Component {
 
   toggle() {
     this.setState({
-      on: !this.state.on
+      on: !this.state.on,
     })
     if (this.state.on) {
       this.props.searchByRecipeName('')
@@ -35,13 +35,13 @@ class SearchRecipes extends React.Component {
 
   handleChange(evt) {
     this.setState({
-      [evt.target.name]: evt.target.value
+      [evt.target.name]: evt.target.value,
     })
   }
 
   handleSubmit(evt) {
     evt.preventDefault()
-    const searchByName = this.state.on // true = search by recipe name
+    const searchByName = this.state.on // true => search by recipe name
 
     if (searchByName) {
       const recipeName = evt.target.recipeName.value
@@ -54,7 +54,6 @@ class SearchRecipes extends React.Component {
 
   render() {
     const {searchedRecipes} = this.props.searchRecipes
-    console.log('rendering searchedRecipes >>>>>>>>>>>>>>>>>>', searchedRecipes)
 
     return (
       <div className="outer-cont">
@@ -62,9 +61,6 @@ class SearchRecipes extends React.Component {
           <div>
             {this.state.on ? (
               <div>
-                {/* <button type="button" onClick={this.toggle}>
-                    Search by ingredients
-                  </button> */}
                 <Button variant="warning" onClick={this.toggle}>
                   Search by ingredients
                 </Button>
@@ -132,7 +128,7 @@ class SearchRecipes extends React.Component {
                     <hr />
                     <ul>
                       {searchedRecipes.ingredients
-                        .filter(ingredient => typeof ingredient === 'string')
+                        .filter((ingredient) => typeof ingredient === 'string')
                         .map((ingredient, index) => (
                           <li key={index}>{ingredient}</li>
                         ))}
@@ -146,11 +142,12 @@ class SearchRecipes extends React.Component {
                     ))}
                   </div>
                 </div>
-              ) : null
-            ) : // <div className="loader">
-            //   We found nothing - Please try a different search.
-            // </div>
-            !searchedRecipes.ingredients ? (
+              ) : (
+                <div className="loader">
+                  No Result - Please try a new search.
+                </div>
+              )
+            ) : !searchedRecipes.ingredients ? (
               <div className="container inner-cont">
                 <div className="title-image-cont">
                   <div className="image-cont">
@@ -185,17 +182,12 @@ class SearchRecipes extends React.Component {
                   )}
                 </div>
               </div>
-            ) : null
-          ) : (
-            // <div className="loader">
-            //   We found nothing - Please try a different search.
-            // </div>
-            <div className="loader">No Result - Please try a new search.</div>
-          )}
+            ) : (
+              <div className="loader">No Result - Please try a new search.</div>
+            )
+          ) : null}
         </div>
       </div>
-      // </form>
-      // </div>
     )
   }
 }
@@ -204,19 +196,19 @@ class SearchRecipes extends React.Component {
  * CONTAINER
  */
 
-const mapDispatch = dispatch => ({
-  searchByIngredients: ingredients => {
+const mapDispatch = (dispatch) => ({
+  searchByIngredients: (ingredients) => {
     dispatch(searchedByIngredients(ingredients))
   },
-  searchByRecipeName: recipeName => {
+  searchByRecipeName: (recipeName) => {
     dispatch(searchedByRecipeName(recipeName))
-  }
+  },
 })
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     email: state.user.email,
-    searchRecipes: state.searchRecipes
+    searchRecipes: state.searchRecipes,
   }
 }
 

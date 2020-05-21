@@ -58,7 +58,6 @@ const getUser = async (userId) => {
       },
     }
     let data = await db.get(params).promise()
-    console.log('DATA >>>>>>>>>>>>>>>>>>>>> ', data)
     return data.Item
   } catch (error) {
     console.error(error)
