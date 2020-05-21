@@ -26,7 +26,7 @@ const removeUser = () => ({type: REMOVE_USER})
 export const me = () => async (dispatch) => {
   try {
     const res = await axios.get('/auth/me')
-    dispatch(signUpUser(res.data || defaultUser))
+    dispatch(loginUser(res.data || defaultUser))
   } catch (err) {
     console.error(err)
   }
@@ -46,13 +46,9 @@ export const login = (email, password, method) => async (dispatch) => {
   }
 }
 
-export const signup = (
-  email,
-  password,
-  method,
-  firstName = null,
-  lastName = null
-) => async (dispatch) => {
+export const signup = (email, password, method, firstName, lastName) => async (
+  dispatch
+) => {
   let res
   try {
     res = await axios.post(`/auth/${method}`, {
@@ -61,7 +57,6 @@ export const signup = (
       firstName,
       lastName,
     })
-
     dispatch(signUpUser(res.data))
     history.push('/home')
   } catch (dispatchOrHistoryErr) {
@@ -92,7 +87,6 @@ export default function (state = defaultUser, action) {
         lastName: action.user.lastName.S,
         password: action.user.password.S,
         salt: action.user.salt.S,
-        ...action.user,
       }
     case LOGIN_USER:
       return {
@@ -102,7 +96,6 @@ export default function (state = defaultUser, action) {
         lastName: action.user.lastName,
         password: action.user.password,
         salt: action.user.salt,
-        ...action.user,
       }
     case REMOVE_USER:
       return defaultUser
