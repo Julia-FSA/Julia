@@ -118,6 +118,15 @@ a#logo {
 
 .form-inner-cont {
   width: 40%;
+  margin: 0 auto;
+  background-color: white;
+  min-width: 300px;
+}
+
+#form-background {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .home-image-cont {
