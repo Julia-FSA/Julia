@@ -38,7 +38,7 @@ const registeredEmail = async email => {
     ExpressionAttributeValues: {':email': email}
   }
 
-  let user = await docClient
+  let user = await db
     .scan(params, function(err, data) {
       if (err) {
         console.log('users::error - ' + JSON.stringify(err, null, 2))

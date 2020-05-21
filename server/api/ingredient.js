@@ -1,6 +1,6 @@
 const axios = require('axios')
-const SpoonacularAPIKey = process.env.SpoonacularAPIKey
-  ? process.env.SpoonacularAPIKey
+const {SpoonacularAPIKey} = process.env.SpoonacularAPIKey
+  ? {SpoonacularAPIKey: process.env.SpoonacularAPIKey}
   : require('../../secrets')
 const router = require('express').Router()
 module.exports = router
