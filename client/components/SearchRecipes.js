@@ -58,13 +58,13 @@ class SearchRecipes extends React.Component {
 
     return (
       <div className="outer-cont">
-        <form className="search-cont" onSubmit={this.handleSubmit}>
+        <form className="search-cont container" onSubmit={this.handleSubmit}>
           <div>
             {this.state.on ? (
               <div>
                 {/* <button type="button" onClick={this.toggle}>
-                  Search by ingredients
-                </button> */}
+                    Search by ingredients
+                  </button> */}
                 <Button variant="warning" onClick={this.toggle}>
                   Search by ingredients
                 </Button>
@@ -104,7 +104,7 @@ class SearchRecipes extends React.Component {
             )}
             <div>
               <Button variant="danger" type="submit">
-                Submit
+                Search
               </Button>
             </div>
           </div>

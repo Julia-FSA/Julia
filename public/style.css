@@ -94,7 +94,7 @@ img#nav-logo {
 }
 
 .inner-cont {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 40px;
   min-height: 700px;
 }
@@ -216,8 +216,10 @@ a#logo {
 
 .search-cont {
   text-align: center;
-  margin-right: 25%;
-  margin-left: 25%;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 40px;
+  /* margin-right: 25%;
+  margin-left: 25%; */
 }
 
 .searchlabel {
