@@ -20,9 +20,9 @@ nav {
   display: flex;
   background-color: rgba(37, 37, 37, 0.8);
   text-align: center;
-  /* position: fixed; */
   color: #fff;
-  border-radius: 0 0 1em 1em;
+  /* position: fixed; */
+  /* border-radius: 0 0 1em 1em; */
 }
 
 .nav-link {
@@ -111,6 +111,9 @@ img#nav-logo {
 
 .home-image-cont {
   background-image: url('https://farm6.static.flickr.com/5029/5658551241_8852d44b38_o.gif');
+  /* background-image: url('https://media1.giphy.com/media/7WDpgeYllwXWCTn0I8/source.gif'); */
+  /* background-image: url('https://www.seriouseats.com/2020/02/WOK-HEI.gif'); */
+  /* background-image: url('https://media2.giphy.com/media/l49JF16IHPdB5zuBW/giphy.gif?cid=ecf05e47fb354418bde90cdf7167d8d749c81373b48ddeff&rid=giphy.gif'); */
   /* background-image: url('https://media2.giphy.com/media/nqtA5obHo3CSelfeKS/source.gif'); */
   /* background-image: url('https://img5.goodfon.com/wallpaper/nbig/2/7e/krupy-zerno-spetsii-semechki-perets-miata-bazilik-koritsa-ka.jpg'); */
   /* background-image: url('https://i0.wp.com/finleyquality.net/wp-content/uploads/2017/08/julia-child.jpg?ssl=1'); */
