@@ -13,9 +13,6 @@ export const Home = (props) => {
         <div>
           <div className="home-title">
             <h1>Welcome, {user.firstName}!</h1>
-            {/* <Link to="/linkAccount">
-              <button type="button">Link to Alexa</button>
-            </Link> */}
           </div>
         </div>
       ) : (

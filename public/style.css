@@ -9,6 +9,7 @@ a {
 
 label {
   display: block;
+  margin: 0;
 }
 
 button {
@@ -18,7 +19,8 @@ button {
 nav {
   display: flex;
   background-color: rgba(37, 37, 37, 0.8);
-  position: fixed;
+  text-align: center;
+  /* position: fixed; */
   color: #fff;
   border-radius: 0 0 1em 1em;
 }
@@ -108,9 +110,10 @@ img#nav-logo {
 }
 
 .home-image-cont {
-  /* background-image: url('https://i0.wp.com/finleyquality.net/wp-content/uploads/2017/08/julia-child.jpg?ssl=1'); */
   background-image: url('https://farm6.static.flickr.com/5029/5658551241_8852d44b38_o.gif');
   /* background-image: url('https://media2.giphy.com/media/nqtA5obHo3CSelfeKS/source.gif'); */
+  /* background-image: url('https://img5.goodfon.com/wallpaper/nbig/2/7e/krupy-zerno-spetsii-semechki-perets-miata-bazilik-koritsa-ka.jpg'); */
+  /* background-image: url('https://i0.wp.com/finleyquality.net/wp-content/uploads/2017/08/julia-child.jpg?ssl=1'); */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center top;
@@ -121,7 +124,7 @@ img#nav-logo {
 }
 
 .home-title {
-  padding: 3%;
+  padding-top: 10%;
   color: orange;
   text-align: center;
 }
@@ -189,18 +192,19 @@ img#nav-logo {
   padding: 0;
 }
 
+.searchlabel {
+  color: orange;
+  border-radius: 20px;
+  background-color: white;
+  padding-right: 20px;
+}
+
 .toggle {
   text-align: center;
 }
 
-/* .search-inner-cont {
-  display: flex;
-  justify-content: space-around;
-  padding-top: 5%;
-  padding-bottom: 5%;
-  background-color: white;
-  background-position: center;
-  border-radius: 40px;
-  min-height: 700px;
-  margin: 0;
-} */
+.loader {
+  color: orangered;
+  text-align: center;
+  font-size: 25px;
+}

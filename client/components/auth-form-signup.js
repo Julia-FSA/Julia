@@ -74,7 +74,6 @@ class AuthFormSignUp extends React.Component {
     const email = evt.target.email.value
     const password = evt.target.password.value
     const isValid = this.validate()
-
     if (isValid) {
       this.props.auth(email, password, formName, firstName, lastName)
       this.setState(initialState)
@@ -82,7 +81,7 @@ class AuthFormSignUp extends React.Component {
   }
 
   render() {
-    const {name, displayName, handleSubmit, error} = this.props
+    const {name, displayName, error} = this.props
     return (
       <div className="signup" id="signup-background">
         <form onSubmit={this.handleSubmit} name={name}>
@@ -162,6 +161,7 @@ class AuthFormSignUp extends React.Component {
  *   function, and share the same Component. This is a good example of how we
  *   can stay DRY with interfaces that are very similar to each other!
  */
+
 // const mapLogin = (state) => {
 //   return {
 //     name: 'login',

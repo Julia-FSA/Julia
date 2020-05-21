@@ -65,20 +65,20 @@ class SearchRecipes extends React.Component {
                 {/* <button type="button" onClick={this.toggle}>
                   Search by ingredients
                 </button> */}
-                <Button variant="danger" type="submit" onClick={this.toggle}>
+                <Button variant="danger" onClick={this.toggle}>
                   Search by ingredients
                 </Button>
               </div>
             ) : (
               <div>
-                <Button variant="danger" type="submit" onClick={this.toggle}>
+                <Button variant="danger" onClick={this.toggle}>
                   Search by recipe name
                 </Button>
               </div>
             )}
             <br />
             {this.state.on ? (
-              <div>
+              <div className="searchlabel">
                 <div className="toggle">
                   <label htmlFor="recipeName">Search by recipe name:</label>
                 </div>
@@ -91,7 +91,7 @@ class SearchRecipes extends React.Component {
                 />
               </div>
             ) : (
-              <div>
+              <div className="searchlabel">
                 <div className="toggle">
                   <label htmlFor="ingredients"> Search by ingredients:</label>
                 </div>
@@ -104,104 +104,99 @@ class SearchRecipes extends React.Component {
               </div>
             )}
             <div>
-              {/* <button type="submit">Submit</button> */}
-              <Button
-                variant="danger"
-                type="submit"
-                onClick={this.handleSubmit}
-              >
+              <Button variant="danger" type="submit">
                 Submit
               </Button>
             </div>
-            <div>
-              {searchedRecipes ? (
-                !this.state.on ? (
-                  !searchedRecipes.extendedIngredients ? (
-                    <div className="container inner-cont">
-                      <div className="title-image-cont">
-                        {/* <div className="image-cont">
+          </div>
+        </form>
+        <div>
+          {searchedRecipes ? (
+            !this.state.on ? (
+              !searchedRecipes.extendedIngredients ? (
+                <div className="container inner-cont">
+                  <div className="title-image-cont">
+                    {/* <div className="image-cont">
                           <img
                             src={searchedRecipes.image}
                             alt={searchedRecipes.title}
                           />
                         </div> */}
-                        <div className="title-cont">
-                          <h3>{searchedRecipes.title}</h3>
-                          <p> Servings: {searchedRecipes.servings}</p>
-                          <p>
-                            Cook time: {searchedRecipes.readyInMinutes} Minutes
-                          </p>
-                        </div>
-                      </div>
-                      <div className="container ingredient-cont">
-                        <h3>Ingredients </h3>
-                        <hr />
-                        <ul>
-                          {searchedRecipes.ingredients
-                            .filter(
-                              (ingredient) => typeof ingredient === 'string'
-                            )
-                            .map((ingredient, index) => (
-                              <li key={index}>{ingredient}</li>
-                            ))}
-                        </ul>
-                      </div>
-                      <div className="container instruction-cont">
-                        <h3>Instructions</h3>
-                        <hr />
-                        {searchedRecipes.steps.map((step, index) => (
-                          <div key={index}>{step.slice(5)}</div>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <div>Found Nothing... Try a different search</div>
-                  )
-                ) : !searchedRecipes.ingredients ? (
-                  <div className="container inner-cont">
-                    <div className="title-image-cont">
-                      <div className="image-cont">
-                        <img src={searchedRecipes.image} alt="recipe image" />
-                      </div>
-                      <div className="title-cont">
-                        <h3>{searchedRecipes.title}</h3>
-                        <p> Servings: {searchedRecipes.servings}</p>
-                        <p>
-                          Cook time: {searchedRecipes.readyInMinutes} Minutes
-                        </p>
-                      </div>
-                    </div>
-                    <div className="container ingredient-cont">
-                      <h3> Ingredients </h3>
-                      <hr />
-                      <ul>
-                        {searchedRecipes.extendedIngredients.map(
-                          (ingredient, index) => (
-                            <li key={index}>{ingredient.name}</li>
-                          )
-                        )}
-                      </ul>
-                    </div>
-                    <div className="container instruction-cont">
-                      <h3>Instructions</h3>
-                      <hr />
-                      {searchedRecipes.analyzedInstructions[0].steps.map(
-                        (step, index) => (
-                          <p key={index}>
-                            {index + 1}. {step.step}
-                          </p>
-                        )
-                      )}
+                    <div className="title-cont">
+                      <h3>{searchedRecipes.title}</h3>
+                      <p>Servings: {searchedRecipes.servings}</p>
+                      <p>Cook time: {searchedRecipes.readyInMinutes} Minutes</p>
                     </div>
                   </div>
-                ) : (
-                  <div>Found Nothing... Try a different search</div>
-                )
-              ) : null}
-            </div>
-          </div>
-        </form>
+                  <div className="container ingredient-cont">
+                    <h3>Ingredients </h3>
+                    <hr />
+                    <ul>
+                      {searchedRecipes.ingredients
+                        .filter((ingredient) => typeof ingredient === 'string')
+                        .map((ingredient, index) => (
+                          <li key={index}>{ingredient}</li>
+                        ))}
+                    </ul>
+                  </div>
+                  <div className="container instruction-cont">
+                    <h3>Instructions</h3>
+                    <hr />
+                    {searchedRecipes.steps.map((step, index) => (
+                      <div key={index}>{step.slice(5)}</div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="loader">
+                  We found nothing - Please try a different search.
+                </div>
+              )
+            ) : !searchedRecipes.ingredients ? (
+              <div className="container inner-cont">
+                <div className="title-image-cont">
+                  <div className="image-cont">
+                    <img src={searchedRecipes.image} alt="recipe image" />
+                  </div>
+                  <div className="title-cont">
+                    <h3>{searchedRecipes.title}</h3>
+                    <p>Servings: {searchedRecipes.servings}</p>
+                    <p>Cook time: {searchedRecipes.readyInMinutes} Minutes</p>
+                  </div>
+                </div>
+                <div className="container ingredient-cont">
+                  <h3> Ingredients </h3>
+                  <hr />
+                  <ul>
+                    {searchedRecipes.extendedIngredients.map(
+                      (ingredient, index) => (
+                        <li key={index}>{ingredient.name}</li>
+                      )
+                    )}
+                  </ul>
+                </div>
+                <div className="container instruction-cont">
+                  <h3>Instructions</h3>
+                  <hr />
+                  {searchedRecipes.analyzedInstructions[0].steps.map(
+                    (step, index) => (
+                      <p key={index}>
+                        {index + 1}. {step.step}
+                      </p>
+                    )
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="loader">
+                We found nothing - Please try a different search.
+              </div>
+            )
+          ) : null}
+        </div>
       </div>
+      // </form>
+      // </div>
     )
   }
 }
