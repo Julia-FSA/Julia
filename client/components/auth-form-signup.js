@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
 import {registeredEmail} from '../../server/db/read'
+import {Button} from 'react-bootstrap'
 
 /**
  * COMPONENT
@@ -84,42 +85,49 @@ class AuthFormSignUp extends React.Component {
   render() {
     const {name, displayName, handleSubmit, error} = this.props
     return (
-      <div className="signup" id="signup-background">
-        <form onSubmit={this.handleSubmit} name={name}>
-          <div>
-            <label htmlFor="firstName">
-              <small>First Name</small>
-            </label>
-            <input
-              name="firstName"
-              type="text"
-              value={this.state.firstName}
-              onChange={this.handleChange}
-            />
-            <div style={{fontSize: 16, color: 'red'}}>
-              {this.state.firstNameError}
+      <div className="outer-cont" id="signup-background">
+        <div className="form-inner-cont inner-cont">
+          <form
+            className="text-center border border-light p-5"
+            action="#!"
+            onSubmit={this.handleSubmit}
+            name={name}
+          >
+            <p className="h4 mb-4">Sign up</p>
+            <div className="form-row mb-4">
+              <div className="col">
+                <input
+                  id="defaultRegisterFormFirstName"
+                  className="form-control"
+                  placeholder="First name"
+                  name="firstName"
+                  type="text"
+                  value={this.state.firstName}
+                  onChange={this.handleChange}
+                />
+                <div style={{fontSize: 16, color: 'red'}}>
+                  {this.state.firstNameError}
+                </div>
+              </div>
+              <div className="col">
+                <input
+                  id="defaultRegisterFormLastName"
+                  className="form-control"
+                  placeholder="Last name"
+                  name="lastName"
+                  type="text"
+                  value={this.state.lastName}
+                  onChange={this.handleChange}
+                />
+                <div style={{fontSize: 16, color: 'red'}}>
+                  {this.state.lastNameError}
+                </div>
+              </div>
             </div>
-          </div>
-          <div>
-            <label htmlFor="lastName">
-              <small>Last Name</small>
-            </label>
             <input
-              name="lastName"
-              type="text"
-              value={this.state.lastName}
-              onChange={this.handleChange}
-            />
-            <div style={{fontSize: 16, color: 'red'}}>
-              {this.state.lastNameError}
-            </div>
-          </div>
-          <br />
-          <div>
-            <label htmlFor="email">
-              <small>Email</small>
-            </label>
-            <input
+              id="defaultRegisterFormEmail"
+              className="form-control mb-4"
+              placeholder="E-mail"
               name="email"
               type="text"
               value={this.state.email}
@@ -128,12 +136,11 @@ class AuthFormSignUp extends React.Component {
             <div style={{fontSize: 16, color: 'red'}}>
               {this.state.emailError}
             </div>
-          </div>
-          <div>
-            <label htmlFor="password">
-              <small>Password</small>
-            </label>
+
             <input
+              id="defaultRegisterFormPassword"
+              className="form-control"
+              placeholder="Password"
               name="password"
               type="password"
               value={this.state.password}
@@ -142,13 +149,14 @@ class AuthFormSignUp extends React.Component {
             <div style={{fontSize: 16, color: 'red'}}>
               {this.state.passwordError}
             </div>
-          </div>
-          <br />
-          <div>
-            <button type="submit">{displayName}</button>
-          </div>
-          {error && error.response && <div> {error.response.data} </div>}
-        </form>
+
+            <button className="btn btn-info my-4 btn-block" type="submit">
+              Sign up
+            </button>
+
+            {error && error.response && <div> {error.response.data} </div>}
+          </form>
+        </div>
         {/* <a href="/auth/google">{displayName} with Google</a> */}
       </div>
     )

@@ -116,3 +116,7 @@ img#nav-logo {
 a#logo {
   margin: 0px;
 }
+
+.form-inner-cont {
+  width: 40%;
+}
