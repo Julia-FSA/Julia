@@ -8,26 +8,25 @@ import {Link} from 'react-router-dom'
 export const Home = (props) => {
   const user = props.user
   return (
-    <div className="home" id="background">
-      <div id="welcome">
-        {user.firstName ? (
-          <div id="inner-welcome">
+    <div className="home-image-cont">
+      {user.firstName ? (
+        <div>
+          <div className="home-title">
             <h1>Welcome, {user.firstName}!</h1>
-            <br />
-            <Link to="/linkAccount">
+            {/* <Link to="/linkAccount">
               <button type="button">Link to Alexa</button>
-            </Link>
+            </Link> */}
           </div>
-        ) : (
-          <div id="header">
+        </div>
+      ) : (
+        <div>
+          <div className="home-title">
             <h1>Welcome to Julia Cooks!</h1>
             <br />
-            <h2 style={{fontStyle: 'italic'}}>
-              Login or Signup to get started.
-            </h2>
+            <h2>Login or Signup to get started.</h2>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }
