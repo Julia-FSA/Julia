@@ -1,5 +1,5 @@
+import axios from 'axios'
 import React from 'react'
-import {setCode} from '../../server/db/write'
 import {connect} from 'react-redux'
 import {Button} from 'react-bootstrap'
 
@@ -12,7 +12,7 @@ class LinkAccount extends React.Component {
     this.state = {
       passcode: null,
       timeRemaining: null,
-      expired: false,
+      expired: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -20,20 +20,22 @@ class LinkAccount extends React.Component {
   }
 
   async retireCode() {
-    await setCode(this.props.user.id, false)
+    const {userId} = this.props
+    await axios.put(`./users/passcode/${userId}`, false)
     this.setState({expired: true})
   }
 
   async handleSubmit() {
-    const rand = Math.floor(100000 + Math.random() * 900000)
+    const code = Math.floor(100000 + Math.random() * 900000)
     const timeLimit = 180000
     const interval = 1000
 
-    await setCode(this.props.user.id, rand)
+    const {userId} = this.props
+    await axios.put(`./users/passcode/${userId}`, code)
 
     for (let i = 0; i < timeLimit / interval; i++) {
       setTimeout(
-        function () {
+        function() {
           const time = this.state.timeRemaining
           this.setState({timeRemaining: time - 1})
         }.bind(this),
@@ -42,7 +44,7 @@ class LinkAccount extends React.Component {
     }
 
     setTimeout(
-      function () {
+      function() {
         this.retireCode()
       }.bind(this),
       timeLimit
@@ -51,7 +53,7 @@ class LinkAccount extends React.Component {
     this.setState({
       passcode: rand,
       timeRemaining: timeLimit / interval,
-      expired: false,
+      expired: false
     })
   }
 
@@ -128,9 +130,9 @@ class LinkAccount extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
+const mapState = state => {
   return {
-    user: state.user,
+    user: state.user
   }
 }
 
