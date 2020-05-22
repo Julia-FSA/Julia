@@ -14,9 +14,7 @@ class MyRecipes extends React.Component {
   }
 
   render() {
-    console.log('rendering MyRecipes prop s:', this.props)
     const favoriteRecipes = Object.values(this.props.favoriteRecipes)
-    console.log('favoriteRecipes in render()', favoriteRecipes)
     return (
       <div className="outer-cont">
         <div className="container inner-cont">

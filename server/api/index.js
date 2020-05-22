@@ -2,6 +2,7 @@ const router = require('express').Router()
 module.exports = router
 
 router.use('/recipe', require('./recipe'))
+router.use('/users', require('./users'))
 router.use('/ingredient', require('./ingredient'))
 router.use('/fridge', require('./fridge'))
 

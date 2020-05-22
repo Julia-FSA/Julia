@@ -276,6 +276,7 @@ router.get('/favorites/:userId', async (req, res, next) => {
 
 router.get('/myrecipes/:recipeId', async (req, res, next) => {
   const {recipeId} = req.params
+  console.log('recipeId', recipeId)
   try {
     const params = {
       TableName: 'recipes',
@@ -285,8 +286,8 @@ router.get('/myrecipes/:recipeId', async (req, res, next) => {
     }
 
     const recipe = await db.get(params).promise()
-    console.log('recipe', recipe)
-    res.json(recipe.data)
+    console.log('recipe.Item', recipe.Item)
+    res.json(recipe.Item)
   } catch (error) {
     next(error)
   }
