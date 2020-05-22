@@ -272,3 +272,17 @@ a#logo {
   padding-top: 5px;
   padding-bottom: 5px;
 }
+
+#flex-card-cont {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+  flex: 1 1;
+}
+
+.card {
+  width: 31%;
+  min-width: 15rem;
+  margin-bottom: 2%;
+}
