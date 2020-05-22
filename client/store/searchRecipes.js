@@ -36,7 +36,7 @@ const searchRecipeByName = (recipe) => ({
 export const searchedByIngredients = (ingredients) => async (dispatch) => {
   try {
     let recipe = await axios.get(`api/recipe/byIngredient/${ingredients}`)
-    let {data} = await axios.get(`api/recipe/${recipe.data.id}`)
+    let {data} = await axios.get(`api/recipe/search/${recipe.data.id}`)
     dispatch(searchRecipeByIngredients(data))
   } catch (err) {
     console.error(err)
@@ -46,7 +46,9 @@ export const searchedByIngredients = (ingredients) => async (dispatch) => {
 export const searchedByRecipeName = (recipeName) => async (dispatch) => {
   try {
     let recipe = await axios.get(`api/recipe/byRecipeName/${recipeName}`)
-    let {data} = await axios.get(`api/recipe/${recipe.data.results[0].id}`)
+    let {data} = await axios.get(
+      `api/recipe/search/${recipe.data.results[0].id}`
+    )
     dispatch(searchRecipeByName(data))
   } catch (err) {
     console.error(err)

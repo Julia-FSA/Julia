@@ -1,34 +1,72 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import {fetchFavoriteRecipes} from '../store/recipes'
 
 /**
  * COMPONENT
  */
-export const MyRecipes = props => {
-  const {email} = props
+class MyRecipes extends React.Component {
+  async componentDidMount() {
+    const id = this.props.user.id
+    await this.props.fetchFavoriteRecipes(id)
+  }
 
-  return (
-    <div>
-      <h3>Here are your recipes.</h3>
-    </div>
-  )
+  render() {
+    console.log('rendering MyRecipes props:', this.props)
+    const favoriteRecipes = Object.values(this.props.favoriteRecipes)
+    console.log('favoriteRecipes in render()', favoriteRecipes)
+    return (
+      <div className="outer-cont">
+        <div className="container inner-cont">
+          <div className="title-image-cont">
+            <div>
+              <h3 style={{alignText: 'center'}}>Your Favorite Recipes:</h3>
+            </div>
+            <ul className="recipe-container">
+              <div>
+                {favoriteRecipes.length ? (
+                  favoriteRecipes.map((recipe) => {
+                    return (
+                      <li className="recipe" key={recipe.id}>
+                        <Link
+                          className="recipe-link"
+                          to={`/recipe/${recipe.id}`}
+                        >
+                          <div className="image-cont">
+                            <img src={recipe.image} className="recipe-image" />
+                          </div>
+                          <div className="title-cont">
+                            {`${recipe.title} - Ready In: ${recipe.readyInMinutes}min. - ${recipe.likes} Likes`}
+                          </div>
+                        </Link>
+                      </li>
+                    )
+                  })
+                ) : (
+                  <li>No Favorite Recipes</li>
+                )}
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
-    email: state.user.email
+    user: state.user,
+    favoriteRecipes: state.recipes.favoriteRecipes,
   }
 }
 
-export default connect(mapState)(MyRecipes)
+const mapDispatch = (dispatch) => ({
+  fetchFavoriteRecipes: (id) => dispatch(fetchFavoriteRecipes(id)),
+})
 
-/**
- * PROP TYPES
- */
-// RecipeHistory.propTypes = {
-//   email: PropTypes.string
-// }
+export default connect(mapState, mapDispatch)(MyRecipes)
