@@ -3,7 +3,7 @@ import axios from 'axios'
 import {connect} from 'react-redux'
 import {
   searchedByIngredients,
-  searchedByRecipeName,
+  searchedByRecipeName
 } from '../store/searchRecipes'
 import {Button} from 'react-bootstrap'
 const {recipeToAlexa, recipeFormatter} = require('../util_recipeToAlexa')
@@ -17,7 +17,7 @@ class SearchRecipes extends React.Component {
   constructor() {
     super()
     this.state = {
-      on: true,
+      on: true
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -26,13 +26,13 @@ class SearchRecipes extends React.Component {
 
   toggle() {
     this.setState({
-      on: !this.state.on,
+      on: !this.state.on
     })
   }
 
   handleChange(evt) {
     this.setState({
-      [evt.target.name]: evt.target.value,
+      [evt.target.name]: evt.target.value
     })
   }
 
@@ -51,7 +51,9 @@ class SearchRecipes extends React.Component {
   async sendToAlexa(user) {
     let recipe = this.props.searchRecipes.searchedRecipes
     const res = await axios.get(
-      `https://api.spoonacular.com/recipes/${recipe.id}/information?instructionsRequired=true&includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
+      `https://api.spoonacular.com/recipes/${
+        recipe.id
+      }/information?instructionsRequired=true&includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
     )
     recipe = res.data
     const formattedRecipe = recipeFormatter(recipe)
@@ -147,7 +149,7 @@ class SearchRecipes extends React.Component {
                 <hr />
                 <div>
                   <ul>
-                    {searchedRecipes.extendedIngredients.map(function (
+                    {searchedRecipes.extendedIngredients.map(function(
                       ingredient
                     ) {
                       return (
@@ -185,19 +187,19 @@ class SearchRecipes extends React.Component {
  * CONTAINER
  */
 
-const mapDispatch = (dispatch) => ({
-  searchByIngredients: (ingredients) => {
+const mapDispatch = dispatch => ({
+  searchByIngredients: ingredients => {
     dispatch(searchedByIngredients(ingredients))
   },
-  searchByRecipeName: (recipeName) => {
+  searchByRecipeName: recipeName => {
     dispatch(searchedByRecipeName(recipeName))
-  },
+  }
 })
 
-const mapState = (state) => {
+const mapState = state => {
   return {
     user: state.user,
-    searchRecipes: state.searchRecipes,
+    searchRecipes: state.searchRecipes
   }
 }
 

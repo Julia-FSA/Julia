@@ -7,8 +7,8 @@ const recipeToAlexa = async (user, recipe) => {
       Key: {id: user.id},
       UpdateExpression: 'set selectedRecipe = :recipe',
       ExpressionAttributeValues: {
-        ':recipe': recipe,
-      },
+        ':recipe': recipe
+      }
     }
     await db.update(params).promise()
     console.log(
@@ -19,7 +19,7 @@ const recipeToAlexa = async (user, recipe) => {
   }
 }
 
-const recipeFormatter = (recipe) => {
+const recipeFormatter = recipe => {
   let rec
   if (recipe !== undefined) {
     rec = {
@@ -31,19 +31,19 @@ const recipeFormatter = (recipe) => {
       title: recipe.title,
       vegan: recipe.vegan,
       vegetarian: recipe.vegetarian,
-      likes: recipe.aggregateLikes,
+      likes: recipe.aggregateLikes
     }
-    recipe.analyzedInstructions[0].steps.forEach((step) => {
+    recipe.analyzedInstructions[0].steps.forEach(step => {
       let res = step.step.replace(/\.(?=[^\s])/g, '. ')
       rec.steps.push(`Step ${step.number}: ${res} `)
     })
-    recipe.extendedIngredients.forEach((ingr) => {
+    recipe.extendedIngredients.forEach(ingr => {
       let ingrObj = {
         id: ingr.id,
         name: ingr.name,
         amount: ingr.measures.us.amount,
         unit: ingr.measures.us.unitLong,
-        img: ingr.image,
+        img: ingr.image
       }
       rec.ingredients.push(ingrObj)
     })

@@ -5,7 +5,7 @@ import {
   fetchFirstRecipe,
   fetchNextRecipe,
   unsaveRecipe,
-  saveRecipe,
+  saveRecipe
 } from '../store/recipes'
 import {Button} from 'react-bootstrap'
 const {recipeToAlexa, recipeFormatter} = require('../util_recipeToAlexa')
@@ -18,7 +18,7 @@ class SingleRecipe extends React.Component {
   constructor() {
     super()
     this.state = {
-      favorited: false,
+      favorited: false
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.saveRecipe = this.saveRecipe.bind(this)
@@ -40,7 +40,7 @@ class SingleRecipe extends React.Component {
       this.props.index + 1
     )
     this.setState({
-      favorited: false,
+      favorited: false
     })
   }
 
@@ -51,7 +51,7 @@ class SingleRecipe extends React.Component {
     await this.props.saveRecipe(userId, recipeId)
     console.log('component saved!')
     this.setState({
-      favorited: true,
+      favorited: true
     })
   }
 
@@ -62,14 +62,16 @@ class SingleRecipe extends React.Component {
     await this.props.unsaveRecipe(userId, recipeId)
     console.log('component unsaved!')
     this.setState({
-      favorited: false,
+      favorited: false
     })
   }
 
   async sendToAlexa(user) {
     let recipe = this.props.selectedRecipe
     const res = await axios.get(
-      `https://api.spoonacular.com/recipes/${recipe.id}/information?instructionsRequired=true&includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
+      `https://api.spoonacular.com/recipes/${
+        recipe.id
+      }/information?instructionsRequired=true&includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
     )
     recipe = res.data
     // console.log('axiosed recipe >>>>>>>>>>>>>> ', recipe)
@@ -125,9 +127,7 @@ class SingleRecipe extends React.Component {
               <hr />
               <div>
                 <ul>
-                  {selectedRecipe.extendedIngredients.map(function (
-                    ingredient
-                  ) {
+                  {selectedRecipe.extendedIngredients.map(function(ingredient) {
                     return (
                       <li key={ingredient.id}>
                         {ingredient.amount} {ingredient.unit} -{' '}
@@ -143,7 +143,7 @@ class SingleRecipe extends React.Component {
               <hr />
               <div>
                 {' '}
-                {selectedRecipe.analyzedInstructions[0].steps.map(function (
+                {selectedRecipe.analyzedInstructions[0].steps.map(function(
                   step
                 ) {
                   return (
@@ -168,21 +168,21 @@ class SingleRecipe extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
+const mapState = state => {
   return {
     user: state.user,
     selectedRecipe: state.recipes.selectedRecipe,
     index: state.recipes.index,
-    top10Recipes: state.recipes.top10Recipes,
+    top10Recipes: state.recipes.top10Recipes
   }
 }
 
-const mapDispatch = (dispatch) => ({
-  fetchFirstRecipe: (userId) => dispatch(fetchFirstRecipe(userId)),
+const mapDispatch = dispatch => ({
+  fetchFirstRecipe: userId => dispatch(fetchFirstRecipe(userId)),
   fetchNextRecipe: (userId, top10Recipes, index) =>
     dispatch(fetchNextRecipe(userId, top10Recipes, index)),
   saveRecipe: (userId, recipeId) => dispatch(saveRecipe(userId, recipeId)),
-  unsaveRecipe: (userId, recipeId) => dispatch(unsaveRecipe(userId, recipeId)),
+  unsaveRecipe: (userId, recipeId) => dispatch(unsaveRecipe(userId, recipeId))
 })
 
 export default connect(mapState, mapDispatch)(SingleRecipe)

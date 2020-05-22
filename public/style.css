@@ -39,6 +39,11 @@ form div {
 
 .fridge-cont {
   text-align: center;
+  padding: 3%;
+}
+.favorite-recipe-cont {
+  text-align: center;
+  padding: 3%;
 }
 
 .fridge-flex-container {
@@ -108,10 +113,6 @@ img#nav-logo {
   display: block;
   margin-left: auto;
   margin-right: auto;
-}
-
-.fridge-cont {
-  padding: 3%;
 }
 
 .add-to-fridge-cont {
@@ -279,6 +280,19 @@ a#logo {
   padding-bottom: 5px;
 }
 
+#flex-card-cont {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex: 1 1;
+}
+
+.card {
+  width: 31%;
+  min-width: 15rem;
+  margin: 1%;
+}
 .terms-cont {
   background-image: url('./terms-conditions.jpg');
   background-size: contain;

@@ -6,6 +6,7 @@ import {fetchFavoriteRecipes} from '../store/recipes'
 /**
  * COMPONENT
  */
+
 class MyRecipes extends React.Component {
   async componentDidMount() {
     const id = this.props.user.id
@@ -17,37 +18,39 @@ class MyRecipes extends React.Component {
     return (
       <div className="outer-cont">
         <div className="container inner-cont">
-          <div className="title-image-cont">
-            <div>
-              <h3 style={{alignText: 'center'}}>Your Favorite Recipes:</h3>
+          <div className="fridge-cont">
+            <div className="favorite-recipe-cont">
+              <h1>Your Favorite Recipes:</h1>
             </div>
-            <ul className="recipe-container">
-              <div>
-                {favoriteRecipes.length ? (
-                  favoriteRecipes.map(recipe => {
-                    return (
-                      <li className="recipe" key={recipe.id}>
-                        <Link
-                          className="recipe-link"
-                          to={`/recipe/${recipe.id}`}
-                        >
-                          <div className="image-cont">
-                            <img src={recipe.image} className="recipe-image" />
-                          </div>
-                          <div className="title-cont">
-                            {`${recipe.title} - Ready In: ${
-                              recipe.readyInMinutes
-                            }min. - ${recipe.likes} Likes`}
-                          </div>
+            {/* <ul className="recipe-container"> */}
+            <div id="flex-card-cont">
+              {favoriteRecipes.length ? (
+                favoriteRecipes.map(recipe => {
+                  return (
+                    <div className="card" key={recipe.id}>
+                      <img
+                        className="card-img-top"
+                        src={recipe.image}
+                        alt="Card image cap"
+                      />
+                      <div className="card-body">
+                        <h5 className="card-title">{recipe.title}</h5>
+                        <p className="card-text">
+                          Ready In: {recipe.readyInMinutes} min.
+                        </p>
+                        <p className="card-text">{recipe.likes} Likes</p>
+                        <Link to={`/recipe/${recipe.id}`}>
+                          <button className="btn btn-warning">See More</button>
                         </Link>
-                      </li>
-                    )
-                  })
-                ) : (
-                  <li>No Favorite Recipes</li>
-                )}
-              </div>
-            </ul>
+                      </div>
+                    </div>
+                  )
+                })
+              ) : (
+                <h2>No Favorite Recipes</h2>
+              )}
+            </div>
+            {/* </ul> */}
           </div>
         </div>
       </div>
@@ -70,3 +73,19 @@ const mapDispatch = dispatch => ({
 })
 
 export default connect(mapState, mapDispatch)(MyRecipes)
+
+// {/* <li className="recipe" key={recipe.id}>
+// <Link
+//   className="recipe-link"
+//   to={`/recipe/${recipe.id}`}
+// >
+//   <div className="image-cont">
+//     <img src={recipe.image} className="recipe-image" />
+//   </div>
+//   <div className="title-cont">
+//     {`${recipe.title} - Ready In: ${
+//       recipe.readyInMinutes
+//     }min. - ${recipe.likes} Likes`}
+//   </div>
+// </Link>
+// </li> */}
