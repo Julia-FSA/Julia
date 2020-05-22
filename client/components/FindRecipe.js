@@ -1,8 +1,8 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {fetchFirstRecipe, fetchNextRecipe} from '../store/recipes'
+import {fetchFirstRecipe, fetchNextRecipe, saveRecipe} from '../store/recipes'
 import {Button} from 'react-bootstrap'
+
 /**
  * COMPONENT
  */
@@ -10,23 +10,33 @@ class SingleRecipe extends React.Component {
   constructor() {
     super()
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.saveRecipe = this.saveRecipe.bind(this)
   }
+
   async componentDidMount() {
     if (!this.props.selectedRecipe.title) {
-      await this.props.fetchFirstRecipe(this.props.userId)
+      const id = this.props.user.id
+      await this.props.fetchFirstRecipe(id)
     }
   }
 
   async handleSubmit() {
     await this.props.fetchNextRecipe(
+      this.props.user.id,
       this.props.top10Recipes,
       this.props.index + 1
     )
   }
 
+  async saveRecipe() {
+    const recipeId = this.props.selectedRecipe.id
+    const userId = this.props.user.id
+    await this.props.saveRecipe(userId, recipeId)
+  }
+
   render() {
+    console.log('this.props render()', this.props)
     const selectedRecipe = this.props.selectedRecipe
-    console.log('rendeding selectedRecipe', selectedRecipe)
     return (
       <div className="outer-cont">
         {selectedRecipe.analyzedInstructions ? (
@@ -39,6 +49,8 @@ class SingleRecipe extends React.Component {
                 <h3>{selectedRecipe.title}</h3>
                 <p>Cook time: {selectedRecipe.readyInMinutes} Minutes</p>
                 <p>{selectedRecipe.aggregateLikes} Likes</p>
+                <br />
+                <div onClick={this.saveRecipe} id="grayHeart" />
                 <Button
                   variant="danger"
                   type="submit"
@@ -53,9 +65,7 @@ class SingleRecipe extends React.Component {
               <hr />
               <div>
                 <ul>
-                  {selectedRecipe.extendedIngredients.map(function (
-                    ingredient
-                  ) {
+                  {selectedRecipe.extendedIngredients.map(function(ingredient) {
                     return (
                       <li key={ingredient.id}>
                         {ingredient.amount} {ingredient.unit} -{' '}
@@ -71,7 +81,7 @@ class SingleRecipe extends React.Component {
               <hr />
               <div>
                 {' '}
-                {selectedRecipe.analyzedInstructions[0].steps.map(function (
+                {selectedRecipe.analyzedInstructions[0].steps.map(function(
                   step
                 ) {
                   return (
@@ -84,7 +94,7 @@ class SingleRecipe extends React.Component {
             </div>
           </div>
         ) : (
-          'Finding recipe. Please wait...'
+          'Finding Your Recipe...'
         )}
       </div>
     )
@@ -94,27 +104,20 @@ class SingleRecipe extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
+const mapState = state => {
   return {
-    email: state.user.email,
-    userId: state.user.id,
+    user: state.user,
     selectedRecipe: state.recipes.selectedRecipe,
     index: state.recipes.index,
-    top10Recipes: state.recipes.top10Recipes,
+    top10Recipes: state.recipes.top10Recipes
   }
 }
 
-const mapDispatch = (dispatch) => ({
-  fetchFirstRecipe: (userId) => dispatch(fetchFirstRecipe(userId)),
-  fetchNextRecipe: (top10Recipes, index) =>
-    dispatch(fetchNextRecipe(top10Recipes, index)),
+const mapDispatch = dispatch => ({
+  fetchFirstRecipe: userId => dispatch(fetchFirstRecipe(userId)),
+  fetchNextRecipe: (userId, top10Recipes, index) =>
+    dispatch(fetchNextRecipe(userId, top10Recipes, index)),
+  saveRecipe: (userId, recipeId) => dispatch(saveRecipe(userId, recipeId))
 })
 
 export default connect(mapState, mapDispatch)(SingleRecipe)
-
-/**
- * PROP TYPES
- */
-// SingleRecipe.propTypes = {
-//   email: PropTypes.string
-// }

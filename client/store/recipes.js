@@ -3,12 +3,15 @@ import axios from 'axios'
 const initialState = {
   selectedRecipe: {},
   index: 0,
-  top10Recipes: []
+  top10Recipes: [],
+  favoriteRecipes: {}
 }
 
 // Action Types
 const SET_RECIPE_RESULTS = 'SET_RECIPE_RESULTS'
 const SET_NEXT_RECIPE = 'SET_NEXT_RECIPE'
+const SET_THIS_RECIPE = 'SET_THIS_RECIPE'
+const SET_FAVORITE_RECIPES = 'SET_FAVORITE_RECIPES'
 
 // Actions Creators
 export const setRecipeResults = (selectedRecipe, index, top10Recipes) => {
@@ -28,33 +31,22 @@ export const setNextRecipe = (selectedRecipe, index) => {
   }
 }
 
-// Thunk Creators
-export const fetchNextRecipe = (top10Recipes, index) => {
-  console.log('fetching next...')
-  return async dispatch => {
-    try {
-      console.log('t10.len', top10Recipes.length, 'index', index)
-      if (top10Recipes.length <= index) index = 0
-      const res = await axios.get(`/api/recipe/${top10Recipes[index].id}`)
-      console.log('res', res)
-      if (res.data.analyzedInstructions.length) {
-        dispatch(setNextRecipe(res.data, index))
-      } else if (top10Recipes.length >= index + 1) {
-        console.log('checking next recipe')
-        console.log('top10Recipes', top10Recipes)
-        console.log('index+1', index + 1)
-        console.log('fetchNextRecipe', fetchNextRecipe)
-        await dispatch(fetchNextRecipe(top10Recipes, index + 1))
-      } else {
-        console.log('going back to 0')
-        await dispatch(fetchNextRecipe(top10Recipes, 0))
-      }
-    } catch (error) {
-      console.log(error)
-    }
+export const setThisRecipe = selectedRecipe => {
+  return {
+    type: SET_THIS_RECIPE,
+    selectedRecipe
   }
 }
 
+export const setFavoriteRecipes = favoriteRecipes => {
+  console.log('setFavoriteRecipes()', favoriteRecipes)
+  return {
+    type: SET_FAVORITE_RECIPES,
+    favoriteRecipes
+  }
+}
+
+// Thunk Creators
 export const fetchFirstRecipe = userId => {
   return async dispatch => {
     try {
@@ -66,6 +58,60 @@ export const fetchFirstRecipe = userId => {
           res.data.sortedRecipes
         )
       )
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const fetchNextRecipe = (userId, top10Recipes, index) => {
+  return async dispatch => {
+    try {
+      if (top10Recipes.length <= index) index = 0
+      const res = await axios.get(
+        `/api/recipe/${userId}/${top10Recipes[index].id}`
+      )
+      if (res.data.analyzedInstructions.length) {
+        dispatch(setNextRecipe(res.data, index))
+      } else if (top10Recipes.length >= index + 1) {
+        await dispatch(fetchNextRecipe(top10Recipes, index + 1))
+      } else {
+        await dispatch(fetchNextRecipe(top10Recipes, 0))
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const fetchThisRecipe = id => {
+  return async dispatch => {
+    try {
+      const res = await axios.get(`/api/recipe/${id}`)
+      if (res.data.title) {
+        dispatch(setThisRecipe(res.data))
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const fetchFavoriteRecipes = userId => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get(`/api/recipe/favorites/${userId}`)
+      dispatch(setFavoriteRecipes(data))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const saveRecipe = (userId, recipeId) => {
+  return async () => {
+    try {
+      await axios.get(`/api/recipe/save/${userId}/${recipeId}`)
     } catch (error) {
       console.log(error)
     }
@@ -88,6 +134,18 @@ const recipesReducer = (state = initialState, action) => {
         ...state,
         selectedRecipe: action.selectedRecipe,
         index: action.index
+      }
+    }
+    case SET_THIS_RECIPE: {
+      return {
+        ...state,
+        selectedRecipe: action.selectedRecipe
+      }
+    }
+    case SET_FAVORITE_RECIPES: {
+      return {
+        ...state,
+        favoriteRecipes: action.favoriteRecipes
       }
     }
     default:

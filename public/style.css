@@ -110,3 +110,21 @@ img#nav-logo {
 .add-to-fridge-cont {
   padding: 3%;
 }
+
+#blueHeart {
+  content: url('./blueHeart.png');
+  max-width: 50px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+}
+
+#grayHeart {
+  content: url('./grayHeart.png');
+  max-width: 50px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+}
