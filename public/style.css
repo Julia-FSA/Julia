@@ -22,12 +22,14 @@ nav {
   background-color: rgba(37, 37, 37, 0.8);
   text-align: center;
   color: #fff;
-  /* position: fixed; */
-  /* border-radius: 0 0 1em 1em; */
 }
 
 .nav-link {
   color: orange;
+}
+
+.navbar-nav {
+  align-items: center;
 }
 
 form div {

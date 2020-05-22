@@ -12,7 +12,6 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         <Link to="/home">
           <img id="nav-logo" className="navbar-brand" src="favicon.ico" />
         </Link>
-
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
             <Link className="nav-link" to="/home">
