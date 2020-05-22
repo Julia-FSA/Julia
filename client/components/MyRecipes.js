@@ -21,85 +21,38 @@ class MyRecipes extends React.Component {
     return (
       <div className="outer-cont">
         <div className="container inner-cont">
-          <div className="fridge-cont">
-            <h1>Your Favorite Recipes:</h1>
-            <div id="flex-card-cont">
-              <div className="card">
-                <img
-                  className="card-img-top"
-                  src={sampleImage}
-                  alt="Card image cap"
-                />
-                <div className="card-body">
-                  <h5 className="card-title">
-                    Thai Carrot Peanut Noodle Salad
-                  </h5>
-                  <p className="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-                  <a href="#" className="btn btn-warning">
-                    See More
-                  </a>
-                </div>
-              </div>
-              <div className="card">
-                <img
-                  className="card-img-top"
-                  src={sampleImage}
-                  alt="Card image cap"
-                />
-                <div className="card-body">
-                  <h5 className="card-title">Recipe Title</h5>
-                  <p className="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-                  <a href="#" className="btn btn-warning">
-                    Go somewhere
-                  </a>
-                </div>
-              </div>
-              <div className="card">
-                <img
-                  className="card-img-top"
-                  src={sampleImage}
-                  alt="Card image cap"
-                />
-                <div className="card-body">
-                  <h5 className="card-title">Card title</h5>
-                  <p className="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-                  <a href="#" className="btn btn-primary">
-                    Go somewhere
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <ul className="recipe-container">
+          <div className="title-image-cont">
             <div>
-              {favoriteRecipes.length ? (
-                favoriteRecipes.map(recipe => {
-                  return (
-                    <li className="recipe" key={recipe.id}>
-                      <Link className="recipe-link" to={`/recipe/${recipe.id}`}>
-                        <img src={sampleImage} className="recipe-image" />
-                        {`${recipe.title} - Ready In:${
-                          recipe.readyInMinutes
-                        }min. - ${recipe.aggregateLikes} Likes`}
-                      </Link>
-                    </li>
-                  )
-                })
-              ) : (
-                <li>No Favorite Recipes</li>
-              )}
+              <h3 style={{alignText: 'center'}}>Your Favorite Recipes:</h3>
             </div>
-          </ul>
+            <ul className="recipe-container">
+              <div>
+                {favoriteRecipes.length ? (
+                  favoriteRecipes.map(recipe => {
+                    return (
+                      <li className="recipe" key={recipe.id}>
+                        <Link
+                          className="recipe-link"
+                          to={`/recipe/${recipe.id}`}
+                        >
+                          <div className="image-cont">
+                            <img src={recipe.image} className="recipe-image" />
+                          </div>
+                          <div className="title-cont">
+                            {`${recipe.title} - Ready In: ${
+                              recipe.readyInMinutes
+                            }min. - ${recipe.likes} Likes`}
+                          </div>
+                        </Link>
+                      </li>
+                    )
+                  })
+                ) : (
+                  <li>No Favorite Recipes</li>
+                )}
+              </div>
+            </ul>
+          </div>
         </div>
       </div>
     )

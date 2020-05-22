@@ -1,11 +1,13 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import axios from 'axios'
 import {connect} from 'react-redux'
 import {
   searchedByIngredients,
-  searchedByRecipeName,
+  searchedByRecipeName
 } from '../store/searchRecipes'
 import {Button} from 'react-bootstrap'
+const {recipeToAlexa, recipeFormatter} = require('../util_recipeToAlexa')
+const {SpoonacularAPIKey} = require('../../secrets')
 
 /**
  * COMPONENT
@@ -15,7 +17,7 @@ class SearchRecipes extends React.Component {
   constructor() {
     super()
     this.state = {
-      on: true,
+      on: true
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -24,25 +26,19 @@ class SearchRecipes extends React.Component {
 
   toggle() {
     this.setState({
-      on: !this.state.on,
+      on: !this.state.on
     })
-    if (this.state.on) {
-      this.props.searchByRecipeName('')
-    } else {
-      this.props.searchByIngredients('')
-    }
   }
 
   handleChange(evt) {
     this.setState({
-      [evt.target.name]: evt.target.value,
+      [evt.target.name]: evt.target.value
     })
   }
 
   handleSubmit(evt) {
     evt.preventDefault()
     const searchByName = this.state.on // true => search by recipe name
-
     if (searchByName) {
       const recipeName = evt.target.recipeName.value
       this.props.searchByRecipeName(recipeName)
@@ -52,8 +48,23 @@ class SearchRecipes extends React.Component {
     }
   }
 
+  async sendToAlexa(user) {
+    let recipe = this.props.searchRecipes.searchedRecipes
+    const res = await axios.get(
+      `https://api.spoonacular.com/recipes/${
+        recipe.id
+      }/information?instructionsRequired=true&includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
+    )
+    recipe = res.data
+    const formattedRecipe = recipeFormatter(recipe)
+    if (user.id) {
+      recipeToAlexa(user, formattedRecipe)
+    }
+  }
+
   render() {
     const {searchedRecipes} = this.props.searchRecipes
+    const {user} = this.props
 
     return (
       <div className="outer-cont">
@@ -61,15 +72,19 @@ class SearchRecipes extends React.Component {
           <div>
             {this.state.on ? (
               <div>
-                <Button variant="warning" onClick={this.toggle}>
-                  Search by ingredients
-                </Button>
+                <div>
+                  <Button variant="warning" onClick={this.toggle}>
+                    Search by ingredients
+                  </Button>
+                </div>
               </div>
             ) : (
               <div>
-                <Button variant="warning" onClick={this.toggle}>
-                  Search by recipe name
-                </Button>
+                <div>
+                  <Button variant="warning" onClick={this.toggle}>
+                    Search by recipe name
+                  </Button>
+                </div>
               </div>
             )}
             <br />
@@ -102,90 +117,66 @@ class SearchRecipes extends React.Component {
               <Button variant="danger" type="submit">
                 Search
               </Button>
+              <div>
+                {user.id ? (
+                  <Button
+                    variant="success"
+                    onClick={() => this.sendToAlexa(user)}
+                  >
+                    Send to Alexa
+                  </Button>
+                ) : null}
+              </div>
             </div>
           </div>
         </form>
         <div>
-          {searchedRecipes ? (
-            !this.state.on ? (
-              !searchedRecipes.extendedIngredients ? (
-                <div className="container inner-cont">
-                  <div className="title-image-cont">
-                    {/* <div className="image-cont">
-                          <img
-                            src={searchedRecipes.image}
-                            alt={searchedRecipes.title}
-                          />
-                        </div> */}
-                    <div className="title-cont">
-                      <h3>{searchedRecipes.title}</h3>
-                      <p>Servings: {searchedRecipes.servings}</p>
-                      <p>Cook time: {searchedRecipes.readyInMinutes} Minutes</p>
-                    </div>
-                  </div>
-                  <div className="container ingredient-cont">
-                    <h3>Ingredients </h3>
-                    <hr />
-                    <ul>
-                      {searchedRecipes.ingredients
-                        .filter((ingredient) => typeof ingredient === 'string')
-                        .map((ingredient, index) => (
-                          <li key={index}>{ingredient}</li>
-                        ))}
-                    </ul>
-                  </div>
-                  <div className="container instruction-cont">
-                    <h3>Instructions</h3>
-                    <hr />
-                    {searchedRecipes.steps.map((step, index) => (
-                      <div key={index}>{step.slice(5)}</div>
-                    ))}
-                  </div>
+          {!searchedRecipes ? null : searchedRecipes.extendedIngredients ? (
+            // SEARCH BY INGREDIENTS
+            <div className="container inner-cont">
+              <div className="title-image-cont">
+                <div className="image-cont">
+                  <img src={searchedRecipes.image} alt="recipe image" />
                 </div>
-              ) : (
-                <div className="loader">
-                  No Result - Please try a new search.
-                </div>
-              )
-            ) : !searchedRecipes.ingredients ? (
-              <div className="container inner-cont">
-                <div className="title-image-cont">
-                  <div className="image-cont">
-                    <img src={searchedRecipes.image} alt="recipe image" />
-                  </div>
-                  <div className="title-cont">
-                    <h3>{searchedRecipes.title}</h3>
-                    <p>Servings: {searchedRecipes.servings}</p>
-                    <p>Cook time: {searchedRecipes.readyInMinutes} Minutes</p>
-                  </div>
-                </div>
-                <div className="container ingredient-cont">
-                  <h3> Ingredients </h3>
-                  <hr />
-                  <ul>
-                    {searchedRecipes.extendedIngredients.map(
-                      (ingredient, index) => (
-                        <li key={index}>{ingredient.name}</li>
-                      )
-                    )}
-                  </ul>
-                </div>
-                <div className="container instruction-cont">
-                  <h3>Instructions</h3>
-                  <hr />
-                  {searchedRecipes.analyzedInstructions[0].steps.map(
-                    (step, index) => (
-                      <p key={index}>
-                        {index + 1}. {step.step}
-                      </p>
-                    )
-                  )}
+                <div className="title-cont">
+                  <h3>{searchedRecipes.title}</h3>
+                  <p>Servings: {searchedRecipes.servings}</p>
+                  <p>Cook time: {searchedRecipes.readyInMinutes} Minutes</p>
                 </div>
               </div>
-            ) : (
-              <div className="loader">No Result - Please try a new search.</div>
-            )
-          ) : null}
+              <div className="container ingredient-cont">
+                <h3>Ingredients </h3>
+                <hr />
+                <div>
+                  <ul>
+                    {searchedRecipes.extendedIngredients.map(function(
+                      ingredient
+                    ) {
+                      return (
+                        <li key={ingredient.id}>
+                          {ingredient.amount} {ingredient.unit} -{' '}
+                          {ingredient.name}
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              </div>
+              <div className="container instruction-cont">
+                <h3>Instructions</h3>
+                <hr />
+                {searchedRecipes.analyzedInstructions[0].steps.map(
+                  (step, index) => (
+                    <p key={index}>
+                      {index + 1}. {step.step}
+                    </p>
+                  )
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="loader">No Result - Please try a new search.</div>
+          )}
         </div>
       </div>
     )
@@ -196,19 +187,19 @@ class SearchRecipes extends React.Component {
  * CONTAINER
  */
 
-const mapDispatch = (dispatch) => ({
-  searchByIngredients: (ingredients) => {
+const mapDispatch = dispatch => ({
+  searchByIngredients: ingredients => {
     dispatch(searchedByIngredients(ingredients))
   },
-  searchByRecipeName: (recipeName) => {
+  searchByRecipeName: recipeName => {
     dispatch(searchedByRecipeName(recipeName))
-  },
+  }
 })
 
-const mapState = (state) => {
+const mapState = state => {
   return {
-    email: state.user.email,
-    searchRecipes: state.searchRecipes,
+    user: state.user,
+    searchRecipes: state.searchRecipes
   }
 }
 

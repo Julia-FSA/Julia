@@ -25,7 +25,10 @@ export const Home = props => {
           <div className="text-cont">
             <h1>Welcome to Julia Cooks!</h1>
             <br />
-            <h2>Login or Signup to get started.</h2>
+            <h2>
+              <Link to="/Login">Login </Link> or{' '}
+              <Link to="/signup">Signup </Link> to get started.
+            </h2>
           </div>
         </div>
       )}

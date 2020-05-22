@@ -11,8 +11,9 @@ import {
   Login,
   MyRecipes,
   Signup,
+  SearchRecipes,
   SingleRecipe,
-  SearchRecipes
+  Terms
 } from './components'
 import {me} from './store'
 /**
@@ -36,16 +37,19 @@ class Routes extends Component {
         {/* <Route path="/allrecipes" component={AllRecipes} /> */}
         {/* <Route path="/recipehistory" component={RecipeHistory} /> */}
         <Route path="/searchrecipes" component={SearchRecipes} />
+        <Route path="/recipe/:id" component={SingleRecipe} />
         <Route path="/alexa" component={Alexa} />
+        <Route path="/terms" component={Terms} />
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/fridge" component={Fridge} />
             <Route path="/findRecipe" component={FindRecipe} />
             <Route path="/myrecipes" component={MyRecipes} />
-            <Route path="/singlerecipe" component={SingleRecipe} />
             <Route path="/searchrecipes" component={SearchRecipes} />
-            <Route path="/linkaccount" component={LinkAccount} />
+            <Route path="/searchrecipes" component={SearchRecipes} />
+            <Route path="/terms" component={Terms} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

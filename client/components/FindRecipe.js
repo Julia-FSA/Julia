@@ -1,7 +1,15 @@
 import React from 'react'
+import axios from 'axios'
 import {connect} from 'react-redux'
-import {fetchFirstRecipe, fetchNextRecipe, saveRecipe} from '../store/recipes'
+import {
+  fetchFirstRecipe,
+  fetchNextRecipe,
+  unsaveRecipe,
+  saveRecipe
+} from '../store/recipes'
 import {Button} from 'react-bootstrap'
+const {recipeToAlexa, recipeFormatter} = require('../util_recipeToAlexa')
+const {SpoonacularAPIKey} = require('../../secrets')
 
 /**
  * COMPONENT
@@ -9,8 +17,12 @@ import {Button} from 'react-bootstrap'
 class SingleRecipe extends React.Component {
   constructor() {
     super()
+    this.state = {
+      favorited: false
+    }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.saveRecipe = this.saveRecipe.bind(this)
+    this.unsaveRecipe = this.unsaveRecipe.bind(this)
   }
 
   async componentDidMount() {
@@ -21,22 +33,60 @@ class SingleRecipe extends React.Component {
   }
 
   async handleSubmit() {
+    console.log('this.props submit()', this.props)
     await this.props.fetchNextRecipe(
       this.props.user.id,
       this.props.top10Recipes,
       this.props.index + 1
     )
+    this.setState({
+      favorited: false
+    })
   }
 
   async saveRecipe() {
     const recipeId = this.props.selectedRecipe.id
     const userId = this.props.user.id
+    console.log('component saving...', recipeId, userId)
     await this.props.saveRecipe(userId, recipeId)
+    console.log('component saved!')
+    this.setState({
+      favorited: true
+    })
+  }
+
+  async unsaveRecipe() {
+    const recipeId = this.props.selectedRecipe.id
+    const userId = this.props.user.id
+    console.log('component unsaving...', recipeId, userId)
+    await this.props.unsaveRecipe(userId, recipeId)
+    console.log('component unsaved!')
+    this.setState({
+      favorited: false
+    })
+  }
+
+  async sendToAlexa(user) {
+    let recipe = this.props.selectedRecipe
+    const res = await axios.get(
+      `https://api.spoonacular.com/recipes/${
+        recipe.id
+      }/information?instructionsRequired=true&includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
+    )
+    recipe = res.data
+    // console.log('axiosed recipe >>>>>>>>>>>>>> ', recipe)
+    const formattedRecipe = recipeFormatter(recipe)
+    // console.log('formatted FindRecipe >>>>>>>>>>>>>> ', formattedRecipe)
+    if (user.id) {
+      recipeToAlexa(user, formattedRecipe)
+    }
   }
 
   render() {
     console.log('this.props render()', this.props)
     const selectedRecipe = this.props.selectedRecipe
+    const {user} = this.props
+
     return (
       <div className="outer-cont">
         {selectedRecipe.analyzedInstructions ? (
@@ -50,7 +100,11 @@ class SingleRecipe extends React.Component {
                 <p>Cook time: {selectedRecipe.readyInMinutes} Minutes</p>
                 <p>{selectedRecipe.aggregateLikes} Likes</p>
                 <br />
-                <div onClick={this.saveRecipe} id="grayHeart" />
+                {selectedRecipe.favorited || this.state.favorited ? (
+                  <div onClick={this.unsaveRecipe} id="blueHeart" />
+                ) : (
+                  <div onClick={this.saveRecipe} id="grayHeart" />
+                )}
                 <Button
                   variant="danger"
                   type="submit"
@@ -58,8 +112,16 @@ class SingleRecipe extends React.Component {
                 >
                   Show Me Another Recipe
                 </Button>
+                <br />
+                <Button
+                  variant="success"
+                  onClick={() => this.sendToAlexa(user)}
+                >
+                  Send to Alexa
+                </Button>
               </div>
             </div>
+
             <div className="container ingredient-cont">
               <h3>Ingredients</h3>
               <hr />
@@ -119,7 +181,8 @@ const mapDispatch = dispatch => ({
   fetchFirstRecipe: userId => dispatch(fetchFirstRecipe(userId)),
   fetchNextRecipe: (userId, top10Recipes, index) =>
     dispatch(fetchNextRecipe(userId, top10Recipes, index)),
-  saveRecipe: (userId, recipeId) => dispatch(saveRecipe(userId, recipeId))
+  saveRecipe: (userId, recipeId) => dispatch(saveRecipe(userId, recipeId)),
+  unsaveRecipe: (userId, recipeId) => dispatch(unsaveRecipe(userId, recipeId))
 })
 
 export default connect(mapState, mapDispatch)(SingleRecipe)
