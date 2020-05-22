@@ -6,6 +6,7 @@ import {
   searchedByRecipeName,
 } from '../store/searchRecipes'
 import {Button} from 'react-bootstrap'
+const recipeToAlexa = require('../util_recipeToAlexa')
 
 /**
  * COMPONENT
@@ -52,8 +53,15 @@ class SearchRecipes extends React.Component {
     }
   }
 
+  sendToAlexa(user) {
+    if (user.id) {
+      recipeToAlexa(user, this.props.searchRecipes.searchedRecipes)
+    }
+  }
+
   render() {
     const {searchedRecipes} = this.props.searchRecipes
+    const {user} = this.props
 
     return (
       <div className="outer-cont">
@@ -61,15 +69,19 @@ class SearchRecipes extends React.Component {
           <div>
             {this.state.on ? (
               <div>
-                <Button variant="warning" onClick={this.toggle}>
-                  Search by ingredients
-                </Button>
+                <div>
+                  <Button variant="warning" onClick={this.toggle}>
+                    Search by ingredients
+                  </Button>
+                </div>
               </div>
             ) : (
               <div>
-                <Button variant="warning" onClick={this.toggle}>
-                  Search by recipe name
-                </Button>
+                <div>
+                  <Button variant="warning" onClick={this.toggle}>
+                    Search by recipe name
+                  </Button>
+                </div>
               </div>
             )}
             <br />
@@ -102,6 +114,16 @@ class SearchRecipes extends React.Component {
               <Button variant="danger" type="submit">
                 Search
               </Button>
+              <div>
+                {user.id ? (
+                  <Button
+                    variant="success"
+                    onClick={() => this.sendToAlexa(user)}
+                  >
+                    Send to Alexa
+                  </Button>
+                ) : null}
+              </div>
             </div>
           </div>
         </form>
@@ -111,12 +133,6 @@ class SearchRecipes extends React.Component {
               !searchedRecipes.extendedIngredients ? (
                 <div className="container inner-cont">
                   <div className="title-image-cont">
-                    {/* <div className="image-cont">
-                          <img
-                            src={searchedRecipes.image}
-                            alt={searchedRecipes.title}
-                          />
-                        </div> */}
                     <div className="title-cont">
                       <h3>{searchedRecipes.title}</h3>
                       <p>Servings: {searchedRecipes.servings}</p>
@@ -207,7 +223,7 @@ const mapDispatch = (dispatch) => ({
 
 const mapState = (state) => {
   return {
-    email: state.user.email,
+    user: state.user,
     searchRecipes: state.searchRecipes,
   }
 }

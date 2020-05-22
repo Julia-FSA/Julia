@@ -3,6 +3,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchFirstRecipe, fetchNextRecipe} from '../store/recipes'
 import {Button} from 'react-bootstrap'
+const recipeToAlexa = require('../util_recipeToAlexa')
+
 /**
  * COMPONENT
  */
@@ -24,9 +26,16 @@ class SingleRecipe extends React.Component {
     )
   }
 
+  sendToAlexa(user) {
+    if (user.id) {
+      recipeToAlexa(user, this.props.selectedRecipe)
+    }
+  }
   render() {
     const selectedRecipe = this.props.selectedRecipe
-    console.log('rendeding selectedRecipe', selectedRecipe)
+    const {user} = this.props
+    // console.log('rendeding selectedRecipe', selectedRecipe)
+
     return (
       <div className="outer-cont">
         {selectedRecipe.analyzedInstructions ? (
@@ -46,14 +55,24 @@ class SingleRecipe extends React.Component {
                 >
                   Show Me Another Recipe
                 </Button>
+                <br />
+                <Button
+                  variant="success"
+                  onClick={() => this.sendToAlexa(user)}
+                >
+                  Send to Alexa
+                </Button>
               </div>
             </div>
+
             <div className="container ingredient-cont">
               <h3>Ingredients</h3>
               <hr />
               <div>
                 <ul>
-                  {selectedRecipe.extendedIngredients.map(function(ingredient) {
+                  {selectedRecipe.extendedIngredients.map(function (
+                    ingredient
+                  ) {
                     return (
                       <li key={ingredient.id}>
                         {ingredient.amount} {ingredient.unit} -{' '}
@@ -69,7 +88,7 @@ class SingleRecipe extends React.Component {
               <hr />
               <div>
                 {' '}
-                {selectedRecipe.analyzedInstructions[0].steps.map(function(
+                {selectedRecipe.analyzedInstructions[0].steps.map(function (
                   step
                 ) {
                   return (
@@ -94,20 +113,20 @@ class SingleRecipe extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
-    email: state.user.email,
+    user: state.user,
     userId: state.user.id,
     selectedRecipe: state.recipes.selectedRecipe,
     index: state.recipes.index,
-    top10Recipes: state.recipes.top10Recipes
+    top10Recipes: state.recipes.top10Recipes,
   }
 }
 
-const mapDispatch = dispatch => ({
-  fetchFirstRecipe: userId => dispatch(fetchFirstRecipe(userId)),
+const mapDispatch = (dispatch) => ({
+  fetchFirstRecipe: (userId) => dispatch(fetchFirstRecipe(userId)),
   fetchNextRecipe: (top10Recipes, index) =>
-    dispatch(fetchNextRecipe(top10Recipes, index))
+    dispatch(fetchNextRecipe(top10Recipes, index)),
 })
 
 export default connect(mapState, mapDispatch)(SingleRecipe)

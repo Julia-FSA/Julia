@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import {setRecipeResults} from './recipes'
 
 /**
  * ACTION TYPES
@@ -7,11 +8,17 @@ import history from '../history'
 const SIGN_UP_USER = 'SIGN_UP_USER'
 const LOGIN_USER = 'LOGIN_USER'
 const REMOVE_USER = 'REMOVE_USER'
+// const RECIPE_TO_ALEXA = 'RECIPE_TO_ALEXA'
 
 /**
  * INITIAL STATE
  */
-const defaultUser = {}
+const defaultUser = {
+  fridge: [],
+  recipes: {selectedRecipe: {}, top10Recipes: []},
+  searchRecipes: {},
+  user: {},
+}
 
 /**
  * ACTION CREATORS
@@ -19,6 +26,7 @@ const defaultUser = {}
 const signUpUser = (user) => ({type: SIGN_UP_USER, user})
 const loginUser = (user) => ({type: LOGIN_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
+// const sendRecipeToAlexa = (recipe) => ({type: RECIPE_TO_ALEXA, recipe})
 
 /**
  * THUNK CREATORS
@@ -68,11 +76,20 @@ export const logout = () => async (dispatch) => {
   try {
     await axios.post('/auth/logout')
     dispatch(removeUser())
+    dispatch(setRecipeResults({}, 0, []))
     history.push('/login')
   } catch (err) {
     console.error(err)
   }
 }
+
+// export const recipeToAlexa = (recipe) => (dispatch) => {
+//   try {
+//     dispatch(sendRecipeToAlexa(recipe))
+//   } catch (dispatchOrHistoryErr) {
+//     console.error(dispatchOrHistoryErr)
+//   }
+// }
 
 /**
  * REDUCER
