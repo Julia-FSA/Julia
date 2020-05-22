@@ -13,10 +13,12 @@ class SingleRecipe extends React.Component {
   }
 
   render() {
+    console.log('render() props', this.props)
     const selectedRecipe = this.props.selectedRecipe
+    console.log('selectedRecipe', selectedRecipe)
     return (
       <div className="outer-cont">
-        {selectedRecipe.analyzedInstructions ? (
+        {selectedRecipe.steps ? (
           <div className="container inner-cont">
             <div className="title-image-cont">
               <div className="image-cont">
@@ -25,7 +27,7 @@ class SingleRecipe extends React.Component {
               <div className="title-cont">
                 <h3>{selectedRecipe.title}</h3>
                 <p>Cook time: {selectedRecipe.readyInMinutes} Minutes</p>
-                <p>{selectedRecipe.aggregateLikes} Likes</p>
+                <p>{selectedRecipe.likes} Likes</p>
               </div>
             </div>
             <div className="container ingredient-cont">
@@ -33,7 +35,7 @@ class SingleRecipe extends React.Component {
               <hr />
               <div>
                 <ul>
-                  {selectedRecipe.extendedIngredients.map(function(ingredient) {
+                  {selectedRecipe.ingredients.map(function(ingredient) {
                     return (
                       <li key={ingredient.id}>
                         {ingredient.amount} {ingredient.unit} -{' '}
@@ -49,9 +51,7 @@ class SingleRecipe extends React.Component {
               <hr />
               <div>
                 {' '}
-                {selectedRecipe.analyzedInstructions[0].steps.map(function(
-                  step
-                ) {
+                {selectedRecipe.steps.map(function(step) {
                   return (
                     <p key={step.number}>
                       {step.number}. {step.step}

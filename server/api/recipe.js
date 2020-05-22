@@ -6,7 +6,7 @@ const db = require('../db')
 const router = require('express').Router()
 module.exports = router
 
-const recipeFormatter = (recipe) => {
+const recipeFormatter = recipe => {
   let rec = {
     id: recipe.id,
     ingredients: [],
@@ -15,11 +15,11 @@ const recipeFormatter = (recipe) => {
     steps: [],
     title: recipe.title,
     vegan: recipe.vegan,
-    vegetarian: recipe.vegetarian,
+    vegetarian: recipe.vegetarian
   }
-  recipe.analyzedInstructions[0].steps.forEach((step) => {
+  recipe.analyzedInstructions[0].steps.forEach(step => {
     rec.steps.push(`Step ${step.number}: ${step.step}`)
-    step.ingredients.forEach((ingredient) => {
+    step.ingredients.forEach(ingredient => {
       if (!rec.ingredients.includes(ingredient.id)) {
         rec.ingredients.push(ingredient.id, `${ingredient.name}`)
       }
@@ -39,7 +39,7 @@ router.get('/byIngredient/:ingredients', (req, res, next) => {
       .get(
         `https://api.spoonacular.com/recipes/complexSearch?includeIngredients=${ingredientStr}&addRecipeInformation=true&instructionsRequired=true&number=1&apiKey=${SpoonacularAPIKey}`
       )
-      .then((recipe) => {
+      .then(recipe => {
         res.json(recipeFormatter(recipe.data.results[0]))
       })
   } catch (error) {
@@ -51,8 +51,8 @@ router.get('/findrecipe/:id', async (req, res, next) => {
     let params = {
       TableName: 'stocks',
       Key: {
-        id: req.params.id,
-      },
+        id: req.params.id
+      }
     }
 
     const data = await db.get(params).promise()
@@ -68,10 +68,10 @@ router.get('/findrecipe/:id', async (req, res, next) => {
       `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredientStr}&number=10&ranking=2&ignorePantry=true&apiKey=${SpoonacularAPIKey}`
     )
 
-    const sortedRecipes = result.data.sort(function (a, b) {
+    const sortedRecipes = result.data.sort(function(a, b) {
       return b.likes - a.likes
     })
-    const filteredRecipes = sortedRecipes.filter((recipe) => {
+    const filteredRecipes = sortedRecipes.filter(recipe => {
       return (
         recipe.missedIngredientCount === result.data[0].missedIngredientCount
       )
@@ -95,8 +95,8 @@ router.get('/findrecipe/:id', async (req, res, next) => {
     let params2 = {
       TableName: 'users',
       Key: {
-        id: req.params.id,
-      },
+        id: req.params.id
+      }
     }
 
     const data2 = await db.get(params2).promise()
@@ -110,7 +110,7 @@ router.get('/findrecipe/:id', async (req, res, next) => {
     const obj = {
       goodRecipe,
       index,
-      sortedRecipes,
+      sortedRecipes
     }
     res.json(obj)
   } catch (error) {
@@ -135,8 +135,8 @@ router.get('/save/:userId/:recipeId', async (req, res, next) => {
   const userInfo = {
     TableName: 'users',
     Key: {
-      id: userId,
-    },
+      id: userId
+    }
   }
 
   try {
@@ -148,13 +148,13 @@ router.get('/save/:userId/:recipeId', async (req, res, next) => {
       const userFavorites = {
         TableName: 'users',
         Key: {
-          id: userId,
+          id: userId
         },
         UpdateExpression: 'set favorites = :f',
         ExpressionAttributeValues: {
-          ':f': arr,
+          ':f': arr
         },
-        ReturnValues: 'ALL_NEW',
+        ReturnValues: 'ALL_NEW'
       }
 
       console.log('pinging spoon')
@@ -182,8 +182,8 @@ router.get('/save/:userId/:recipeId', async (req, res, next) => {
           ':title': detailedRecipe.title,
           ':vegan': detailedRecipe.vegan,
           ':vegetarian': detailedRecipe.vegetarian,
-          ':likes': detailedRecipe.aggregateLikes,
-        },
+          ':likes': detailedRecipe.aggregateLikes
+        }
       }
 
       await db.update(reducedRecipe).promise()
@@ -200,8 +200,8 @@ router.get('/unsave/:userId/:recipeId', async (req, res, next) => {
   const params1 = {
     TableName: 'users',
     Key: {
-      id: userId,
-    },
+      id: userId
+    }
   }
 
   try {
@@ -214,13 +214,13 @@ router.get('/unsave/:userId/:recipeId', async (req, res, next) => {
       const params2 = {
         TableName: 'users',
         Key: {
-          id: userId,
+          id: userId
         },
         UpdateExpression: 'set favorites = :f',
         ExpressionAttributeValues: {
-          ':f': arr,
+          ':f': arr
         },
-        ReturnValues: 'ALL_NEW',
+        ReturnValues: 'ALL_NEW'
       }
 
       console.log('new arr', arr)
@@ -244,8 +244,8 @@ router.get('/favorites/:userId', async (req, res, next) => {
     const params1 = {
       TableName: 'users',
       Key: {
-        id: userId,
-      },
+        id: userId
+      }
     }
 
     const data1 = await db.get(params1).promise()
@@ -256,8 +256,8 @@ router.get('/favorites/:userId', async (req, res, next) => {
       const params2 = {
         TableName: 'recipes',
         Key: {
-          id: recipesArr[i],
-        },
+          id: recipesArr[i]
+        }
       }
 
       const data2 = await db.get(params2).promise()
@@ -276,17 +276,18 @@ router.get('/favorites/:userId', async (req, res, next) => {
 
 router.get('/myrecipes/:recipeId', async (req, res, next) => {
   const {recipeId} = req.params
+  console.log('recipeId', recipeId)
   try {
     const params = {
       TableName: 'recipes',
       Key: {
-        id: Number(recipeId),
-      },
+        id: Number(recipeId)
+      }
     }
 
     const recipe = await db.get(params).promise()
-    console.log('recipe', recipe)
-    res.json(recipe.data)
+    console.log('recipe.Item', recipe.Item)
+    res.json(recipe.Item)
   } catch (error) {
     next(error)
   }
@@ -300,7 +301,7 @@ router.get('/search/:id', (req, res, next) => {
       .get(
         `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
       )
-      .then((recipe) => {
+      .then(recipe => {
         console.log('found recipe by id')
         console.log('recipe.data', recipe.data)
         res.json(recipe.data)
@@ -320,8 +321,8 @@ router.get('/:userId/:recipeId', async (req, res, next) => {
     const params = {
       TableName: 'users',
       Key: {
-        id: userId,
-      },
+        id: userId
+      }
     }
 
     const data = await db.get(params).promise()

@@ -87,7 +87,9 @@ export const fetchNextRecipe = (userId, top10Recipes, index) => {
 export const fetchThisRecipe = id => {
   return async dispatch => {
     try {
+      console.log('id', id)
       const res = await axios.get(`/api/recipe/myrecipes/${id}`)
+      console.log('res.data', res.data)
       if (res.data.title) {
         dispatch(setThisRecipe(res.data))
       }
