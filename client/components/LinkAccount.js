@@ -1,5 +1,5 @@
+import axios from 'axios'
 import React from 'react'
-import {setCode} from '../../server/db/write'
 import {connect} from 'react-redux'
 
 /**
@@ -24,11 +24,12 @@ class LinkAccount extends React.Component {
   }
 
   async handleSubmit() {
-    const rand = Math.floor(100000 + Math.random() * 900000)
+    const code = Math.floor(100000 + Math.random() * 900000)
     const timeLimit = 180000
     const interval = 1000
+    const userId = this.props.user.id
 
-    await setCode(this.props.user.id, rand)
+    await axios.put(`./users/passcode/${userId}`, code)
 
     for (let i = 0; i < timeLimit / interval; i++) {
       setTimeout(
