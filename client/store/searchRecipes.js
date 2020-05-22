@@ -22,18 +22,18 @@ const initialState = {}
 /**
  * ACTION CREATORS
  */
-const searchRecipeByIngredients = (recipe) => ({
+const searchRecipeByIngredients = recipe => ({
   type: SEARCH_RECIPE_BY_INGREDIENTS,
-  recipe,
+  recipe
 })
-const searchRecipeByName = (recipe) => ({
+const searchRecipeByName = recipe => ({
   type: SEARCH_RECIPE_BY_NAME,
-  recipe,
+  recipe
 })
 /**
  * THUNK CREATORS
  */
-export const searchedByIngredients = (ingredients) => async (dispatch) => {
+export const searchedByIngredients = ingredients => async dispatch => {
   try {
     let {data} = await axios.get(`api/recipe/byIngredient/${ingredients}`)
 
@@ -43,7 +43,7 @@ export const searchedByIngredients = (ingredients) => async (dispatch) => {
   }
 }
 
-export const searchedByRecipeName = (recipeName) => async (dispatch) => {
+export const searchedByRecipeName = recipeName => async dispatch => {
   try {
     let recipe = await axios.get(`api/recipe/byRecipeName/${recipeName}`)
     let {data} = await axios.get(`api/recipe/${recipe.data.results[0].id}`)
@@ -56,7 +56,7 @@ export const searchedByRecipeName = (recipeName) => async (dispatch) => {
 /**
  * REDUCER
  */
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case SEARCH_RECIPE_BY_INGREDIENTS:
       return {...state, searchedRecipes: action.recipe}

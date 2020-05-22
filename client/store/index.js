@@ -11,7 +11,7 @@ const reducer = combineReducers({
   user,
   fridge,
   recipes,
-  searchRecipes,
+  searchRecipes
 })
 
 const middleware = composeWithDevTools(

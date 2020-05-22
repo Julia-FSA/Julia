@@ -61,7 +61,7 @@ class SingleRecipe extends React.Component {
               </div>
             </div>
             <div className="container ingredient-cont">
-              <h3>Ingredients:</h3>
+              <h3>Ingredients</h3>
               <hr />
               <div>
                 <ul>
@@ -77,7 +77,7 @@ class SingleRecipe extends React.Component {
               </div>
             </div>
             <div className="container instruction-cont">
-              <h3>Instructions:</h3>
+              <h3>Instructions</h3>
               <hr />
               <div>
                 {' '}
@@ -94,7 +94,9 @@ class SingleRecipe extends React.Component {
             </div>
           </div>
         ) : (
-          'Finding Your Recipe...'
+          <div className="container inner-cont">
+            <h1>Finding recipe. Please wait...</h1>
+          </div>
         )}
       </div>
     )

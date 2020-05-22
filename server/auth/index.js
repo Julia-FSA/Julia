@@ -62,7 +62,6 @@ router.post('/signup', async (req, res, next) => {
         return data
       }
     })
-
     req.login(user, (err) => (err ? next(err) : res.send(user.params.Item)))
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {

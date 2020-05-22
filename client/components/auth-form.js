@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
+import {login} from '../store'
 
 /**
  * COMPONENT
@@ -10,26 +10,42 @@ const AuthForm = (props) => {
   const {name, displayName, handleSubmit, error} = props
 
   return (
-    <div className="login" id="login-background">
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" required />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" required />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      {/* <a href="/auth/google">{displayName} with Google</a> */}
+    <div className="outer-cont" id="form-background">
+      <div className="form-inner-cont">
+        <form
+          className="text-center border border-light p-5"
+          action="#!"
+          onSubmit={handleSubmit}
+          name={name}
+        >
+          <p className="h4 mb-4">Login</p>
+
+          <input
+            type="email"
+            id="defaultLoginFormEmail"
+            className="form-control mb-4"
+            placeholder="E-mail"
+            name="email"
+            required
+          />
+
+          <input
+            type="password"
+            id="defaultLoginFormPassword"
+            className="form-control mb-4"
+            placeholder="Password"
+            name="password"
+            required
+          />
+
+          <button className="btn btn-info btn-block my-4" type="submit">
+            Login
+          </button>
+
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+        {/* <a href="/auth/google">{displayName} with Google</a> */}
+      </div>
     </div>
   )
 }
@@ -64,7 +80,7 @@ const mapDispatch = (dispatch) => {
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      dispatch(login(email, password, formName))
     },
   }
 }
