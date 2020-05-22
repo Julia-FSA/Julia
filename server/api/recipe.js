@@ -276,6 +276,24 @@ router.get('/favorites/:userId', async (req, res, next) => {
   }
 })
 
+router.get('/myrecipes/:recipeId', async (req, res, next) => {
+  const {recipeId} = req.params
+  try {
+    const params = {
+      TableName: 'recipes',
+      Key: {
+        id: Number(recipeId)
+      }
+    }
+
+    const recipe = await db.get(params).promise()
+    console.log('recipe', recipe)
+    res.json(recipe.data)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.get('/:userId/:recipeId', async (req, res, next) => {
   const {recipeId, userId} = req.params
   try {
@@ -295,23 +313,6 @@ router.get('/:userId/:recipeId', async (req, res, next) => {
     const favorited = favorites.includes(recipe.data.id)
     recipe.data.favorited = favorited
 
-    res.json(recipe.data)
-  } catch (error) {
-    next(error)
-  }
-})
-
-router.get('/:recipeId', async (req, res, next) => {
-  const {recipeId} = req.params
-  try {
-    const params = {
-      TableName: 'recipes',
-      Key: {
-        id: Number(recipeId)
-      }
-    }
-
-    const recipe = await db.get(params).promise()
     res.json(recipe.data)
   } catch (error) {
     next(error)
