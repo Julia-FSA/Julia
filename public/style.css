@@ -102,10 +102,14 @@ img#nav-logo {
 }
 
 .outer-cont-fridge {
-  background-image: url('https://www.tynker.com/projects/images/5c8aa89370b0026b6d2d0a46/background-scene---freezer-my-dude.png');
+  background-image: url('./fullFridge.jpg');
   background-size: cover;
-  min-height: 700px;
+  max-width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
+
 .fridge-cont {
   padding: 3%;
 }
@@ -285,7 +289,7 @@ a#logo {
 }
 
 .terms-text-cont {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.9);
   background-position: center;
   color: black;
   min-width: 220px;

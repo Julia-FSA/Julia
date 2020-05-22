@@ -274,6 +274,42 @@ router.get('/favorites/:userId', async (req, res, next) => {
   }
 })
 
+router.get('/myrecipes/:recipeId', async (req, res, next) => {
+  const {recipeId} = req.params
+  try {
+    const params = {
+      TableName: 'recipes',
+      Key: {
+        id: Number(recipeId),
+      },
+    }
+
+    const recipe = await db.get(params).promise()
+    console.log('recipe', recipe)
+    res.json(recipe.data)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/search/:id', (req, res, next) => {
+  let id = req.params.id
+  console.log('getting recipe by id')
+  try {
+    axios
+      .get(
+        `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
+      )
+      .then((recipe) => {
+        console.log('found recipe by id')
+        console.log('recipe.data', recipe.data)
+        res.json(recipe.data)
+      })
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.get('/:userId/:recipeId', async (req, res, next) => {
   const {recipeId, userId} = req.params
   try {
@@ -294,41 +330,6 @@ router.get('/:userId/:recipeId', async (req, res, next) => {
     recipe.data.favorited = favorited
 
     res.json(recipe.data)
-  } catch (error) {
-    next(error)
-  }
-})
-
-router.get('/:recipeId', async (req, res, next) => {
-  const {recipeId} = req.params
-  try {
-    const params = {
-      TableName: 'recipes',
-      Key: {
-        id: Number(recipeId),
-      },
-    }
-
-    const recipe = await db.get(params).promise()
-    res.json(recipe.data)
-  } catch (error) {
-    next(error)
-  }
-})
-
-router.get('/:id', (req, res, next) => {
-  let id = req.params.id
-  console.log('getting recipe by id')
-  try {
-    axios
-      .get(
-        `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
-      )
-      .then((recipe) => {
-        console.log('found recipe by id')
-        console.log('recipe.data', recipe.data)
-        res.json(recipe.data)
-      })
   } catch (error) {
     next(error)
   }
