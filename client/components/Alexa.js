@@ -51,7 +51,7 @@ class LinkAccount extends React.Component {
     )
 
     this.setState({
-      passcode: rand,
+      passcode: code,
       timeRemaining: timeLimit / interval,
       expired: false
     })
