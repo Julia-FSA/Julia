@@ -29,6 +29,7 @@ class LinkAccount extends React.Component {
     const timeLimit = 180000
     const interval = 1000
 
+    console.log('USER ID >>>>>>>>>>>>>>>>', this.props.user)
     await setCode(this.props.user.id, rand)
 
     for (let i = 0; i < timeLimit / interval; i++) {

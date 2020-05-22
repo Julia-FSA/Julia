@@ -48,8 +48,8 @@ class Routes extends Component {
             <Route path="/findRecipe" component={FindRecipe} />
             <Route path="/myrecipes" component={MyRecipes} />
             <Route path="/searchrecipes" component={SearchRecipes} />
-            <Route path="/searchrecipes" component={SearchRecipes} />
             <Route path="/terms" component={Terms} />
+            <Route exact path="/recipe/:id" component={SingleRecipe} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

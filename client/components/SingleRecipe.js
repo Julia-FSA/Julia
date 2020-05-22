@@ -16,7 +16,7 @@ class SingleRecipe extends React.Component {
     const selectedRecipe = this.props.selectedRecipe
     return (
       <div className="outer-cont">
-        {selectedRecipe.analyzedInstructions ? (
+        {selectedRecipe.steps ? (
           <div className="container inner-cont">
             <div className="title-image-cont">
               <div className="image-cont">
@@ -33,7 +33,7 @@ class SingleRecipe extends React.Component {
               <hr />
               <div>
                 <ul>
-                  {selectedRecipe.extendedIngredients.map(function(ingredient) {
+                  {selectedRecipe.ingredients.map(function (ingredient) {
                     return (
                       <li key={ingredient.id}>
                         {ingredient.amount} {ingredient.unit} -{' '}
@@ -49,9 +49,7 @@ class SingleRecipe extends React.Component {
               <hr />
               <div>
                 {' '}
-                {selectedRecipe.analyzedInstructions[0].steps.map(function(
-                  step
-                ) {
+                {selectedRecipe.steps.map(function (step) {
                   return (
                     <p key={step.number}>
                       {step.number}. {step.step}
@@ -72,14 +70,14 @@ class SingleRecipe extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
-    selectedRecipe: state.recipes.selectedRecipe
+    selectedRecipe: state.recipes.selectedRecipe,
   }
 }
 
-const mapDispatch = dispatch => ({
-  fetchThisRecipe: id => dispatch(fetchThisRecipe(id))
+const mapDispatch = (dispatch) => ({
+  fetchThisRecipe: (id) => dispatch(fetchThisRecipe(id)),
 })
 
 export default connect(mapState, mapDispatch)(SingleRecipe)

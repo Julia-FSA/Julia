@@ -283,10 +283,8 @@ router.get('/myrecipes/:recipeId', async (req, res, next) => {
         id: Number(recipeId),
       },
     }
-
     const recipe = await db.get(params).promise()
-    console.log('recipe', recipe)
-    res.json(recipe.data)
+    res.json(recipe.Item)
   } catch (error) {
     next(error)
   }
