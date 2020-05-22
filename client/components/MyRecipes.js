@@ -13,9 +13,7 @@ class MyRecipes extends React.Component {
   }
 
   render() {
-    console.log('rendering MyRecipes props:', this.props)
     const favoriteRecipes = Object.values(this.props.favoriteRecipes)
-    console.log('favoriteRecipes in render()', favoriteRecipes)
     return (
       <div className="outer-cont">
         <div className="container inner-cont">
@@ -26,7 +24,7 @@ class MyRecipes extends React.Component {
             <ul className="recipe-container">
               <div>
                 {favoriteRecipes.length ? (
-                  favoriteRecipes.map((recipe) => {
+                  favoriteRecipes.map(recipe => {
                     return (
                       <li className="recipe" key={recipe.id}>
                         <Link
@@ -37,7 +35,9 @@ class MyRecipes extends React.Component {
                             <img src={recipe.image} className="recipe-image" />
                           </div>
                           <div className="title-cont">
-                            {`${recipe.title} - Ready In: ${recipe.readyInMinutes}min. - ${recipe.likes} Likes`}
+                            {`${recipe.title} - Ready In: ${
+                              recipe.readyInMinutes
+                            }min. - ${recipe.likes} Likes`}
                           </div>
                         </Link>
                       </li>
@@ -58,15 +58,15 @@ class MyRecipes extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
+const mapState = state => {
   return {
     user: state.user,
-    favoriteRecipes: state.recipes.favoriteRecipes,
+    favoriteRecipes: state.recipes.favoriteRecipes
   }
 }
 
-const mapDispatch = (dispatch) => ({
-  fetchFavoriteRecipes: (id) => dispatch(fetchFavoriteRecipes(id)),
+const mapDispatch = dispatch => ({
+  fetchFavoriteRecipes: id => dispatch(fetchFavoriteRecipes(id))
 })
 
 export default connect(mapState, mapDispatch)(MyRecipes)
