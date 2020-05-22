@@ -12,7 +12,6 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         <Link to="/home">
           <img id="nav-logo" className="navbar-brand" src="favicon.ico" />
         </Link>
-
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
             <Link className="nav-link" to="/home">
@@ -42,6 +41,11 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <li className="nav-item">
             <Link className="nav-link" to="/alexa">
               Using Alexa
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/terms">
+              Terms & Conditions
             </Link>
           </li>
         </ul>
@@ -94,17 +98,17 @@ const Navbar = ({handleClick, isLoggedIn}) => (
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     handleClick() {
       dispatch(logout())
-    }
+    },
   }
 }
 
@@ -115,5 +119,5 @@ export default connect(mapState, mapDispatch)(Navbar)
  */
 Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
 }
