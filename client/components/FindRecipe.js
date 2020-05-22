@@ -1,6 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchFirstRecipe, fetchNextRecipe, saveRecipe} from '../store/recipes'
+import {
+  fetchFirstRecipe,
+  fetchNextRecipe,
+  unsaveRecipe,
+  saveRecipe
+} from '../store/recipes'
 import {Button} from 'react-bootstrap'
 
 /**
@@ -9,8 +14,12 @@ import {Button} from 'react-bootstrap'
 class SingleRecipe extends React.Component {
   constructor() {
     super()
+    this.state = {
+      favorited: false
+    }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.saveRecipe = this.saveRecipe.bind(this)
+    this.unsaveRecipe = this.unsaveRecipe.bind(this)
   }
 
   async componentDidMount() {
@@ -21,17 +30,37 @@ class SingleRecipe extends React.Component {
   }
 
   async handleSubmit() {
+    console.log('this.props submit()', this.props)
     await this.props.fetchNextRecipe(
       this.props.user.id,
       this.props.top10Recipes,
       this.props.index + 1
     )
+    this.setState({
+      favorited: false
+    })
   }
 
   async saveRecipe() {
     const recipeId = this.props.selectedRecipe.id
     const userId = this.props.user.id
+    console.log('component saving...', recipeId, userId)
     await this.props.saveRecipe(userId, recipeId)
+    console.log('component saved!')
+    this.setState({
+      favorited: true
+    })
+  }
+
+  async unsaveRecipe() {
+    const recipeId = this.props.selectedRecipe.id
+    const userId = this.props.user.id
+    console.log('component unsaving...', recipeId, userId)
+    await this.props.unsaveRecipe(userId, recipeId)
+    console.log('component unsaved!')
+    this.setState({
+      favorited: false
+    })
   }
 
   render() {
@@ -50,7 +79,11 @@ class SingleRecipe extends React.Component {
                 <p>Cook time: {selectedRecipe.readyInMinutes} Minutes</p>
                 <p>{selectedRecipe.aggregateLikes} Likes</p>
                 <br />
-                <div onClick={this.saveRecipe} id="grayHeart" />
+                {selectedRecipe.favorited || this.state.favorited ? (
+                  <div onClick={this.unsaveRecipe} id="blueHeart" />
+                ) : (
+                  <div onClick={this.saveRecipe} id="grayHeart" />
+                )}
                 <Button
                   variant="danger"
                   type="submit"
@@ -119,7 +152,8 @@ const mapDispatch = dispatch => ({
   fetchFirstRecipe: userId => dispatch(fetchFirstRecipe(userId)),
   fetchNextRecipe: (userId, top10Recipes, index) =>
     dispatch(fetchNextRecipe(userId, top10Recipes, index)),
-  saveRecipe: (userId, recipeId) => dispatch(saveRecipe(userId, recipeId))
+  saveRecipe: (userId, recipeId) => dispatch(saveRecipe(userId, recipeId)),
+  unsaveRecipe: (userId, recipeId) => dispatch(unsaveRecipe(userId, recipeId))
 })
 
 export default connect(mapState, mapDispatch)(SingleRecipe)
