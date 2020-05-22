@@ -72,9 +72,9 @@ class SingleRecipe extends React.Component {
       `https://api.spoonacular.com/recipes/${recipe.id}/information?instructionsRequired=true&includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
     )
     recipe = res.data
-    console.log('axiosed recipe >>>>>>>>>>>>>> ', recipe)
+    // console.log('axiosed recipe >>>>>>>>>>>>>> ', recipe)
     const formattedRecipe = recipeFormatter(recipe)
-    console.log('formatted FindRecipe >>>>>>>>>>>>>> ', formattedRecipe)
+    // console.log('formatted FindRecipe >>>>>>>>>>>>>> ', formattedRecipe)
     if (user.id) {
       recipeToAlexa(user, formattedRecipe)
     }
