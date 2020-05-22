@@ -48,7 +48,6 @@ class Routes extends Component {
             <Route path="/findRecipe" component={FindRecipe} />
             <Route path="/myrecipes" component={MyRecipes} />
             <Route path="/searchrecipes" component={SearchRecipes} />
-            <Route path="/searchrecipes" component={SearchRecipes} />
             <Route path="/terms" component={Terms} />
           </Switch>
         )}
