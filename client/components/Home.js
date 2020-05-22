@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 /**
  * COMPONENT
  */
-export const Home = props => {
+export const Home = (props) => {
   const user = props.user
   return (
     <div className="home-image-cont">
@@ -25,7 +25,10 @@ export const Home = props => {
           <div className="text-cont">
             <h1>Welcome to Julia Cooks!</h1>
             <br />
-            <h2>Login or Signup to get started.</h2>
+            <h2>
+              <Link to="/Login">Login </Link> or{' '}
+              <Link to="/signup">Signup </Link> to get started.
+            </h2>
           </div>
         </div>
       )}
@@ -36,9 +39,9 @@ export const Home = props => {
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
-    user: state.user
+    user: state.user,
   }
 }
 
