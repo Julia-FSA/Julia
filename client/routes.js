@@ -36,6 +36,7 @@ class Routes extends Component {
         {/* <Route path="/allrecipes" component={AllRecipes} /> */}
         {/* <Route path="/recipehistory" component={RecipeHistory} /> */}
         <Route path="/searchrecipes" component={SearchRecipes} />
+        <Route path="/recipe/:id" component={SingleRecipe} />
         <Route path="/alexa" component={Alexa} />
         {isLoggedIn && (
           <Switch>
@@ -43,7 +44,6 @@ class Routes extends Component {
             <Route path="/fridge" component={Fridge} />
             <Route path="/findRecipe" component={FindRecipe} />
             <Route path="/myrecipes" component={MyRecipes} />
-            <Route path="/singlerecipe" component={SingleRecipe} />
             <Route path="/searchrecipes" component={SearchRecipes} />
             <Route path="/linkaccount" component={LinkAccount} />
           </Switch>

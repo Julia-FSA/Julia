@@ -29,9 +29,9 @@ class MyRecipes extends React.Component {
                   <li className="recipe" key={recipe.id}>
                     <Link className="recipe-link" to={`/recipe/${recipe.id}`}>
                       <img src={recipe.image} className="recipe-image" />
-                      {`${recipe.title} - Ready In:${
+                      {`${recipe.title} - Ready In: ${
                         recipe.readyInMinutes
-                      }min. - ${recipe.aggregateLikes} Likes`}
+                      }min. - ${recipe.likes} Likes`}
                     </Link>
                   </li>
                 )

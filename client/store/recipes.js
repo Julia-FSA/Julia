@@ -39,7 +39,6 @@ export const setThisRecipe = selectedRecipe => {
 }
 
 export const setFavoriteRecipes = favoriteRecipes => {
-  console.log('setFavoriteRecipes()', favoriteRecipes)
   return {
     type: SET_FAVORITE_RECIPES,
     favoriteRecipes
@@ -66,6 +65,7 @@ export const fetchFirstRecipe = userId => {
 
 export const fetchNextRecipe = (userId, top10Recipes, index) => {
   return async dispatch => {
+    console.log('fetchingNextRecipe in store', userId, top10Recipes, index)
     try {
       if (top10Recipes.length <= index) index = 0
       const res = await axios.get(
@@ -74,9 +74,9 @@ export const fetchNextRecipe = (userId, top10Recipes, index) => {
       if (res.data.analyzedInstructions.length) {
         dispatch(setNextRecipe(res.data, index))
       } else if (top10Recipes.length >= index + 1) {
-        await dispatch(fetchNextRecipe(top10Recipes, index + 1))
+        await dispatch(fetchNextRecipe(userId, top10Recipes, index + 1))
       } else {
-        await dispatch(fetchNextRecipe(top10Recipes, 0))
+        await dispatch(fetchNextRecipe(userId, top10Recipes, 0))
       }
     } catch (error) {
       console.log(error)
@@ -112,6 +112,16 @@ export const saveRecipe = (userId, recipeId) => {
   return async () => {
     try {
       await axios.get(`/api/recipe/save/${userId}/${recipeId}`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const unsaveRecipe = (userId, recipeId) => {
+  return async () => {
+    try {
+      await axios.get(`/api/recipe/unsave/${userId}/${recipeId}`)
     } catch (error) {
       console.log(error)
     }

@@ -102,8 +102,11 @@ router.get('/findrecipe/:id', async (req, res, next) => {
     }
 
     const data2 = await db.get(params2).promise()
-    const favorites = Object.keys(data2.Item.recipes)
+    const favorites = data2.Item.favorites || []
     const favorited = favorites.includes(goodRecipe.id)
+    console.log('data2', data2)
+    console.log('favorites', favorites)
+    console.log('favorited', favorited)
     goodRecipe.favorited = favorited
 
     const obj = {
@@ -131,7 +134,71 @@ router.get('/byRecipeName/:recipeName', async (req, res, next) => {
 
 router.get('/save/:userId/:recipeId', async (req, res, next) => {
   const {recipeId, userId} = req.params
-  console.log('recipeId', 'userId', recipeId, userId)
+  const userInfo = {
+    TableName: 'users',
+    Key: {
+      id: userId
+    }
+  }
+
+  try {
+    const data = await db.get(userInfo).promise()
+    let arr = data.Item.favorites || []
+    const id = Number(recipeId)
+    if (!arr.includes(id)) {
+      arr.push(id)
+      const userFavorites = {
+        TableName: 'users',
+        Key: {
+          id: userId
+        },
+        UpdateExpression: 'set favorites = :f',
+        ExpressionAttributeValues: {
+          ':f': arr
+        },
+        ReturnValues: 'ALL_NEW'
+      }
+
+      console.log('pinging spoon')
+      const result = await axios.get(
+        `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
+      )
+
+      const detailedRecipe = result.data
+      console.log(
+        'detailedRecipe.analyzedInstructions',
+        detailedRecipe.analyzedInstructions
+      )
+
+      const reducedRecipe = {
+        TableName: 'recipes',
+        Key: {id: detailedRecipe.id},
+        UpdateExpression:
+          'set ingredients = :ingredients, readyInMinutes = :readyInMinutes, servings = :servings, steps = :steps, image = :image, title = :title, vegan = :vegan, vegetarian = :vegetarian, likes = :likes',
+        ExpressionAttributeValues: {
+          ':ingredients': detailedRecipe.extendedIngredients,
+          ':readyInMinutes': detailedRecipe.readyInMinutes,
+          ':servings': detailedRecipe.servings,
+          ':steps': detailedRecipe.analyzedInstructions[0].steps,
+          ':image': detailedRecipe.image,
+          ':title': detailedRecipe.title,
+          ':vegan': detailedRecipe.vegan,
+          ':vegetarian': detailedRecipe.vegetarian,
+          ':likes': detailedRecipe.aggregateLikes
+        }
+      }
+
+      await db.update(reducedRecipe).promise()
+      await db.update(userFavorites).promise()
+    }
+    res.status(200).send('Ok.')
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+router.get('/unsave/:userId/:recipeId', async (req, res, next) => {
+  const {recipeId, userId} = req.params
   const params1 = {
     TableName: 'users',
     Key: {
@@ -141,28 +208,32 @@ router.get('/save/:userId/:recipeId', async (req, res, next) => {
 
   try {
     const data = await db.get(params1).promise()
-    let arr = data.Item.recipes
+    let arr = data.Item.favorites || []
     console.log('arr', arr)
     const id = Number(recipeId)
-    if (!arr.includes(id)) {
-      arr.push(id)
+    if (arr.includes(id)) {
+      arr.splice(arr.indexOf(id), 1)
       const params2 = {
         TableName: 'users',
         Key: {
           id: userId
         },
-        UpdateExpression: 'set recipes = :r',
+        UpdateExpression: 'set favorites = :f',
         ExpressionAttributeValues: {
-          ':r': arr
+          ':f': arr
         },
         ReturnValues: 'ALL_NEW'
       }
+
+      console.log('new arr', arr)
 
       try {
         await db.update(params2).promise()
       } catch (err) {
         console.log(err)
       }
+
+      res.status(200).send('Ok.')
     }
   } catch (err) {
     console.log(err)
@@ -180,7 +251,7 @@ router.get('/favorites/:userId', async (req, res, next) => {
     }
 
     const data1 = await db.get(params1).promise()
-    const recipesArr = data1.Item.recipes
+    const recipesArr = data1.Item.favorites || []
     const favoriteRecipes = {}
 
     for (let i = 0; i < recipesArr.length; i++) {
@@ -206,7 +277,7 @@ router.get('/favorites/:userId', async (req, res, next) => {
 })
 
 router.get('/:userId/:recipeId', async (req, res, next) => {
-  const {recipeId, userId} = req.params.id
+  const {recipeId, userId} = req.params
   try {
     const recipe = await axios.get(
       `https://api.spoonacular.com/recipes/${recipeId}/information?includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
@@ -220,10 +291,27 @@ router.get('/:userId/:recipeId', async (req, res, next) => {
     }
 
     const data = await db.get(params).promise()
-    const favorites = Object.keys(data.Item.recipes)
+    const favorites = data.Item.favorites || []
     const favorited = favorites.includes(recipe.data.id)
     recipe.data.favorited = favorited
 
+    res.json(recipe.data)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/:recipeId', async (req, res, next) => {
+  const {recipeId} = req.params
+  try {
+    const params = {
+      TableName: 'recipes',
+      Key: {
+        id: Number(recipeId)
+      }
+    }
+
+    const recipe = await db.get(params).promise()
     res.json(recipe.data)
   } catch (error) {
     next(error)
