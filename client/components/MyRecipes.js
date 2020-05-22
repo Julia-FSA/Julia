@@ -1,18 +1,49 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import {fetchFavoriteRecipes} from '../store/recipes'
 
 /**
  * COMPONENT
  */
-export const MyRecipes = props => {
-  const {email} = props
+class MyRecipes extends React.Component {
+  async componentDidMount() {
+    const id = this.props.user.id
+    await this.props.fetchFavoriteRecipes(id)
+  }
 
-  return (
-    <div>
-      <h3>Here are your recipes.</h3>
-    </div>
-  )
+  render() {
+    console.log('rendering MyRecipes props:', this.props)
+    const favoriteRecipes = Object.values(this.props.favoriteRecipes)
+    console.log('favoriteRecipes in render()', favoriteRecipes)
+    return (
+      <div>
+        <div>
+          <h1 style={{alignText: 'center'}}>Your Favorite Recipes:</h1>
+        </div>
+        <ul className="recipe-container">
+          <div>
+            {favoriteRecipes.length ? (
+              favoriteRecipes.map(recipe => {
+                return (
+                  <li className="recipe" key={recipe.id}>
+                    <Link className="recipe-link" to={`/recipe/${recipe.id}`}>
+                      <img src={recipe.image} className="recipe-image" />
+                      {`${recipe.title} - Ready In:${
+                        recipe.readyInMinutes
+                      }min. - ${recipe.aggregateLikes} Likes`}
+                    </Link>
+                  </li>
+                )
+              })
+            ) : (
+              <li>No Favorite Recipes</li>
+            )}
+          </div>
+        </ul>
+      </div>
+    )
+  }
 }
 
 /**
@@ -20,15 +51,13 @@ export const MyRecipes = props => {
  */
 const mapState = state => {
   return {
-    email: state.user.email
+    user: state.user,
+    favoriteRecipes: state.recipes.favoriteRecipes
   }
 }
 
-export default connect(mapState)(MyRecipes)
+const mapDispatch = dispatch => ({
+  fetchFavoriteRecipes: id => dispatch(fetchFavoriteRecipes(id))
+})
 
-/**
- * PROP TYPES
- */
-// RecipeHistory.propTypes = {
-//   email: PropTypes.string
-// }
+export default connect(mapState, mapDispatch)(MyRecipes)

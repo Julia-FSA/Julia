@@ -11,6 +11,7 @@ import {
   Login,
   MyRecipes,
   Signup,
+  SingleRecipe,
   SearchRecipes
 } from './components'
 import {me} from './store'
@@ -33,7 +34,6 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {/* <Route path="/allrecipes" component={AllRecipes} /> */}
-        {/* <Route path="/singlerecipe" component={SingleRecipe} /> */}
         {/* <Route path="/recipehistory" component={RecipeHistory} /> */}
         <Route path="/searchrecipes" component={SearchRecipes} />
         <Route path="/alexa" component={Alexa} />
@@ -43,6 +43,7 @@ class Routes extends Component {
             <Route path="/fridge" component={Fridge} />
             <Route path="/findRecipe" component={FindRecipe} />
             <Route path="/myrecipes" component={MyRecipes} />
+            <Route path="/singlerecipe" component={SingleRecipe} />
             <Route path="/searchrecipes" component={SearchRecipes} />
             <Route path="/linkaccount" component={LinkAccount} />
           </Switch>
