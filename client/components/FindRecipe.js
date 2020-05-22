@@ -1,9 +1,11 @@
 import React from 'react'
+import axios from 'axios'
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {fetchFirstRecipe, fetchNextRecipe} from '../store/recipes'
 import {Button} from 'react-bootstrap'
-const recipeToAlexa = require('../util_recipeToAlexa')
+const {recipeToAlexa, recipeFormatter} = require('../util_recipeToAlexa')
+const {SpoonacularAPIKey} = require('../../secrets')
 
 /**
  * COMPONENT
@@ -26,11 +28,20 @@ class SingleRecipe extends React.Component {
     )
   }
 
-  sendToAlexa(user) {
+  async sendToAlexa(user) {
+    let recipe = this.props.selectedRecipe
+    const res = await axios.get(
+      `https://api.spoonacular.com/recipes/${recipe.id}/information?instructionsRequired=true&includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
+    )
+    recipe = res.data
+    console.log('axiosed recipe >>>>>>>>>>>>>> ', recipe)
+    const formattedRecipe = recipeFormatter(recipe)
+    console.log('formatted FindRecipe >>>>>>>>>>>>>> ', formattedRecipe)
     if (user.id) {
-      recipeToAlexa(user, this.props.selectedRecipe)
+      recipeToAlexa(user, formattedRecipe)
     }
   }
+
   render() {
     const selectedRecipe = this.props.selectedRecipe
     const {user} = this.props

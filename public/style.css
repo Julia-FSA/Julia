@@ -254,3 +254,24 @@ a#logo {
   padding-top: 5px;
   padding-bottom: 5px;
 }
+
+.terms-cont {
+  background-image: url('https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg');
+  background-size: contain;
+  background-repeat: repeat-y;
+  min-height: 1000px;
+  text-align: center;
+  height: auto;
+}
+
+.terms-text-cont {
+  background-color: rgba(255, 255, 255, 0.7);
+  background-position: center;
+  color: black;
+  min-width: 220px;
+  border-radius: 20px;
+  margin-right: 22%;
+  margin-left: 22%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

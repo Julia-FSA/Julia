@@ -1,12 +1,13 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import axios from 'axios'
 import {connect} from 'react-redux'
 import {
   searchedByIngredients,
   searchedByRecipeName,
 } from '../store/searchRecipes'
 import {Button} from 'react-bootstrap'
-const recipeToAlexa = require('../util_recipeToAlexa')
+const {recipeToAlexa, recipeFormatter} = require('../util_recipeToAlexa')
+const {SpoonacularAPIKey} = require('../../secrets')
 
 /**
  * COMPONENT
@@ -27,11 +28,6 @@ class SearchRecipes extends React.Component {
     this.setState({
       on: !this.state.on,
     })
-    if (this.state.on) {
-      this.props.searchByRecipeName('')
-    } else {
-      this.props.searchByIngredients('')
-    }
   }
 
   handleChange(evt) {
@@ -43,7 +39,6 @@ class SearchRecipes extends React.Component {
   handleSubmit(evt) {
     evt.preventDefault()
     const searchByName = this.state.on // true => search by recipe name
-
     if (searchByName) {
       const recipeName = evt.target.recipeName.value
       this.props.searchByRecipeName(recipeName)
@@ -53,9 +48,15 @@ class SearchRecipes extends React.Component {
     }
   }
 
-  sendToAlexa(user) {
+  async sendToAlexa(user) {
+    let recipe = this.props.searchRecipes.searchedRecipes
+    const res = await axios.get(
+      `https://api.spoonacular.com/recipes/${recipe.id}/information?instructionsRequired=true&includeNutrition=false&amount=1&apiKey=${SpoonacularAPIKey}`
+    )
+    recipe = res.data
+    const formattedRecipe = recipeFormatter(recipe)
     if (user.id) {
-      recipeToAlexa(user, this.props.searchRecipes.searchedRecipes)
+      recipeToAlexa(user, formattedRecipe)
     }
   }
 
@@ -128,80 +129,52 @@ class SearchRecipes extends React.Component {
           </div>
         </form>
         <div>
-          {searchedRecipes ? (
-            !this.state.on ? (
-              !searchedRecipes.extendedIngredients ? (
-                <div className="container inner-cont">
-                  <div className="title-image-cont">
-                    <div className="title-cont">
-                      <h3>{searchedRecipes.title}</h3>
-                      <p>Servings: {searchedRecipes.servings}</p>
-                      <p>Cook time: {searchedRecipes.readyInMinutes} Minutes</p>
-                    </div>
-                  </div>
-                  <div className="container ingredient-cont">
-                    <h3>Ingredients </h3>
-                    <hr />
-                    <ul>
-                      {searchedRecipes.ingredients
-                        .filter((ingredient) => typeof ingredient === 'string')
-                        .map((ingredient, index) => (
-                          <li key={index}>{ingredient}</li>
-                        ))}
-                    </ul>
-                  </div>
-                  <div className="container instruction-cont">
-                    <h3>Instructions</h3>
-                    <hr />
-                    {searchedRecipes.steps.map((step, index) => (
-                      <div key={index}>{step.slice(5)}</div>
-                    ))}
-                  </div>
+          {!searchedRecipes ? null : searchedRecipes.extendedIngredients ? (
+            // SEARCH BY INGREDIENTS
+            <div className="container inner-cont">
+              <div className="title-image-cont">
+                <div className="image-cont">
+                  <img src={searchedRecipes.image} alt="recipe image" />
                 </div>
-              ) : (
-                <div className="loader">
-                  No Result - Please try a new search.
-                </div>
-              )
-            ) : !searchedRecipes.ingredients ? (
-              <div className="container inner-cont">
-                <div className="title-image-cont">
-                  <div className="image-cont">
-                    <img src={searchedRecipes.image} alt="recipe image" />
-                  </div>
-                  <div className="title-cont">
-                    <h3>{searchedRecipes.title}</h3>
-                    <p>Servings: {searchedRecipes.servings}</p>
-                    <p>Cook time: {searchedRecipes.readyInMinutes} Minutes</p>
-                  </div>
-                </div>
-                <div className="container ingredient-cont">
-                  <h3> Ingredients </h3>
-                  <hr />
-                  <ul>
-                    {searchedRecipes.extendedIngredients.map(
-                      (ingredient, index) => (
-                        <li key={index}>{ingredient.name}</li>
-                      )
-                    )}
-                  </ul>
-                </div>
-                <div className="container instruction-cont">
-                  <h3>Instructions</h3>
-                  <hr />
-                  {searchedRecipes.analyzedInstructions[0].steps.map(
-                    (step, index) => (
-                      <p key={index}>
-                        {index + 1}. {step.step}
-                      </p>
-                    )
-                  )}
+                <div className="title-cont">
+                  <h3>{searchedRecipes.title}</h3>
+                  <p>Servings: {searchedRecipes.servings}</p>
+                  <p>Cook time: {searchedRecipes.readyInMinutes} Minutes</p>
                 </div>
               </div>
-            ) : (
-              <div className="loader">No Result - Please try a new search.</div>
-            )
-          ) : null}
+              <div className="container ingredient-cont">
+                <h3>Ingredients </h3>
+                <hr />
+                <div>
+                  <ul>
+                    {searchedRecipes.extendedIngredients.map(function (
+                      ingredient
+                    ) {
+                      return (
+                        <li key={ingredient.id}>
+                          {ingredient.amount} {ingredient.unit} -{' '}
+                          {ingredient.name}
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              </div>
+              <div className="container instruction-cont">
+                <h3>Instructions</h3>
+                <hr />
+                {searchedRecipes.analyzedInstructions[0].steps.map(
+                  (step, index) => (
+                    <p key={index}>
+                      {index + 1}. {step.step}
+                    </p>
+                  )
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="loader">No Result - Please try a new search.</div>
+          )}
         </div>
       </div>
     )
