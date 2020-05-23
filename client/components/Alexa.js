@@ -21,7 +21,7 @@ class LinkAccount extends React.Component {
 
   async retireCode() {
     const userId = this.props.user.id
-    await axios.put(`./users/passcode/${userId}`, false)
+    await axios.put(`/api/users/passcode/${userId}`, {code: false})
     this.setState({expired: true})
   }
 
@@ -31,7 +31,8 @@ class LinkAccount extends React.Component {
     const interval = 1000
 
     const userId = this.props.user.id
-    await axios.put(`./users/passcode/${userId}`, code)
+    console.log('axios.......', userId, code)
+    await axios.put(`/api/users/passcode/${userId}`, {code})
 
     for (let i = 0; i < timeLimit / interval; i++) {
       setTimeout(

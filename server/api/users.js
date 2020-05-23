@@ -4,8 +4,11 @@ const router = require('express').Router()
 module.exports = router
 
 router.put('/passcode/:userId', async (req, res, next) => {
+  console.log('route wtf????')
   try {
-    const {userId} = req.body
+    console.log('req.body', req.body)
+    console.log('req.params', req.params)
+    const {userId} = req.params
     const {code} = req.body
     console.log('userId', userId)
     console.log('code', code)
