@@ -36,7 +36,6 @@ export class Fridge extends React.Component {
     this.props.removeFromFridge(this.props.stockId, ingredientName)
   }
   render() {
-    console.log('fridge props', this.props)
     return (
       <div className="outer-cont-fridge">
         <div className="container inner-cont">
@@ -66,8 +65,8 @@ export class Fridge extends React.Component {
               this.props.fridge.map(item => {
                 return (
                   <div className="fridge-item-cont" key={item.ingredientName}>
-                    {item.imgURL ? (
-                      <img className="ingred-img" src={item.imgURL} />
+                    {item.imageURL ? (
+                      <img className="ingred-img" src={item.imageURL} />
                     ) : (
                       <img className="ingred-img" src="./favicon.ico" />
                     )}

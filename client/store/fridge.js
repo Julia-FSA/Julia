@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable guard-for-in */
 import axios from 'axios'
-
+const {SpoonacularAPIKey} = require('../../secrets')
 // action types
 const GET_FRIDGE = 'GET_FRIDGE'
 const ADD_TO_FRIDGE = 'ADD_TO_FRIDGE'
@@ -29,11 +29,10 @@ export const getFridgeThunk = stockId => async dispatch => {
     let fridgeArray = []
     console.log(fridge.data)
     for (const item in fridge.data) {
-      console.log('each item', item)
       let itemObj = {
         ingredientName: item,
         ingredientQuantity: fridge.data[item].quantity,
-        imgURL: fridge.data[item].img
+        imageURL: fridge.data[item].img
       }
       fridgeArray.push(itemObj)
     }
@@ -46,10 +45,24 @@ export const getFridgeThunk = stockId => async dispatch => {
 
 export const addToFridgeThunk = (stockId, ingredient) => async dispatch => {
   try {
-    console.log('i am getting triggered')
-    const res = await axios.put(`/api/fridge/add`, {stockId, ingredient})
-    dispatch(addToFridge({ingredientName: ingredient, ingredientQuantity: 1}))
-    console.log('after dispatch')
+    let imageURL = null
+    const res = await axios.get(
+      `https://api.spoonacular.com/food/ingredients/autocomplete?query=${ingredient}&number=1&apiKey=${SpoonacularAPIKey}`
+    )
+    if (res.data[0].image) {
+      imageURL = `https://spoonacular.com/cdn/ingredients_250x250/${
+        res.data[0].image
+      }`
+    }
+    await axios.put(`/api/fridge/add`, {stockId, ingredient, imageURL})
+    console.log('image from spoon', imageURL)
+    dispatch(
+      addToFridge({
+        ingredientName: ingredient,
+        ingredientQuantity: 1,
+        imageURL: imageURL
+      })
+    )
   } catch (error) {
     console.log(error)
   }
@@ -73,7 +86,14 @@ export default function(state = defaultFridge, action) {
       return action.fridge
     case ADD_TO_FRIDGE:
       console.log('ADD_TO_FRIDGE')
+
+      for (let i = 0; i < state.length; i++) {
+        if (state[i].ingredientName === action.ingredient.ingredientName) {
+          return state
+        }
+      }
       return [...state, action.ingredient]
+
     case REMOVE_FROM_FRIDGE:
       return state.filter(ingredient => {
         return ingredient.ingredientName !== action.ingredient
