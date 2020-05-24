@@ -29,12 +29,15 @@ export const getFridgeThunk = stockId => async dispatch => {
     let fridgeArray = []
     console.log(fridge.data)
     for (const item in fridge.data) {
+      console.log('each item', item)
       let itemObj = {
         ingredientName: item,
-        ingredientQuantity: fridge.data[item].quantity
+        ingredientQuantity: fridge.data[item].quantity,
+        imgURL: fridge.data[item].img
       }
       fridgeArray.push(itemObj)
     }
+    console.log('fridgeArray Thunk', fridgeArray)
     dispatch(getFridge(fridgeArray))
   } catch (error) {
     console.log(error)
