@@ -1,4 +1,6 @@
 const router = require('express').Router()
+const {SpoonacularAPIKey} = require('../../secrets')
+const axios = require('axios')
 const db = require('../db')
 
 // route to access user fridge. Takes in param from fridge store and retrives data from dynamoDB then sends a json to /api/fridge
@@ -24,8 +26,7 @@ router.put('/add', async (req, res, next) => {
   try {
     let stockId = req.body.stockId
     let ingredient = req.body.ingredient
-    console.log(stockId)
-    console.log(ingredient)
+    let imageURL = req.body.imageURL
     let result = await db
       .get({
         TableName: 'stocks',
@@ -38,7 +39,8 @@ router.put('/add', async (req, res, next) => {
     } else {
       prevIngredients[ingredient] = {
         quantity: 1,
-        unit: 'each'
+        unit: 'each',
+        img: imageURL
       }
     }
     const params = {

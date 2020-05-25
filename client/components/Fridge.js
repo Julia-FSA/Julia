@@ -7,7 +7,6 @@ import {
 } from '../store/fridge'
 import {Button} from 'react-bootstrap'
 
-
 export class Fridge extends React.Component {
   constructor() {
     super()
@@ -37,7 +36,6 @@ export class Fridge extends React.Component {
     this.props.removeFromFridge(this.props.stockId, ingredientName)
   }
   render() {
-    console.log('fridge props', this.props)
     return (
       <div className="outer-cont-fridge">
         <div className="container inner-cont">
@@ -67,6 +65,11 @@ export class Fridge extends React.Component {
               this.props.fridge.map(item => {
                 return (
                   <div className="fridge-item-cont" key={item.ingredientName}>
+                    {item.imageURL ? (
+                      <img className="ingred-img" src={item.imageURL} />
+                    ) : (
+                      <img className="ingred-img" src="./favicon.ico" />
+                    )}
                     <h3>{item.ingredientName.toUpperCase()}</h3>
                     <Button
                       variant="danger"
@@ -82,7 +85,6 @@ export class Fridge extends React.Component {
             )}
           </div>
         </div>
-
       </div>
     )
   }
@@ -109,6 +111,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-
 export default connect(mapState, mapDispatch)(Fridge)
-

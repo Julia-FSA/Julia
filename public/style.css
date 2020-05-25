@@ -55,7 +55,8 @@ form div {
 .fridge-item-cont {
   margin: 1em;
   width: 180px;
-  height: 300px;
+  height: 250px;
+  text-align: center;
 }
 
 img#nav-logo {
@@ -312,4 +313,9 @@ a#logo {
   margin-left: 22%;
   padding-top: 5px;
   padding-bottom: 5px;
+}
+
+.ingred-img {
+  width: 100px;
+  height: 100px;
 }
