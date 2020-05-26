@@ -14,7 +14,17 @@ export const Home = props => {
           <br />
           <br />
           <div className="text-cont">
+            <br />
             <h1>Welcome, {user.firstName}!</h1>
+            <br />
+            <div className="home-flex">
+              <Link to="/MyFridge">
+                <div id="fridge" />
+              </Link>
+              <Link to="/MyRecipes">
+                <div id="recipeBook" />
+              </Link>
+            </div>
           </div>
         </div>
       ) : (
