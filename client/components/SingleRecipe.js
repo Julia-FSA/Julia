@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchThisRecipe} from '../store/recipes'
 import {Button} from 'react-bootstrap'
+import {fraction} from 'mathjs'
 
 /**
  * COMPONENT
@@ -36,10 +37,15 @@ class SingleRecipe extends React.Component {
               <div>
                 <ul>
                   {selectedRecipe.ingredients.map(function(ingredient) {
+                    const amount =
+                      ingredient.amount % 1 === 0
+                        ? ingredient.amount
+                        : `${fraction(ingredient.amount).n}/${
+                            fraction(ingredient.amount).d
+                          }`
                     return (
                       <li key={ingredient.id}>
-                        {ingredient.amount} {ingredient.unit} -{' '}
-                        {ingredient.name}
+                        {amount} {ingredient.unit} - {ingredient.name}
                       </li>
                     )
                   })}
