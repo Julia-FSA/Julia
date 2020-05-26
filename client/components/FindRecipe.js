@@ -1,8 +1,8 @@
 import React from 'react'
 import axios from 'axios'
-import math from 'mathjs'
+import {fraction} from 'mathjs'
 
-console.log('math', math)
+console.log('test', fraction(1.25))
 
 import {connect} from 'react-redux'
 import {
@@ -102,13 +102,15 @@ class SingleRecipe extends React.Component {
               <div className="title-cont">
                 <h3>{selectedRecipe.title}</h3>
                 <p>Cook time: {selectedRecipe.readyInMinutes} Minutes</p>
-                <p>{selectedRecipe.aggregateLikes} Likes</p>
-                <br />
-                {selectedRecipe.favorited || this.state.favorited ? (
-                  <div onClick={this.unsaveRecipe} id="blueHeart" />
-                ) : (
-                  <div onClick={this.saveRecipe} id="grayHeart" />
-                )}
+                <div className="likes">
+                  <p>{selectedRecipe.aggregateLikes} Likes</p>
+                  <br />
+                  {selectedRecipe.favorited || this.state.favorited ? (
+                    <div onClick={this.unsaveRecipe} id="blueHeart" />
+                  ) : (
+                    <div onClick={this.saveRecipe} id="grayHeart" />
+                  )}
+                </div>
                 <Button
                   variant="danger"
                   type="submit"
@@ -132,10 +134,15 @@ class SingleRecipe extends React.Component {
               <div>
                 <ul>
                   {selectedRecipe.extendedIngredients.map(function(ingredient) {
+                    const amount =
+                      ingredient.amount % 1 === 0
+                        ? ingredient.amount
+                        : `${fraction(ingredient.amount).n}/${
+                            fraction(ingredient.amount).d
+                          }`
                     return (
                       <li key={ingredient.id}>
-                        {math.fraction(ingredient.amount)} {ingredient.unit} -{' '}
-                        {ingredient.name}
+                        {amount} {ingredient.unit} - {ingredient.name}
                       </li>
                     )
                   })}

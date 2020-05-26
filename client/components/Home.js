@@ -18,16 +18,12 @@ export const Home = props => {
             <h1>Welcome, {user.firstName}!</h1>
             <br />
             <div className="home-flex">
-              <div>
-                <Link to="/MyFridge">
-                  <div id="fridge" />
-                  My Fridge
-                </Link>
-                <Link to="/MyRecipes">
-                  <div id="recipeBook" />
-                  My Recipes
-                </Link>
-              </div>
+              <Link to="/MyFridge">
+                <div id="fridge" />
+              </Link>
+              <Link to="/MyRecipes">
+                <div id="recipeBook" />
+              </Link>
             </div>
           </div>
         </div>

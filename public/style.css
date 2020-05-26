@@ -124,26 +124,24 @@ img#nav-logo {
 #fridge {
   content: url('./fridge.png');
   max-width: 300px;
-  display: block;
-  margin-left: 0px;
-  margin-right: 0px;
   cursor: pointer;
+  margin: auto;
+  padding: auto;
 }
 
 #recipeBook {
   content: url('./recipes.png');
   max-width: 300px;
-  display: block;
-  margin-left: 0px;
-  margin-right: 0px;
   cursor: pointer;
+  margin: auto;
+  padding: auto;
 }
 
-#home-flex {
+.home-flex {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  flex: 0 0 100%;
+  flex-wrap: nowrap;
+  justify-content: space-around;
 }
 
 #blueHeart {
@@ -151,7 +149,7 @@ img#nav-logo {
   max-width: 50px;
   display: block;
   margin-left: auto;
-  margin-right: auto;
+  margin-right: 0;
   cursor: pointer;
 }
 
@@ -160,8 +158,15 @@ img#nav-logo {
   max-width: 50px;
   display: block;
   margin-left: auto;
-  margin-right: auto;
+  margin-right: 0;
   cursor: pointer;
+}
+
+.title-flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
 
 a#logo {
