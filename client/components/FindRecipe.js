@@ -1,5 +1,9 @@
 import React from 'react'
 import axios from 'axios'
+import math from 'mathjs'
+
+console.log('math', math)
+
 import {connect} from 'react-redux'
 import {
   fetchFirstRecipe,
@@ -130,7 +134,7 @@ class SingleRecipe extends React.Component {
                   {selectedRecipe.extendedIngredients.map(function(ingredient) {
                     return (
                       <li key={ingredient.id}>
-                        {ingredient.amount} {ingredient.unit} -{' '}
+                        {math.fraction(ingredient.amount)} {ingredient.unit} -{' '}
                         {ingredient.name}
                       </li>
                     )

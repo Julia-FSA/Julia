@@ -121,6 +121,31 @@ img#nav-logo {
   padding: 3%;
 }
 
+#fridge {
+  content: url('./fridge.png');
+  max-width: 300px;
+  display: block;
+  margin-left: 0px;
+  margin-right: 0px;
+  cursor: pointer;
+}
+
+#recipeBook {
+  content: url('./recipes.png');
+  max-width: 300px;
+  display: block;
+  margin-left: 0px;
+  margin-right: 0px;
+  cursor: pointer;
+}
+
+#home-flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex: 0 0 100%;
+}
+
 #blueHeart {
   content: url('./blueHeart.png');
   max-width: 50px;
@@ -157,7 +182,7 @@ a#logo {
 }
 
 .home-image-cont {
-  background-image: url('./home-gif.gif');
+  background-image: url('home-gif.gif');
   /* background-image: url('https://media1.giphy.com/media/7WDpgeYllwXWCTn0I8/source.gif'); */
   /* background-image: url('https://www.seriouseats.com/2020/02/WOK-HEI.gif'); */
   /* background-image: url('https://media2.giphy.com/media/l49JF16IHPdB5zuBW/giphy.gif?cid=ecf05e47fb354418bde90cdf7167d8d749c81373b48ddeff&rid=giphy.gif'); */
