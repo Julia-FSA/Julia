@@ -97,7 +97,7 @@ img#nav-logo {
 
 .outer-cont {
   background-image: url('./food-background.jpg');
-  min-height: 700px;
+  min-height: 900px;
   background-size: cover;
 }
 
@@ -114,6 +114,7 @@ img#nav-logo {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  min-height: 900px;
 }
 
 .add-to-fridge-cont {
