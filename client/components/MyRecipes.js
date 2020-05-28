@@ -74,18 +74,4 @@ const mapDispatch = dispatch => ({
 
 export default connect(mapState, mapDispatch)(MyRecipes)
 
-// {/* <li className="recipe" key={recipe.id}>
-// <Link
-//   className="recipe-link"
-//   to={`/recipe/${recipe.id}`}
-// >
-//   <div className="image-cont">
-//     <img src={recipe.image} className="recipe-image" />
-//   </div>
-//   <div className="title-cont">
-//     {`${recipe.title} - Ready In: ${
-//       recipe.readyInMinutes
-//     }min. - ${recipe.likes} Likes`}
-//   </div>
-// </Link>
-// </li> */}
+
