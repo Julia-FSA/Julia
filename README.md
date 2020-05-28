@@ -25,6 +25,6 @@
 - View recipes that can be made with some of or all of your fridge items
 - View previously used recipes
 
-## For information on how to use our Alexa Skill, visit: %%%%%%%%%%%%%%%%%%%%%%%%
+## For information on how to use our Alexa Skill, visit: https://github.com/Julia-FSA/Alexa-Skill
 
 **Thank you for your interest in our project!**
