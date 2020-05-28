@@ -26,9 +26,3 @@ const mapState = (state) => {
 
 export default connect(mapState)(AllRecipes)
 
-/**
- * PROP TYPES
- */
-// AllRecipes.propTypes = {
-//   email: PropTypes.string
-// }
