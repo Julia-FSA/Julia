@@ -1,11 +1,3 @@
-/*********
- *
- * a user signs up => make an entry to the users table
- * after adding food to the stock DB, user can look up what he/she can make
- * click a recipe => show recipe details (img, ingredients, steps, etc.)
- *
- **********/
-
 import axios from 'axios'
 
 /**
