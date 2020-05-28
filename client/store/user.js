@@ -87,14 +87,6 @@ export const logout = () => async dispatch => {
   }
 }
 
-// export const recipeToAlexa = (recipe) => (dispatch) => {
-//   try {
-//     dispatch(sendRecipeToAlexa(recipe))
-//   } catch (dispatchOrHistoryErr) {
-//     console.error(dispatchOrHistoryErr)
-//   }
-// }
-
 /**
  * REDUCER
  */
