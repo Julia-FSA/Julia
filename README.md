@@ -2,7 +2,7 @@
 
 ### An **Amazon Alexa** skill that acts as your _virtual assistant_ in the kitchen!
 
-### Accompanied by an intergrated Web Application via: _https://julia-cooks.herokuapp.com/_
+### Accompanied by an integrated Web Application via: _https://julia-cooks.herokuapp.com/_
 
 **Developers**: [Daniel McNelis](https://github.com/danielmcnelis) | [David Cheng](https://github.com/davidc526) | [John Oh](https://github.com/johnoh26) | [Steve Hejnas](https://github.com/SHejnas)
 
